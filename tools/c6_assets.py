@@ -116,7 +116,7 @@ def main():
         raise SystemExit(f'Pack exceeds the 6 MB partition: {len(pack)}')
     (args.output/'assets.bin').write_bytes(pack)
     digest = hashlib.sha256(pack).hexdigest()
-    metadata = {'board': 'c6-lcd-1.47', 'version': '0.2.0-sd' if args.sd_card else '0.1.0-dev',
+    metadata = {'board': 'c6-lcd-1.47', 'version': '0.2.1-sd' if args.sd_card else '0.1.0-dev',
                 'width': WIDTH, 'height': HEIGHT, 'source_assets': manifest['version'],
                 'bytes': len(pack), 'sha256': digest, 'crc32': zlib.crc32(pack), 'clips': clips}
     (args.output/'assets.json').write_text(json.dumps(metadata, indent=2)+'\n')

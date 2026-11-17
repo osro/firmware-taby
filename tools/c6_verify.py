@@ -75,7 +75,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port', required=True)
     parser.add_argument('--radios', action='store_true', help='Keep Wi-Fi setup and BLE active during playback checks')
-    parser.add_argument('--expected-firmware', default='0.2.0-c6-dev.5')
+    parser.add_argument('--expected-firmware', default='0.2.0-c6-dev.6')
     parser.add_argument('--output', type=Path, default=ROOT/'.local/c6-hardware-verification.json')
     args = parser.parse_args()
     metadata = json.loads((ROOT/'dist/c6-lcd-1.47/assets.json').read_text())

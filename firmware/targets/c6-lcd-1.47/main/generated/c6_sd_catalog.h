@@ -1,9 +1,9 @@
 /* Generated full SD catalog; see root LICENSE for artwork terms. */
 #pragma once
 #include "c6_catalog.h"
-#define C6_SD_ASSET_BYTES 25361516u
-#define C6_SD_ASSET_CRC32 0x9252e270u
-#define C6_SD_ASSET_SHA256 "fefa27de0236133362194770f2d4f9b290726f34d93dd8abb5dc218afaded3bf"
+#define C6_SD_ASSET_BYTES 25366604u
+#define C6_SD_ASSET_CRC32 0xc1eb2b83u
+#define C6_SD_ASSET_SHA256 "584fa5156ac5d288614cc70c181692467fbc9e0344b757ab2db7f24706e33d22"
 static const c6_clip_t c6_sd_clips[] = {
     {"angry_01_loop", 0u, 163758u},
     {"angry_02_loop", 163760u, 152093u},
@@ -83,11 +83,11 @@ static const c6_clip_t c6_sd_clips[] = {
     {"hello_disappointed", 23807784u, 134512u},
     {"claude_in", 23942296u, 239092u},
     {"claude_loop", 24181388u, 73593u},
-    {"taby_response_ready_in", 24254984u, 69120u},
-    {"taby_response_ready_loop", 24324104u, 124395u},
-    {"yeah", 24448500u, 124300u},
-    {"no", 24572800u, 386671u},
-    {"review", 24959472u, 306101u},
-    {"searching_loop", 25265576u, 95940u},
+    {"taby_response_ready_in", 24254984u, 74207u},
+    {"taby_response_ready_loop", 24329192u, 124395u},
+    {"yeah", 24453588u, 124300u},
+    {"no", 24577888u, 386671u},
+    {"review", 24964560u, 306101u},
+    {"searching_loop", 25270664u, 95940u},
 };
 #define C6_SD_CLIP_COUNT (sizeof(c6_sd_clips)/sizeof(c6_sd_clips[0]))

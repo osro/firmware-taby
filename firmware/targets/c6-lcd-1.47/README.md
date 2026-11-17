@@ -6,10 +6,22 @@ See [recorded verification](../../../STATUS.md) for the tested hardware,
 outcomes and remaining limits. [Waveshare board documentation](https://docs.waveshare.com/ESP32-C6-Touch-LCD-1.47)
 defines its JD9853 LCD, AXS5106L touch controller and pinout.
 
+## Version status
+
+Fork source `0.2.0-c6-dev.6` incorporates upstream 1.4.0 and asset catalog
+0.4.1. It is a preparation build, not the currently installed/physically
+verified dev.5 build. See STATUS for each build’s evidence.
+
+Use the matching generated `0.2.1-sd` full pack with dev.6. Upstream changed
+one animation, so the full pack checksum/catalog differ from the dev.5 card’s
+`0.2.0-sd` pack. The 16-clip flash fallback is byte-for-byte unchanged. The
+verified dev.5 binary/source/SD packages are preserved locally; preparation
+has not updated the connected board or its card.
+
 ## Behavior
 
-The 172×320 LCD shows the original Taby artwork resized proportionally to
-172×280, centred with black margins. The port boots through `startup` into
+The 172×320 LCD shows the original Taby artwork fitted upright with centered
+black margins. Storage frames are172×280; display fitting is described below. The port boots through `startup` into
 `idle_01_loop`. One-shot clips return to idle; looping clips repeat, including
 their wraparound. `confirmation>idle_01_loop` plays a two-clip sequence.
 
@@ -20,7 +32,7 @@ source hashes and frame counts are generated in `dist/c6-lcd-1.47/assets.json`.
 The original semantic command resolver is reused. Missing clips return
 `unsupported_animation` without changing playback.
 
-The expanded `0.2.0-c6-dev.5` firmware adds saved brightness, eye motion
+The expanded `0.2.0-c6-dev.6` firmware adds saved brightness, eye motion
 (`normal`, `calm`, `still`), four screen rotations and sensor-based automatic
 rotation. Packed sideways artwork is normalized upright before fitting the screen.
 The face uses280×172 on a landscape screen and172×106 on a portrait screen,

@@ -364,7 +364,7 @@ static void handle_command(const char *line) {
 #define NUM(k,v) cJSON_AddNumberToObject(info,k,v)
 #define BOOL(k,v) cJSON_AddBoolToObject(info,k,v)
         STR("firmware_version",C6_FIRMWARE_VERSION);
-        STR("assets_version",c6_sd_ready()?"0.2.0-sd":"0.1.0-dev");
+        STR("assets_version",c6_sd_ready()?"0.2.1-sd":"0.1.0-dev");
         STR("hardware_target","c6-lcd-1.47");STR("display_shape","rectangle");
         NUM("display_width",172);NUM("display_height",320);
         STR("device_id",device_id);STR("identity_source","development_chip_mac");
