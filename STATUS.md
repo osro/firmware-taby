@@ -6,8 +6,8 @@ release. Scope was approved by the owner in chat on 2026-11-17 with “do it”.
 See the [target guide](firmware/targets/c6-lcd-1.47/README.md) for behavior,
 commands, build/install steps and recovery. See [ROADMAP.md](ROADMAP.md) for scope.
 
-The installed development version is now `0.2.0-c6-dev.2`, with optional full SD
-animations, saved controls, basic UI, local wireless control and raster mouth
+The installed development version is now `0.2.0-c6-dev.3`, with optional full SD
+animations, saved controls, basic UI with card decoration, local wireless control and raster mouth
 motion. Its current results and limits are in the expansion sections below;
 the `0.1` milestone entries are retained as historical evidence.
 
@@ -425,3 +425,43 @@ The owner was asked for a cold power restart to initialize this card cleanly.
 Physical effect cycles, SD/radio memory, Bluetooth regression and new artwork
 feedback remain pending; no hardware effect success or dev.3 distribution is
 claimed yet. Taby's desktop app is closed during the update/test stage.
+
+### Dev.3 on-device decoration checks
+
+After the owner-confirmed cold restart, all 84 SD animations were mounted and
+Wi-Fi reconnected. With both radios active, all 24 decoration names were
+accepted in both orientations, all eight family expiry checks retained their
+card, 120 decorated-card/clear cycles preserved heap, and decorated-card↔voice
+ownership plus timed-card expiry passed. Idle SD frame progress resumed. The
+final report had free heap **47960 bytes**, minimum **41336**, largest block
+30720 and zero decode/display/touch errors. See the [device record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-c6-decor-device.json).
+
+The first run completed effect/churn/voice/demo stages but failed its final
+1.5-second idle-progress assumption. The saved Calm mode intentionally holds
+the first frame for 3–7 seconds. A focused check confirmed normal explicit
+animation progress; the verifier now allows the full nine-second Still hold
+without changing the owner's preference. The complete repeated check passed;
+no firmware change or second flash was needed. See the [timing investigation](firmware/targets/c6-lcd-1.47/verification/2026-11-17-c6-decor-idle-wait.json).
+
+The owner saw the eight-family six-second demo and gave tentative feedback
+(looked okay but uncertain), rather than full visual approval. Their report
+of switching between Taby's eyes and CELEBRATE corresponded to the deliberate
+memory stress test's card/clear alternation, which was explained. That test
+has finished; ordinary decoration stays with its card. Visual polish remains
+open. The complete 84-clip cycle remains inherited dev.1 coverage; dev.3
+checks SD retention and resumed playback, without claiming another full cycle
+of every clip. The final native Bluetooth regression is recorded below.
+
+The installed desktop 1.0.13 native Bluetooth bridge passed two further
+scan/connect/disconnect rounds on dev.3: identity matches USB, choice schema,
+animation/text/timer/stop commands and numeric orientation set/readback all
+passed. No new physical touch input was requested; the earlier LEFT/RIGHT
+owner test remains recorded dev.2 evidence. Final heap 47856, global minimum
+38360, largest block 30720; no decode/display/touch errors. See the [dev.3
+Bluetooth record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-c6-decor-bluetooth.json).
+Saved left orientation and active Bluetooth mode were restored. The Taby app
+was reopened normally after all device tests; only its notch was directly
+observed at that reopening. No new GUI connection-status claim is made.
+All repeated card/clear stress testing has stopped. The installed firmware
+runtime remains byte-for-byte the hash above; only its host verifier's wait
+was corrected after physical testing. The new package is recorded below.

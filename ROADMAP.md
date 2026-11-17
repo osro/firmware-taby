@@ -31,9 +31,10 @@ physical card and external app/service setup does not imply completed tests.
 - Owner confirmed the mouth artwork; pending feedback: automatic-rotation axes; battery-only operation also remains unverified.
 - Pending external validation: MCP integration and official provisioning
   compatibility. Local pairing does not prove these.
-- Next approved feature, in progress: bounded headline/text card decoration,
-  continuing the owner’s “advance!” on 2026-11-17. Completion requires host pixel/
-  lifetime tests, review, hardware memory/SD/wireless checks and visual feedback.
+- Card decoration is implemented, installed and device-tested with SD and both
+  radios after the owner’s “advance!”. Host pixel/lifetime and device memory/
+  ownership checks passed. Owner visual feedback is tentative; visual polish
+  remains open. See [decoration evidence](STATUS.md#dev3-on-device-decoration-checks).
 - Still not implemented: embedded UI clip behavior and Rive body/expression
   animation. Keep the simplified renderer’s limitation explicit; no PSRAM claim.
 

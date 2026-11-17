@@ -141,3 +141,9 @@ Parent completion: inspect/review source, build/version/flash the backed-up
 board; verify real effect cycles with SD and wireless, memory stability, prior
 cards/playback and native Bluetooth regression. Obtain user visual feedback;
 record exactly what was tested and preserve dev.2 packages.
+
+
+Task 6 implementation, review and physical protocol/memory/SD/radio checks are
+complete; see [dev.3 device evidence](../../../STATUS.md#dev3-on-device-decoration-checks).
+Owner visual feedback remains tentative, with card/eye switching explained as
+the now-finished stress test. Embedded clips and voice body art remain separate.

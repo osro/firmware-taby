@@ -112,8 +112,14 @@ def main():
             r['demo_family_seconds'] = a.demo_seconds
         s.query('CLEAR', 'TABY:OK ')
         before = s.diag()['rendered_frames']
-        time.sleep(1.5)
-        r['final'] = s.diag()
+        # Calm/still deliberately hold the first idle frame for up to 7/9s.
+        # Keep the owner's setting and wait through its maximum hold.
+        deadline = time.monotonic()+10.5
+        while True:
+            r['final'] = s.diag()
+            if r['final']['rendered_frames'] > before or time.monotonic() >= deadline:
+                break
+            time.sleep(.15)
         require(r['final']['rendered_frames'] > before, 'SD playback did not resume')
         require(all(r['final'][k] == 0 for k in ('decode_errors', 'display_errors', 'touch_errors')),
                 'Driver errors during decor verification')

@@ -10,7 +10,7 @@
   "flash_region": "0x10000 application only",
   "flash_write_hash_verified": true,
   "nvs_and_assets_preserved": true,
-  "cold_power_cycle": "awaiting_owner",
-  "device_decor_validation": "not_yet_run",
-  "owner_visual_feedback": "pending"
+  "cold_power_cycle": "owner_confirmed",
+  "device_decor_validation": "passed; see 2026-11-17-c6-decor-device.json",
+  "owner_visual_feedback": "tentative, not full visual approval"
 }

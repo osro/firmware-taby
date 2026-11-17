@@ -1,0 +1,56 @@
+{
+  "timestamp_utc": "2026-11-17T11:16:24.237677+00:00",
+  "transport": "installed_app_native_bridge",
+  "rounds": [
+    {
+      "round": 0,
+      "identity_matches_usb": true,
+      "state_identity": true,
+      "choice_schema": true,
+      "animation": true,
+      "text": true,
+      "timer": true,
+      "stop": true,
+      "orientation_set_and_readback": true
+    },
+    {
+      "round": 1,
+      "identity_matches_usb": true,
+      "state_identity": true,
+      "choice_schema": true,
+      "animation": true,
+      "text": true,
+      "timer": true,
+      "stop": true,
+      "orientation_set_and_readback": true
+    }
+  ],
+  "touch_checks": [],
+  "native_identifier_case_matches_bleak": false,
+  "firmware_version": "0.2.0-c6-dev.3",
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 406,
+    "completed_cycles": 16,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 47856,
+    "minimum_free_heap": 38360,
+    "largest_free_block": 30720,
+    "touch_samples": 8368,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 6,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "passed": true,
+  "scope": "Installed desktop1.0.13 native Bluetooth bridge, two connections; no new physical touch input requested",
+  "application_sha256": "a036c5648c1627cc94f3c960900cc48939e445f052002a7eed949db866409556"
+}
