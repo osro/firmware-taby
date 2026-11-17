@@ -1,0 +1,32 @@
+{
+  "timestamp_utc": "2026-11-17T10:54:27.638196+00:00",
+  "source_commit": "8a166c22387c1cb395f25b540512aa87df385688",
+  "firmware_version": "0.2.0-c6-dev.2",
+  "application_sha256": "aa280a09a12e56898fd852d77779838dcb0998f02986a359945317ea17b6abd3",
+  "archives": [
+    {
+      "file": "taby-c6-lcd-1.47-expanded-dev.2.zip",
+      "bytes": 2948107,
+      "sha256": "d3d908709bbe8ed24125763485215cac021c329894dcd893464e2d62dce709c6"
+    },
+    {
+      "file": "taby-c6-lcd-1.47-expanded-source-dev.2.zip",
+      "bytes": 16863951,
+      "sha256": "f65e51dcc7d7ff79367378382a701cd8b4fd5d2077f1286b67a814afbfed15e7"
+    },
+    {
+      "file": "taby-c6-lcd-1.47-sd-assets-dev.1.zip",
+      "bytes": 10948682,
+      "sha256": "98259dbc8fb656a02c7d267b3a7e3eab7376f3e4b4ea687d14ce7b17cf6d9b43"
+    }
+  ],
+  "binary_images_hash_checked": 4,
+  "zip_integrity_checked": true,
+  "source_zip_commit_comment_matches": true,
+  "private_backups_and_credentials_excluded": true,
+  "prior_dev1_archives_preserved": true,
+  "published_remotely": false,
+  "desktop_version": "1.0.13",
+  "gui_usb_and_bluetooth_pairing_verified": true,
+  "automatic_gui_reconnection_after_app_restart_verified": false
+}

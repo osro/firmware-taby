@@ -372,5 +372,16 @@ The dev.2 code was rebuilt and installed with write-hash verification; final
 host verification passed 130 tests, no skips, plus asset/layout checks, tool
 compilation and whitespace checks. Application SHA256:
 `aa280a09a12e56898fd852d77779838dcb0998f02986a359945317ea17b6abd3`.
-The source and local dev.2 package are recorded below once generated. This is
-a local experimental port; no upstream release or official cloud enrollment.
+This is a local experimental port; no upstream release or official cloud enrollment.
+
+### Dev.2 local distribution
+
+Integrated source and device evidence are committed at `8a166c22387c1cb395f25b540512aa87df385688`.
+New binary and source archives are `dist/taby-c6-lcd-1.47-expanded-dev.2.zip`
+and `dist/taby-c6-lcd-1.47-expanded-source-dev.2.zip`. Both passed ZIP integrity,
+source commit and image-hash checks. The full SD archive is unchanged and need
+not be copied again. All previous dev.1 packages and the private original-board
+backup are preserved. No remote publication occurred. Exact sizes/hashes are
+in the [dev.2 distribution record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-distribution-dev2.json).
+This subsequent documentation-only commit records package creation; runtime
+code matches the archived source revision.

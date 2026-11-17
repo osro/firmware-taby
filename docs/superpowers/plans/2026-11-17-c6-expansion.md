@@ -98,5 +98,5 @@ bounded interface fixes are specified in [desktop compatibility](../specs/2026-1
 - [x] Obtain scoped reviews and build the integrated dev.2 image.
 - [x] Verify dev.2 raw/native-bridge identity, real choices and reconnects on hardware.
 - [x] Verify actual GUI USB/Bluetooth controls and record results.
-- [ ] Package dev.2 separately from preserved dev.1 archives.
+- [x] Package dev.2 separately from preserved dev.1 archives.
 - [ ] Observe automatic GUI reconnection after restarting the app (current notch-only automation limitation).
