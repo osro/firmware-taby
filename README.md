@@ -1,8 +1,9 @@
 <a id="start-here"></a>
 
 > **Experimental C6 addition:** this fork retains the original S3 boards and adds
-> [Waveshare ESP32-C6-Touch-LCD-1.47/-M](firmware/targets/c6-lcd-1.47/README.md).
-> The C6 target is separate from the official S3 releases below. See the
+> **Waveshare ESP32-C6-Touch-LCD-1.47-M**. Start with the
+> [C6 setup guide below](#c6-setup). The C6 target is separate from the official
+> S3 releases. See the
 > [fork/build guide](FORK.md) and [verified results and limits](STATUS.md).
 
 <table>
@@ -59,7 +60,20 @@ You'll need a supported board and a **USB data cable**.
 </tr>
 </table>
 
-**More screens coming soon.** Check [board compatibility](INSTALL.md) before buying.
+### Taby C6 1.47 · Experimental
+
+**Waveshare ESP32-C6-Touch-LCD-1.47 / -M** · 172 × 320 LCD · USB-C
+
+Physically tested on the **-M** variant. Includes 16 onboard animations, or all
+84 with an optional **FAT32 microSD card**. Supports touch, automatic rotation,
+saved settings, USB, Bluetooth, local Wi-Fi, basic cards and simplified talking
+mouths. The face keeps its aspect ratio, with black margins on this narrow screen.
+
+Use the [C6 setup guide](#c6-setup). This board needs its own firmware; the S3
+AMOLED images and installer do not support it. Other ESP32-C6 boards have not
+been validated. See [tested results and remaining limits](STATUS.md).
+
+For the original S3 boards, check [board compatibility](INSTALL.md) before buying.
 
 **Affiliate disclosure:** The Waveshare board links above are affiliate links.
 Purchases through them may earn us a commission and help support Taby development.
@@ -69,6 +83,143 @@ Purchases through them may earn us a commission and help support Taby developmen
 <a id="install-with-your-ai-agent"></a><a id="bring-taby-to-life"></a>
 
 ## 2. ✨ Install the firmware
+
+Choose your route: **[C6 LCD 1.47/-M](#c6-setup)** or
+**[original S3 AMOLED boards](#s3-setup)**.
+
+<a id="c6-setup"></a>
+
+### ESP32-C6 Touch LCD 1.47 / -M
+
+This fork currently provides a **source build**, not an official prebuilt C6
+release. Source version `0.2.0-c6-dev.6` has passed build, package and host checks;
+the physical-board results in [STATUS.md](STATUS.md) were recorded on dev.5.
+
+You need the exact board above with **8 MB flash**, a USB **data** cable,
+Git, Python **3.12**, and **ESP-IDF 5.5.2**. For all 84 animations, also get a
+FAT32 microSD card and a computer-connected card reader. The board's USB port
+does not expose the card as a drive. The commands below use macOS/Linux shell
+paths; on Windows, use the ESP-IDF shell and `.venv\Scripts\python.exe` in place
+of `.venv/bin/python`.
+
+**1. Get this fork and generate the assets.** From a normal terminal:
+
+```sh
+git clone --branch codex/c6-lcd-147-fork https://github.com/osro/firmware-taby.git
+cd firmware-taby
+python3.12 tools/bootstrap.py
+.venv/bin/python -m pip install -r tools/requirements-c6.txt
+.venv/bin/python tools/c6_assets.py
+.venv/bin/python tools/c6_assets.py --sd-card
+```
+
+**2. Build and package.** Install and activate ESP-IDF **5.5.2** using
+[Espressif's ESP32-C6 setup guide](https://docs.espressif.com/projects/esp-idf/en/v5.5.2/esp32c6/get-started/index.html).
+In that SDK's shell, return to the repository root. Keep its Python environment
+separate from the tools `.venv`; do not activate the tools environment for the build.
+
+```sh
+python tools/c6_build.py
+.venv/bin/python tools/c6_package.py --output dist/c6-development
+```
+
+The package command requires a new output directory. It creates `firmware.zip`,
+`sd.zip`, checksums and an installation guide under `dist/c6-development/`.
+Use a new directory name if you have already packaged a build.
+
+**3. Back up and install.** Connect the board and close Taby or other serial
+apps. List ports without resetting the board:
+
+```sh
+.venv/bin/python tools/device.py ports
+```
+
+Replace `PORT` below with its port, such as `/dev/cu.usbmodem…`, `/dev/ttyACM0`
+or `COM5`:
+
+```sh
+.venv/bin/python -m esptool --chip esp32c6 --port PORT flash_id
+```
+
+Continue only if the board marking matches and the chip reports **8 MB** flash.
+Make a private backup in `.local/`, which is ignored by Git:
+
+```sh
+mkdir -p .local/backups
+.venv/bin/python -m esptool --chip esp32c6 --port PORT \
+  read_flash 0 0x800000 .local/backups/original-esp32-c6-8mb.bin
+```
+
+Check that the backup is **8,388,608 bytes** and record its SHA-256 before
+installing. Installation replaces the application and partition layout:
+
+```sh
+.venv/bin/python -m esptool --chip esp32c6 --port PORT --baud 460800 \
+  --before default_reset --after hard_reset write_flash \
+  --flash_mode dio --flash_size 8MB --flash_freq 80m \
+  0x0 dist/c6-development/bootloader.bin \
+  0x8000 dist/c6-development/partition-table.bin \
+  0x10000 dist/c6-development/firmware.bin \
+  0x200000 dist/c6-development/assets.bin
+```
+
+Install all four matching files. Do not use the S3 installer, `--force`, a full
+chip erase or eFuse changes. See the [detailed installation and recovery guide](firmware/targets/c6-lcd-1.47/README.md#install-and-verify)
+if the board is not detected or you need to restore your backup.
+
+**4. Add the full animation library (optional).** Extract
+`dist/c6-development/sd.zip` on your computer and copy its **`taby/` directory
+to the root of the FAT32 card**, so it contains `/taby/assets.bin` and
+`/taby/assets.json`. Use this build's matching **`0.2.1-sd`** pack; the earlier
+dev.5 pack is different. Safely eject the card, unplug the board until its
+screen is dark, insert the card, then reconnect power. Allow roughly **30
+seconds** for the full checksum check. Without a valid card, Taby uses its 16
+onboard clips. The firmware never formats or writes the card.
+
+**5. Check the screen and connect the app.** With Taby closed, you can run:
+
+```sh
+.venv/bin/python tools/c6_verify.py --port PORT
+```
+
+This plays every available animation and checks device counters. Watch the
+actual face too: eyes should stay side by side with the mouth below. Once the
+check exits, open the [Taby desktop app](https://www.heytaby.com/setup), then
+**Settings → Physical Taby** and connect over USB. For Bluetooth, use the app's
+pairing controls; USB remains available for setup.
+
+For manual controls or Wi-Fi setup, close the app and open one USB console:
+
+```sh
+.venv/bin/python -m serial.tools.miniterm PORT 115200 --dtr 1 --rts 1 --eol LF
+```
+
+Send one command per line: `DISPLAY_ORIENTATION auto` enables automatic
+rotation; `EYE_MOTION calm` selects calmer eyes. For Bluetooth, send
+`TRANSPORT_MODE ble` and `TRANSPORT_DEFAULT ble` to start it and save the boot
+preference. Exit the console with **Ctrl+]** before reconnecting the app.
+
+For Wi-Fi, send `SETUP_START`, then `SETUP_INFO`. Join the displayed temporary
+network from a phone and open **http://192.168.4.1/setup**. Choose “Stay
+connected” or “Use without internet” if prompted, then enter your home **2.4
+GHz** Wi-Fi details in the form. Keep the setup response private: it contains
+the temporary password. `TRANSPORT_DEFAULT wifi` saves Wi-Fi as the boot choice.
+The [target guide](firmware/targets/c6-lcd-1.47/README.md#behavior) lists all controls.
+
+If SD startup times out after flashing or a serial reset, fully unplug the
+board until the screen is dark, wait ten seconds, then reconnect with the card
+inserted. A processor reset can leave the card powered in the wrong state.
+
+**Known limits:** Bluetooth eye-mode controls and asset-version display depend
+on desktop-app support (tested app: 1.0.13); USB can control eye modes. Live
+speech uses simplified mouth art, with no Rive body/expression animation.
+Embedded card clips are unsupported, battery-only operation is unverified,
+and official cloud enrollment and MCP setup are not established. Original S3
+boards retain their upstream features.
+
+<a id="s3-setup"></a>
+
+### Original ESP32-S3 AMOLED boards
 
 Plug your board into your computer with the USB data cable. Open an AI agent
 that can run commands on that computer, then copy and send this prompt:
@@ -89,7 +240,8 @@ Then help me connect it to the Taby desktop app.
 
 Prefer doing it yourself? **[Follow the installation guide →](INSTALL.md)**
 
-Current firmware: **[1.3.0](https://github.com/TRIIIS-LABS/firmware-taby/releases/tag/v1.3.0)**.
+Official S3 release linked by this guide: **[1.3.0](https://github.com/TRIIIS-LABS/firmware-taby/releases/tag/v1.3.0)**.
+It is separate from this fork's C6 development build.
 
 ---
 
@@ -97,8 +249,9 @@ Current firmware: **[1.3.0](https://github.com/TRIIIS-LABS/firmware-taby/release
 
 ## 3. 💛 Connect to the Taby app
 
-Once the animation plays correctly, **[get the Taby app](https://www.heytaby.com/setup)**
-and follow the [app connection guide](INSTALL.md#5-use-it-with-taby).
+Once the animation plays correctly, **[get the Taby app](https://www.heytaby.com/setup)**.
+For the original S3 boards, follow the [app connection guide](INSTALL.md#5-use-it-with-taby).
+For the experimental C6 board, use the [C6 connection steps and limits above](#c6-setup).
 
 We maintain the app connection. For your own integration, use the
 [device commands](firmware/README.md#talk-to-taby).
@@ -111,6 +264,8 @@ See the guide for [current MCP support](INSTALL.md#5-use-it-with-taby).
 ## 4. 🏡 Print a case
 
 Your board needs a case. Choose one for your screen, or design your own.
+This fork does not include a C6 LCD 1.47 case; the S3 cases below are for their
+named boards.
 
 <table>
 <tr>
@@ -162,8 +317,9 @@ Humans and AI agents contribute through the same pull-request workflow.
 Fork, create a branch, make a focused change, and open a pull request. Read the
 firmware guide before editing. For firmware or tooling changes, run
 `python tools/check.py` and `python -m unittest discover -s tests -v`, then build
-both supported boards. State which physical board you tested; a build alone
-is not a hardware test.
+both original S3 boards and the C6 target with their respective SDKs; see
+[the build environments](FORK.md#targets-and-build-environments). State which
+physical board you tested; a build alone is not a hardware test.
 
 Keep existing USB/Bluetooth/Wi-Fi commands compatible. New boards need their
 own configuration, asset pack, and physical test evidence. Keep shared behavior

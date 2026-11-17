@@ -661,3 +661,28 @@ push or release was created. No extra Git bundle/patch export was made after
 the owner narrowed the request to the branch. Source/doc history and verified
 dev.5 packages remain preserved. The device/card were not touched during prep.
 This later documentation-only commit records the clean package outcomes.
+
+### Fork publication and C6 onboarding guide — 2026-11-17
+
+After local preparation, the owner supplied their existing
+[osro/firmware-taby fork](https://github.com/osro/firmware-taby) and explicitly
+requested a push there. The first push of `codex/c6-lcd-147-fork` succeeded;
+`git ls-remote` confirmed published code/documentation commit
+`9972f8ca66e9c7470328021908ff44f2e706c3ef`. Fork `main` remained
+`e7051ac4bed179b4067abde8c36a9b9e9fa5ffe1`. This supersedes the earlier
+preparation-only publication restriction. No force push, PR, PR draft, release
+or device/card update was performed. Remote Actions results were not verified.
+
+The owner then requested README guidance for the new board. The
+[C6 setup section](README.md#c6-setup) now covers the exact tested model,
+source branch and SDK, asset generation, packaging, private backup, four-image
+installation, matching optional SD library, verification, app/Bluetooth and
+Wi-Fi setup, rotation, recovery and remaining limits. Original S3 installation
+instructions remain available separately. FORK.md now describes the published
+branch rather than an uncreated remote. This documentation update changes no
+firmware or tooling; no build or physical-device checks were repeated.
+Documentation verification passed: local links/anchors, shell-example syntax,
+flash filenames/offsets and versions against the validated C6 package manifest,
+ignored backup path, and unchanged original S3 installation prompt. The original
+S3 runtime/build/package preservation gate also passed. No commands were sent
+to a connected board during these checks.

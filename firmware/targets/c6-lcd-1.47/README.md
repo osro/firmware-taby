@@ -9,7 +9,7 @@ defines its JD9853 LCD, AXS5106L touch controller and pinout.
 ## Version status
 
 Fork source `0.2.0-c6-dev.6` incorporates upstream 1.4.0 and asset catalog
-0.4.1. It is a preparation build, not the currently installed/physically
+0.4.1. It is a development build, not the currently installed/physically
 verified dev.5 build. See STATUS for each build’s evidence.
 
 Use the matching generated `0.2.1-sd` full pack with dev.6. Upstream changed
@@ -126,10 +126,13 @@ python3.12 tools/bootstrap.py
 In an ESP-IDF 5.5.2 shell, from the repository root:
 
 ```sh
-idf.py -C firmware/targets/c6-lcd-1.47 \
-  -B "$PWD/firmware/build-c6-lcd-1.47" \
-  -D "SDKCONFIG=$PWD/firmware/sdkconfig.c6-lcd-1.47" build
+python tools/c6_build.py
 ```
+
+This wrapper also records the build fingerprint required by
+`tools/c6_package.py`. Package with
+`.venv/bin/python tools/c6_package.py --output dist/c6-development`, using a
+fresh output directory. See the [root setup guide](../../../README.md#c6-setup).
 
 Keep build outputs and the generated `sdkconfig` outside `firmware/targets` so
 the original S3 source-fingerprint tooling cannot accidentally include them.
@@ -154,8 +157,9 @@ application. Back up the current board first, using this repository's `.venv`:
 
 ```sh
 .venv/bin/python -m esptool --chip esp32c6 --port PORT flash_id
+mkdir -p .local/backups
 .venv/bin/python -m esptool --chip esp32c6 --port PORT \
-  read_flash 0 0x800000 original-esp32-c6-8mb.bin
+  read_flash 0 0x800000 .local/backups/original-esp32-c6-8mb.bin
 ```
 
 Keep the backup private and outside Git; it may contain device-specific data.
@@ -204,17 +208,17 @@ already initialized SD card. Omit that option only when a subsequent power
 cycle is available; the profile test uses and removes a generated test SSID
 only if the existing profile list is empty.
 
-## Restore the owner's original firmware
+## Restore your original firmware
 
-The tested board's private backup is retained in
-`.local/backups/original-esp32-c6-8mb-20261117.bin`, with a checksum file beside it.
-These files are intentionally ignored and are **not** part of any downloadable
-bundle. After checking that checksum and reconnecting the **same board**:
+Use the full flash backup you made from your own board before installation.
+The example path below is ignored by Git and is **not** part of any downloadable
+bundle; a new checkout does not include a backup. After checking the saved
+checksum and reconnecting the **same board**:
 
 ```sh
 .venv/bin/python -m esptool --chip esp32c6 --port PORT --baud 460800 \
   write_flash --flash_mode keep --flash_freq keep --flash_size keep \
-  0 .local/backups/original-esp32-c6-8mb-20261117.bin
+  0 .local/backups/original-esp32-c6-8mb.bin
 ```
 
 This restores the saved application and data. It does not erase or change eFuses.

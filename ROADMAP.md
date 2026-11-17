@@ -58,3 +58,12 @@ The branch is prepared locally with current upstream source, separate C6
 tooling/CI and successful builds/packages for all three targets. Original-board
 source and CI matrix are preserved. No PR/draft, remote fork or push was made.
 See [fork verification](STATUS.md#local-fork-branch-validation).
+
+## Fork publication and README onboarding — complete
+
+The owner subsequently supplied `osro/firmware-taby` and explicitly requested
+the prepared branch be pushed there, superseding the preparation-only no-push
+restriction. The branch was published; no PR/draft or release was created and
+fork `main` was preserved. The owner's follow-up requested a new-board README
+guide; separate C6 setup instructions now preserve the original S3 route.
+See [publication and guide evidence](STATUS.md#fork-publication-and-c6-onboarding-guide--2026-11-17).

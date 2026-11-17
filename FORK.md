@@ -1,4 +1,4 @@
-# Local C6 fork branch
+# C6 fork branch
 
 This branch adds the experimental Waveshare ESP32-C6-Touch-LCD-1.47/-M target
 alongside the original boards. It includes upstream main
@@ -17,7 +17,8 @@ results and known limitations.
 
 Keep the SDK Python environments separate from the small tools `.venv`.
 The original board matrix remains on5.4.2; the additive C6 CI job uses5.5.2.
-A GitHub workflow is prepared but has not been run remotely.
+Local workflow checks are recorded in STATUS; remote Actions results have not
+been verified.
 
 For C6, first generate matching assets from the repository root:
 
@@ -70,10 +71,13 @@ The original boards retain upstream’s own capabilities.
 - Working branch: `codex/c6-lcd-147-fork`.
 - `upstream`: original `TRIIIS-LABS/firmware-taby`; local upstream push URL is
   disabled. `main` follows `upstream/main`.
-- `origin`: configured locally for the intended personal fork. No GitHub fork
-  or repository has been created; the URL will not work until one exists.
+- `origin`: [osro/firmware-taby](https://github.com/osro/firmware-taby).
+- Published branch: [codex/c6-lcd-147-fork](https://github.com/osro/firmware-taby/tree/codex/c6-lcd-147-fork),
+  tracking the same branch at `origin`. The owner authorized this push after
+  local preparation was complete.
 - Development history and the verified dev.5 branch are preserved.
-- No push, PR, PR draft, release or other upload has been performed.
+- No PR, PR draft or release was created. The fork's `main` was not changed.
 
-This is a local preparation. Creating a remote fork or publishing this branch
-is a separate later action, not part of these build commands.
+The build/package commands above remain local operations. They do not publish
+anything or install firmware on a connected board. For first-time C6 setup,
+start with the [README guide](README.md#c6-setup).
