@@ -63,7 +63,7 @@ static bool orientation_value(char *value, uint16_t *orientation) {
     }
     static const struct { const char *name; uint16_t value; } modes[] = {
         {"left", 0}, {"0", 0}, {"right", 180}, {"180", 180},
-        {"90", 90}, {"270", 270}, {"auto", 360},
+        {"90", 90}, {"rotate_90", 90}, {"270", 270}, {"rotate_270", 270}, {"auto", 360},
     };
     for (size_t i = 0; i < sizeof(modes) / sizeof(modes[0]); ++i) {
         if (!strcmp(value, modes[i].name)) {
@@ -76,9 +76,9 @@ static bool orientation_value(char *value, uint16_t *orientation) {
 
 static const char *orientation_name(uint16_t orientation) {
     switch (orientation) {
-        case 90: return "90";
+        case 90: return "rotate_90";
         case 180: return "right";
-        case 270: return "270";
+        case 270: return "rotate_270";
         case 360: return "auto";
         default: return "left";
     }

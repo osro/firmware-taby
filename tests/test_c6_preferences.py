@@ -1,5 +1,6 @@
 """Exercise the actual portable C model and NVS adapter without hardware."""
 import ctypes
+import json
 from pathlib import Path
 import subprocess
 import tempfile
@@ -177,13 +178,27 @@ class C6PreferencesTests(unittest.TestCase):
     def test_orientation_names_numbers_and_auto_are_validated(self):
         for token, degree, name in (("left", 0, "left"), ("0", 0, "left"),
                                     ("RIGHT", 180, "right"), ("180", 180, "right"),
-                                    ("90", 90, "90"), ("270", 270, "270"),
+                                    ("90", 90, "rotate_90"), ("270", 270, "rotate_270"),
+                                    ("rotate_90", 90, "rotate_90"),
+                                    ("ROTATE_270", 270, "rotate_270"),
                                     ("auto", 360, "auto")):
             with self.subTest(token=token):
                 result, state, reply = self.command(f"DISPLAY_ORIENTATION {token}".encode())
                 self.assertEqual((result, state), (2, (70, degree, 0, 0)))
                 effective, rotation = ("left", 0) if degree == 360 else (name, degree)
                 self.assertEqual(reply, f'TABY:DISPLAY_ORIENTATION {{"mode":"{name}","orientation":"{effective}","rotation_degrees":{rotation},"auto_supported":true,"display_shape":"rectangle"}}')
+
+    def test_runtime_orientation_names_survive_query_set_round_trip(self):
+        for token, degree in (("left", 0), ("rotate_90", 90),
+                              ("right", 180), ("rotate_270", 270)):
+            with self.subTest(token=token):
+                self.assertEqual(self.command(f"DISPLAY_ORIENTATION {token}".encode(), alias=True)[0], 2)
+                result, state, reply = self.command(b"DISPLAY_ORIENTATION?")
+                self.assertEqual((result, state[1]), (1, degree))
+                mode = json.loads(reply.removeprefix("TABY:DISPLAY_ORIENTATION "))["mode"]
+                self.assertEqual(mode, token)
+                self.assertEqual(self.command(f"DISPLAY_ORIENTATION {mode}".encode(), alias=True)[0:2],
+                                 (2, (70, degree, 0, 0)))
 
     def test_eye_motion_uses_upstream_grammar(self):
         for token, eye in (("normal", 0), ("calm", 1), ("still", 2)):

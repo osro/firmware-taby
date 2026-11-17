@@ -58,8 +58,10 @@ static bool persist(const void *blob,size_t n,void *ctx) {
 static bool save(const c6_net_store_t *next) { return c6_net_save(&s_profiles,next,persist,NULL); }
 static bool reply(char *out,size_t cap,const char *s) {
     if(!out||!cap)return false;
-    if(strlen(s)>=cap){snprintf(out,cap,"TABY:ERR response_too_large");return false;}
-    strcpy(out,s);return true;
+    bool fits=strlen(s)<cap;
+    const char *value=fits?s:"TABY:ERR response_too_large";
+    size_t n=strlen(value);if(n>=cap)n=cap-1;
+    memmove(out,value,n);out[n]=0;return fits;
 }
 static void json_reply(char *out,size_t cap,const char *prefix,cJSON *root) {
     char *body=root?cJSON_PrintUnformatted(root):NULL;
@@ -120,11 +122,12 @@ static void wifi_event(void *arg,esp_event_base_t base,int32_t id,void *data) {
         s_retry_pending=true;s_status.wifi_connected=false;s_status.ip[0]=0;
         snprintf(s_status.last_error,sizeof(s_status.last_error),"wifi_disconnected");portEXIT_CRITICAL(&s_lock);
         uint8_t msg=1;xQueueSend(s_retry_queue,&msg,0);
-    } else if(base==IP_EVENT && id==IP_EVENT_STA_GOT_IP) {
-        const ip_event_got_ip_t *ip=data;
-        portENTER_CRITICAL(&s_lock);s_skip_leave=false;s_retry_pending=false;s_status.wifi_connected=true;
-        snprintf(s_status.ip,sizeof(s_status.ip),IPSTR,IP2STR(&ip->ip_info.ip));s_status.last_error[0]=0;portEXIT_CRITICAL(&s_lock);
-        /* Persist success on owner via the same bounded queue. */
+    } else if(base==IP_EVENT && (id==IP_EVENT_STA_GOT_IP || id==IP_EVENT_STA_LOST_IP)) {
+        /* Events only wake the owner. A previous association's queued event
+           cannot assign its address/success to a replacement profile. */
+        if(id==IP_EVENT_STA_LOST_IP){
+            portENTER_CRITICAL(&s_lock);s_status.wifi_connected=false;s_status.ip[0]=0;portEXIT_CRITICAL(&s_lock);
+        }
         uint8_t msg=1;xQueueSend(s_retry_queue,&msg,0);
     }
 }
@@ -143,7 +146,7 @@ static esp_err_t ensure_wifi(void) {
     if(!s_wifi_initialized){wifi_init_config_t cfg=WIFI_INIT_CONFIG_DEFAULT();e=esp_wifi_init(&cfg);if(e!=ESP_OK)return e;s_wifi_initialized=true;}
     if(!s_events_registered) {
         e=esp_event_handler_register(WIFI_EVENT,WIFI_EVENT_STA_DISCONNECTED,wifi_event,NULL);if(e!=ESP_OK)return e;
-        e=esp_event_handler_register(IP_EVENT,IP_EVENT_STA_GOT_IP,wifi_event,NULL);
+        e=esp_event_handler_register(IP_EVENT,ESP_EVENT_ANY_ID,wifi_event,NULL);
         if(e!=ESP_OK){esp_event_handler_unregister(WIFI_EVENT,WIFI_EVENT_STA_DISCONNECTED,wifi_event);return e;}
         s_events_registered=true;
     }
@@ -245,6 +248,21 @@ bool c6_network_command(const char *cmd,char *out,size_t cap) {
     if(!cmd||!out||!cap)return false;
     if(strcmp(cmd,"C6_NET_RETRY")==0){
         c6_network_status_t s;c6_network_get_status(&s);
+        wifi_ap_record_t ap={0},confirm={0};esp_netif_ip_info_t ip={0};
+        bool associated=s.wifi_started && esp_wifi_sta_get_ap_info(&ap)==ESP_OK &&
+            strnlen((const char*)ap.ssid,33)==strlen(s.station_ssid) &&
+            !memcmp(ap.ssid,s.station_ssid,strlen(s.station_ssid));
+        bool has_ip=associated && esp_netif_get_ip_info(s_sta,&ip)==ESP_OK && ip.ip.addr &&
+            esp_wifi_sta_get_ap_info(&confirm)==ESP_OK && !memcmp(ap.bssid,confirm.bssid,6) &&
+            !memcmp(ap.ssid,confirm.ssid,33);
+        portENTER_CRITICAL(&s_lock);
+        s_status.wifi_connected=has_ip;
+        if(has_ip){s_retry_pending=false;s_skip_leave=false;s_status.last_error[0]=0;
+            snprintf(s_status.ip,sizeof(s_status.ip),IPSTR,IP2STR(&ip.ip));}
+        else s_status.ip[0]=0;
+        portEXIT_CRITICAL(&s_lock);
+        if(associated && !has_ip && !s_join_deadline)s_join_deadline=esp_timer_get_time()+30000000LL;
+        c6_network_get_status(&s);
         if(s.wifi_connected){
             s_attempt=0;s_join_deadline=0;c6_net_store_t next=s_profiles;bool changed=false;
             for(unsigned i=0;i<next.count;++i)if(strcmp(next.profiles[i].ssid,s.station_ssid)==0&&!next.profiles[i].last_success){next.profiles[i].last_success=1;changed=true;}
@@ -362,13 +380,25 @@ static esp_err_t http_provision(httpd_req_t *r) {
     while(read<n){int got=httpd_req_recv(r,cmd+10+read,n-read);if(got<=0){ok=false;break;}read+=got;}
     /* Reject embedded raw NUL/control bytes, retaining JSON whitespace only. */
     for(size_t i=0;i<read;++i){unsigned char c=cmd[10+i];if(c==0||(c<32&&c!='\r'&&c!='\n'&&c!='\t'))ok=false;}
-    esp_err_t e=ok?runtime_http(r,cmd,NULL,false):send_error(r,"400 Bad Request","invalid_body");
+    /* Strip only JSON whitespace outside strings to fit the line protocol;
+       escaped/string whitespace is preserved and validated by the owner. */
+    size_t used=10;bool in_string=false,escape=false;
+    for(size_t i=10;i<read+10;++i){
+        unsigned char c=cmd[i];
+        if(!in_string && (c==' '||c=='\r'||c=='\n'||c=='\t'))continue;
+        cmd[used++]=(char)c;
+        if(in_string){if(escape)escape=false;else if(c=='\\')escape=true;else if(c=='"')in_string=false;}
+        else if(c=='"')in_string=true;
+    }
+    cmd[used]=0;
+    esp_err_t e=ok && used<1024?runtime_http(r,cmd,NULL,false):
+        send_error(r,"400 Bad Request",used>=1024?"command_too_large":"invalid_body");
     memset(cmd,0,n+11);free(cmd);return e;
 }
 static esp_err_t start_http(void) {
     esp_err_t e;
     if(!s_http){
-        httpd_config_t cfg=HTTPD_DEFAULT_CONFIG();cfg.stack_size=8192;cfg.max_uri_handlers=10;
+        httpd_config_t cfg=HTTPD_DEFAULT_CONFIG();cfg.stack_size=8192;cfg.max_uri_handlers=10;cfg.max_open_sockets=3;
         cfg.recv_wait_timeout=5;cfg.send_wait_timeout=5;cfg.lru_purge_enable=true;
         e=httpd_start(&s_http,&cfg);if(e!=ESP_OK){s_http=NULL;return e;}
     }

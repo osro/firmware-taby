@@ -1,4 +1,4 @@
-This is an experimental USB-first port of Physical Taby for the
+This is an experimental port of Physical Taby for the
 Waveshare ESP32-C6-Touch-LCD-1.47 and -M (pin-header) variant.
 
 Taby firmware and animation artwork originate from
@@ -15,3 +15,9 @@ Copyright 2022-2023 Espressif Systems (Shanghai) CO LTD; Apache-2.0.
 Original notices are preserved. The port propagates the driver's color-transfer
 error instead of ignoring it. The new board adapter uses Waveshare's published
 pin assignments, panel offsets, inversion and AXS5106 register layout.
+
+The expanded target links LVGL 8.3.11 (MIT, Copyright 2021 LVGL Kft) and
+Espressif mDNS 1.10.1 (Apache-2.0) from the ESP component registry, pinned in
+dependencies.lock. Binary bundles include their license documents alongside
+the ESP-IDF 5.5.2 component notices. The reduced reusable icons derive from
+the original repository's Lucide icon assets; firmware/NOTICE applies.

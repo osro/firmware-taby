@@ -1,6 +1,6 @@
 # Experimental Taby: Waveshare ESP32-C6 Touch LCD 1.47
 
-USB-first development port for **ESP32-C6-Touch-LCD-1.47** and **-M** (pin-header
+Development port for **ESP32-C6-Touch-LCD-1.47** and **-M** (pin-header
 variant). This is separate from the official ESP32-S3 release bundles.
 See [recorded verification](../../../STATUS.md) for the tested hardware,
 outcomes and remaining limits. [Waveshare board documentation](https://docs.waveshare.com/ESP32-C6-Touch-LCD-1.47)
@@ -20,20 +20,63 @@ source hashes and frame counts are generated in `dist/c6-lcd-1.47/assets.json`.
 The original semantic command resolver is reused. Missing clips return
 `unsupported_animation` without changing playback.
 
-USB speaks newline-terminated ASCII at 115200 baud. Supported commands include
-`PING`, `INFO`, `DIAG`, `ANIMATIONS`, `CLEAR`, `BRIGHTNESS?`, `BRIGHTNESS 70`, raw
-animation IDs, `CMD <command>`, upstream semantic animation commands,
-`TOUCH_SIGNAL` and `GESTURE_SIGNAL`. USB transport selection is accepted;
-other transport modes are rejected. A short touch increments the tap counter;
-a hold reports `hold_start` and `hold_end`. Touch is reported to the controller
-and does not switch clips by itself.
+The expanded `0.2.0-c6-dev.1` firmware adds saved brightness, eye motion
+(`normal`, `calm`, `still`), four screen rotations and sensor-based automatic
+rotation. Portrait clips retain their aspect ratio; landscape clips scale to
+106×172. Voltage is calibrated, but battery percentage remains unknown.
 
-This version provides USB animation control and touch. Wi-Fi, Bluetooth, account
-provisioning, live Rive lip-sync, reusable UI cards/timers, automatic rotation,
-and persistent settings are outside this milestone. It identifies itself as
-`c6-lcd-1.47` / `0.1.0-c6-dev.1` and advertises only implemented capabilities.
-Desktop Taby app integration has **not** been verified. No replacement MCP
-server is included.
+USB uses newline-terminated commands at 115200 baud. In addition to animation
+IDs and upstream semantic commands, supported commands include:
+
+- `PING`, `INFO`, `DIAG`, `ANIMATIONS`, `CLEAR`, `STATE`, `POWER`.
+- `BRIGHTNESS?`, `BRIGHTNESS 70`, `EYE_MOTION still`,
+  `DISPLAY_ORIENTATION rotate_90`, `DISPLAY_ORIENTATION auto`.
+- `TRANSPORT_DEFAULT usb|wifi|ble` saves the boot preference;
+  `TRANSPORT_MODE usb|wifi|ble` activates a transport. USB stays available.
+  Once started, wireless services stay active until restart.
+- `TOUCH_SIGNAL`, `GESTURE_SIGNAL`, `CHOICE_SIGNAL`: short taps, holds and
+  two-choice selections are separate counters/signals. Touch does not switch
+  animations by itself.
+- All ten basic upstream card kinds: for example
+  `UI/text:REMINDER|Take a break`, `UI/timer:FOCUS|65|300|Keep going|run`,
+  `UI/progress:UPLOADING|45|Almost halfway`, and
+  `UI/choice_2:CHOOSE|YES|NO|Touch a button`.
+- `VOICE_MOTION <talk> <clockMs> <atMs> <frames>` and
+  `VOICE_MOTION <talk> stop`: upstream 30fps motion data drives simplified
+  raster mouth shapes. Other successful presentations cancel speech.
+
+Wi-Fi provides local HTTP control and a protected setup access point. Use
+`SETUP_START` then `SETUP_INFO` over USB to read the temporary network name,
+password and setup address. Join it from a phone, open `http://192.168.4.1/setup`
+and enter the desired 2.4GHz network credentials. Never publish this response:
+it contains the setup password. `PROVISION` also accepts upstream credential
+JSON over USB. Up to five network profiles persist; `WIFI_NETWORKS`,
+`WIFI_NEARBY`, `WIFI_PREFER <SSID>` and `WIFI_FORGET <SSID>` manage them.
+Ordinary INFO/profile listings omit passwords. Setup credentials change after
+restart. HTTP routes include `/ping`, `/state`, `/touch`, `/v1/health`,
+`/v1/reusable/choice-signal`, `/cmd?c=<URL-encoded-command>`, `/setup`, and
+`POST /provision`. Commands use plain HTTP on the local network.
+
+Bluetooth advertises `Taby-<device suffix>`, with upstream service UUID
+`54414259-0000-4000-a000-000000000001`; command/event/state/power characteristic
+suffixes are `0002` through `0005`. Subscribe to the event characteristic for
+completed commands; a successful write means queued. State/power reads are
+cached. Commands are at most 255 bytes; long event replies are readable up to
+511 bytes, and oversized notifications return `ERR mtu`.
+
+Optional FAT32 microSD storage supplies all 84 animations from the separate
+`--sd-card` package. Copy its `taby/` directory to the card root, insert the
+card with the board powered off, then restart. Firmware checks the complete
+pack size/CRC before playback; allow roughly half a minute for a full-library
+startup check before USB becomes ready. Missing/bad media falls back to the sixteen
+onboard clips. It does not format cards. After a card read failure, restart
+to remount it. See [STATUS](../../../STATUS.md) for actual physical-card tests.
+
+This remains a custom development target. Desktop app/MCP integration and
+official cloud enrollment are unverified. No factory identity is fabricated.
+Advanced card decoration/clip behaviors are rejected. Voice gesture/body and
+expression/eye pose artwork is not animated; this is not the Rive renderer.
+Automatic rotation axes and battery operation still need owner feedback.
 
 ## Build
 
@@ -45,6 +88,7 @@ separate. From the repository root:
 python3.12 tools/bootstrap.py
 .venv/bin/python -m pip install -r tools/requirements-c6.txt
 .venv/bin/python tools/c6_assets.py
+.venv/bin/python tools/c6_assets.py --sd-card
 .venv/bin/python tools/check.py
 .venv/bin/python -m unittest discover -s tests -v
 ```
@@ -59,13 +103,14 @@ idf.py -C firmware/targets/c6-lcd-1.47 \
 
 Keep build outputs and the generated `sdkconfig` outside `firmware/targets` so
 the original S3 source-fingerprint tooling cannot accidentally include them.
-The build has no external managed components: the attributed JD9853 driver is
-vendored locally, and portable protocol/state sources are reused from the
-shared firmware. The asset converter requires Pillow 12.0.0; its image-specific
+The attributed JD9853 driver is vendored locally. Managed LVGL 8.3.11 and
+mDNS 1.10.1 are pinned; portable protocol/state/UI parsers and the unchanged
+voice parser are reused from shared firmware. The asset converter requires Pillow 12.0.0; its image-specific
 unit tests explicitly skip when that optional C6 dependency is absent.
 
 Animation frames are converted offline to a 64-color RGB565 palette and bounded
-indexed RLE. At runtime one 96,320-byte DMA-capable framebuffer suffices. The
+indexed RLE. At runtime one 96,320-byte animation framebuffer is reused for voice;
+small private DMA strips serve animation and LVGL transfers. The
 3,821,341-byte pack is mapped read-only from flash and checked against a generated
 CRC32 at boot. Metadata also records its SHA-256. Frame data is checked before
 decoding. A display-transfer fault latches playback off until reset so a timed-out
@@ -104,6 +149,8 @@ incompatible with the new layout; the full backup is the restoration path.
 
 ```sh
 .venv/bin/python tools/c6_verify.py --port PORT
+.venv/bin/python tools/c6_controls_verify.py --port PORT
+.venv/bin/python tools/c6_voice_verify.py --port PORT
 ```
 
 The hardware check holds one serial connection and waits through a complete
@@ -112,9 +159,20 @@ heap, missing clips, long-line recovery, sequence advancement, USB transport
 acknowledgements and touch-controller reads. Tap and hold during the test to
 record real input. Separately inspect the actual screen at normal size.
 
-On the tested Mac, opening a serial connection can reset this C6 through native
-USB control-line transitions. Use one persistent connection for normal control
-and verification; the startup animation may replay when a tool opens the port.
+The C6 verification tools assert both USB control lines before opening the
+port; this avoids the processor reset observed when clearing them on this Mac.
+Other serial apps may still reset the processor while leaving the card powered,
+which can make this card time out during initialization. If that happens,
+unplug USB until the screen is dark and reconnect it. Prefer one persistent
+connection. Explicit hardware-reset/profile-persistence checks may require a
+subsequent full power cycle before SD playback.
+
+Bluetooth verification additionally requires `pip install bleak==3.1.0` in the
+repository virtual environment and macOS Bluetooth access. Run
+`tools/c6_network_verify.py --port PORT --skip-profile-restart` to preserve an
+already initialized SD card. Omit that option only when a subsequent power
+cycle is available; the profile test uses and removes a generated test SSID
+only if the existing profile list is empty.
 
 ## Restore the owner's original firmware
 

@@ -12,6 +12,7 @@
 #include "host/ble_hs.h"
 #include "host/ble_hs_mbuf.h"
 #include "nimble/nimble_port.h"
+#include "nimble/nimble_npl.h"
 #include "nimble/nimble_port_freertos.h"
 #include "os/os_mbuf.h"
 #include "services/gap/ble_svc_gap.h"
@@ -27,14 +28,15 @@ static uint8_t s_addr_type;
 static char s_name[32],s_last[512]="READY",s_state_cache[64]="unknown";
 static char s_power_cache[128]="{\"power_voltage_mv\":0,\"battery_percent\":-1,\"external_power\":false}";
 static QueueHandle_t s_queue;
+static struct ble_npl_event s_notify_event;
 typedef struct {uint32_t generation;char command[256];} command_job_t;
 static void advertise(void);
 static void update_status(const char *error) {
     portENTER_CRITICAL(&s_lock);bool started=s_started,adv=s_advertising,conn=s_conn!=BLE_HS_CONN_HANDLE_NONE;portEXIT_CRITICAL(&s_lock);
     c6_network_ble_status(started,adv,conn,error);
 }
-/* NimBLE notify API takes the host lock itself. No application lock is held
-   while calling it, nor while waiting for the display owner. */
+/* Only the NimBLE host event queue calls notify_last. Connection lifecycle
+   callbacks therefore cannot reuse a handle between its snapshot and send. */
 static void notify_last(void) {
     char payload[512];uint16_t conn;bool subscribed;
     portENTER_CRITICAL(&s_lock);conn=s_conn;subscribed=s_subscribed;memcpy(payload,s_last,sizeof(payload));portEXIT_CRITICAL(&s_lock);
@@ -45,12 +47,13 @@ static void notify_last(void) {
     if(!om){update_status("ble_notify_no_memory");return;}
     if(ble_gatts_notify_custom(conn,s_event_handle,om)!=0)update_status("ble_notify_failed");
 }
+static void notify_event(struct ble_npl_event *event) {(void)event;notify_last();}
 static void publish(const char *text,uint32_t generation) {
     portENTER_CRITICAL(&s_lock);
     bool current=generation==s_generation && s_conn!=BLE_HS_CONN_HANDLE_NONE;
     if(current)snprintf(s_last,sizeof(s_last),"%s",text);
     portEXIT_CRITICAL(&s_lock);
-    if(current)notify_last();
+    if(current)ble_npl_eventq_put(nimble_port_get_dflt_eventq(),&s_notify_event);
 }
 static int access_chr(uint16_t conn,uint16_t attr,struct ble_gatt_access_ctxt *ctx,void *arg) {
     (void)conn;(void)attr;uintptr_t kind=(uintptr_t)arg;
@@ -158,6 +161,7 @@ esp_err_t c6_ble_start(const char *name) {
     s_queue=xQueueCreate(4,sizeof(command_job_t));
     if(!s_queue){nimble_port_deinit();return ESP_ERR_NO_MEM;}
     if(xTaskCreate(command_task,"c6_ble_commands",8192,NULL,4,NULL)!=pdPASS){vQueueDelete(s_queue);s_queue=NULL;nimble_port_deinit();return ESP_ERR_NO_MEM;}
+    ble_npl_event_init(&s_notify_event,notify_event,NULL);
     ble_hs_cfg.sync_cb=host_sync;ble_hs_cfg.reset_cb=host_reset;
     ble_hs_cfg.sm_bonding=0;ble_hs_cfg.sm_mitm=0;ble_hs_cfg.sm_sc=0;
     portENTER_CRITICAL(&s_lock);s_started=true;portEXIT_CRITICAL(&s_lock);

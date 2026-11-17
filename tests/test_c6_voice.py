@@ -58,6 +58,52 @@ class VoiceTests(unittest.TestCase):
         self.assertTrue(self.lib.c6_voice_snapshot(now, ctypes.byref(out)))
         return out
 
+    def test_reset_releases_maximum_timeline_allocation(self):
+        build = Path(VoiceTests.temp.name)
+        driver = build / 'voice_allocation.cpp'
+        driver.write_text(r'''
+#include <cassert>
+#include <cstddef>
+#include <cstdlib>
+#include <new>
+#include "c6_voice.h"
+static std::size_t live_bytes;
+union Header {std::max_align_t alignment;std::size_t bytes;};
+void *operator new(std::size_t n){
+    auto *p=static_cast<Header*>(std::malloc(sizeof(Header)+n));
+    if(!p)throw std::bad_alloc();
+    p->bytes=n;live_bytes+=n;return p+1;
+}
+void operator delete(void *p) noexcept{
+    if(!p)return;
+    auto *header=static_cast<Header*>(p)-1;
+    live_bytes-=header->bytes;std::free(header);
+}
+void *operator new[](std::size_t n){return ::operator new(n);}
+void operator delete[](void *p) noexcept{::operator delete(p);}
+void operator delete(void *p,std::size_t) noexcept{::operator delete(p);}
+void operator delete[](void *p,std::size_t) noexcept{::operator delete(p);}
+int main(){
+    c6_voice_reset();
+    const auto baseline=live_bytes;
+    assert(c6_voice_command("7 0 119967 K_A",0));
+    assert(live_bytes>baseline+8000);
+    c6_voice_reset();
+    assert(!c6_voice_active(0));
+    assert(live_bytes==baseline);
+    assert(c6_voice_command("7 0 0 K_A",0));
+    assert(c6_voice_active(0));
+    c6_voice_reset();
+    assert(live_bytes==baseline);
+}
+''')
+        executable = build / 'voice_allocation'
+        subprocess.run(['c++', '-std=c++17', '-Wall', '-Wextra', '-Werror',
+                        '-I', str(MAIN), '-I', str(build), str(driver),
+                        str(build / 'taby_voice.cpp'), str(MAIN / 'c6_voice.cpp'),
+                        '-o', str(executable)], check=True)
+        subprocess.run([str(executable)], check=True)
+
     def test_30fps_frame_boundary_and_jaw_endpoints(self):
         self.assertTrue(self.lib.c6_voice_command(b'9 0 0 AAAK_A', 1000))
         self.assertEqual((self.frame(1033).viseme, self.frame(1033).jaw_open), (0, 0))

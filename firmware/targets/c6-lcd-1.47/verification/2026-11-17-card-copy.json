@@ -1,0 +1,36 @@
+{
+  "filesystem": "FAT32",
+  "card_size_bytes": 63201116160,
+  "formatted": false,
+  "existing_files_preserved": true,
+  "initial_root_entry_count": 4,
+  "files": [
+    {
+      "file": "taby/assets.bin",
+      "bytes": 25361516,
+      "sha256": "fefa27de0236133362194770f2d4f9b290726f34d93dd8abb5dc218afaded3bf"
+    },
+    {
+      "file": "taby/assets.json",
+      "bytes": 19286,
+      "sha256": "6b7d1a7fbc18108478f5bc7ec791e7cbeccfdb44157bd2195cbb5e53b39db780"
+    },
+    {
+      "file": "taby/confirmation.gif",
+      "bytes": 83060,
+      "sha256": "51cde085fca549be65bf0401be85c603bd0782376b9d8e64e0f5430803410301"
+    },
+    {
+      "file": "taby/idle_01_loop.gif",
+      "bytes": 150459,
+      "sha256": "da682a10f371e471da048cca7828b04eea0dcaa63bc1dfe44a9669180ad9bbda"
+    },
+    {
+      "file": "taby/talking_default_loop.gif",
+      "bytes": 169887,
+      "sha256": "f2805fc5f59a97f33899529900bb599d6f6868b98d2f8746f49661dabe523969"
+    }
+  ],
+  "copied_and_hash_verified": true,
+  "physical_board_playback_tested": false
+}

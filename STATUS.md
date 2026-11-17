@@ -6,7 +6,12 @@ release. Scope was approved by the owner in chat on 2026-11-17 with “do it”.
 See the [target guide](firmware/targets/c6-lcd-1.47/README.md) for behavior,
 commands, build/install steps and recovery. See [ROADMAP.md](ROADMAP.md) for scope.
 
-## Implemented and installed
+The installed development version is now `0.2.0-c6-dev.1`, with optional full SD
+animations, saved controls, basic UI, local wireless control and raster mouth
+motion. Its current results and limits are in the expansion sections below;
+the `0.1` milestone entries are retained as historical evidence.
+
+## USB-first milestone — implemented and installed
 
 - Independent ESP-IDF C6 application with the original Taby USB resolver,
   line reader and state/animation metadata; existing S3 source is unchanged.
@@ -16,7 +21,7 @@ commands, build/install steps and recovery. See [ROADMAP.md](ROADMAP.md) for sco
 - USB animation control, diagnostics, brightness, tap and hold event polling.
 - Firmware `0.1.0-c6-dev.1`, assets `0.1.0-dev`.
 
-## Recorded verification — 2026-11-17
+## USB-first recorded verification — 2026-11-17
 
 Platform: Apple Silicon macOS; Python 3.12.16, Pillow 12.0.0, ESP-IDF 5.5.2.
 Board independently read as ESP32-C6FH8 v0.2 with 8 MB flash. The owner identified
@@ -68,6 +73,27 @@ The animation-pack SHA-256 is
 
 ## Limits and distribution
 
+### Follow-up feasibility assessment — 2026-11-17
+
+After the owner asked about the remaining features, all 84 upstream rectangle
+animations were converted in memory using `tools/c6_assets.py`'s existing
+`encode_gif` routine from source revision `49300b4`, on the same Python/Pillow
+environment. Their combined encoded size was **25,361,401 bytes**, excluding
+inter-clip alignment, against the current **6,291,456-byte** asset partition.
+The full library therefore needs a different storage/compression strategy;
+the board's microSD slot is one option. This measurement uses the current
+172×280, 64-color palette/RLE format and its existing sampling rule; it does
+not prove that a more compact format could not fit.
+
+Source inspection confirms additional work is required for UI cards, saved
+settings, eye-motion modes, rotation, battery reporting and wireless transports.
+The recorded free heap is headroom in the USB-only build, not a measurement
+with Wi-Fi/BLE enabled. The current Rive renderer cannot be reused unchanged
+without PSRAM. Upstream MQTT also requires factory identity credentials absent
+from the public installation bundles; local firmware work alone does not
+establish official cloud/account support. No additional firmware was written
+during this feasibility assessment. Follow-up implementation is not complete.
+
 This is a local development port, not an official upstream release. No remote
 publication or upstream merge was performed. The original S3 builds were not
 rebuilt during this task; their source stayed unchanged and host checks passed.
@@ -79,3 +105,151 @@ this approved USB-first milestone. Other C6 display models are not validated.
 Opening the serial port on this Mac can reset the C6 through USB control lines;
 hardware verification used one persistent connection. The private original
 flash backup is local and intentionally absent from version control/bundles.
+
+
+## Feature expansion — 2026-11-17, in progress
+
+The owner requested the remaining features and agreed to add microSD storage.
+This supersedes the USB-first milestone's scope limits, without retroactively
+changing its recorded evidence. Work is local on `codex/c6-lcd-147`;
+preferences/UI/network/voice module commits are `3b0c67d`, `d31c0a4`, `8c1abfa`
+and `1e81f74`. Parent integration was uncommitted during these stage checks.
+
+Implemented and installed in firmware `0.2.0-c6-dev.1`: versioned NVS settings,
+normal/calm/still eye motion, four rotations, QMI8658 automatic-orientation
+selection, calibrated battery voltage, ten basic LVGL card kinds, 146 icons,
+choice signals, queued transport ownership, local Wi-Fi/setup/HTTP and upstream
+BLE service, plus a simplified live mouth renderer reusing the unchanged
+upstream voice parser. No battery percentage is invented. Both radios remain
+active after transport switches until reboot; USB remains available.
+
+Recorded on the same C6 board/macOS/IDF platform:
+
+- Core settings/control stage: saved brightness, eye mode and rotation survived
+  an explicit hardware restart; 20 card checks covered all ten kinds in two
+  orientations. Physical choice 1 was observed; advanced decor rejection
+  preserved the existing card. Driver counters remained error-free.
+- Core playback regression: all 16 onboard clips completed a cycle,858 frames
+  and 17 cycles, with zero decode/display/touch errors. Free heap 300400 bytes,
+  minimum 300352. These figures precede radio activation.
+- Wireless stage: protected setup AP and both radios started. Mac Bluetooth
+  discovered the exact board and completed two connections/reconnections,
+  PING, cross-transport brightness, text-card display and state/power reads.
+  Negotiated MTU 247. Final heap 67128, minimum 58004, largest 50176; no display,
+  decode or touch errors. Wi-Fi join/HTTP were untested at that stage; later
+  browser checks are recorded below.
+- Voice stage: all 15 viseme IDs/jaw endpoints were exercised on hardware with
+  both radios active; invalid timeline preservation, wrong/matching stops,
+  natural completion, UI and animation cancellation passed. 107 voice frames
+  rendered; zero decode/display/touch errors. This verifies protocol/counters,
+  not owner visual approval of the new mouth artwork. Minimum heap 59876.
+
+The optional full SD pack contains 84 clips / 3365 frames and 25361516 aligned
+bytes, SHA256 `fefa27de0236133362194770f2d4f9b290726f34d93dd8abb5dc218afaded3bf`.
+All frames were host-decoded using the real C decoder. The package is
+`dist/taby-c6-lcd-1.47-sd-assets-dev.1.zip`. The owner's 63.2 GB card was detected in a Mac reader as FAT32. The package
+was copied and every copied file hash verified, preserving existing contents;
+no format was needed. See the [card-copy record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-card-copy.json).
+After reinsertion, a processor-only reset left the card in an idle/timeout
+state before filesystem access. Clearing USB control lines on this Mac
+triggered that reset; asserting both before opening was observed to avoid it.
+After the owner fully disconnected power, the card passed its full checksum
+and the board reported all 84 animations. The cold-start check waited 27.9 s;
+subsequent non-resetting opens preserved SD playback and counters. See the
+[cold-start record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-sd-cold-start.json).
+Firmware never formats or writes the card.
+
+The latest installed default build, with SD trace disabled, is **1887744 bytes** in the
+2031616-byte application slot. It was installed with write hashes verified.
+`python -m unittest discover -s tests -v` passed **123 tests**, no skips;
+`tools/check.py`, Python compilation of verification tools and `git diff --check`
+also passed. The complete SD playback run is recorded below.
+
+On the preceding build, SD plus Wi-Fi/BLE passed all 15 live mouth states,
+a complete 3600-frame voice timeline allocation, stop/cancellation and the
+voice→one-second-card→idle regression. 112 speech frames rendered with zero
+LCD/decode/touch errors. Minimum heap was 21256 bytes and final free heap 32712;
+maximum voice timeline storage was bounded but retained for reuse by the
+upstream parser at that stage. See the [combined voice record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-final-sd-voice.json).
+
+
+Still incomplete: desktop-app/MCP recognition,
+automatic-rotation axis feedback and battery-only operation. Advanced reusable
+UI decor/clip behaviors and voice body/expression artwork are not implemented.
+Factory/cloud provisioning is not established. The desktop site's automatic
+app-download request returned HTTP403; manual app installation remains an
+external step. No publication or upstream merge has occurred.
+
+
+Expansion stage evidence: [controls](firmware/targets/c6-lcd-1.47/verification/2026-11-17-expanded-controls.json),
+[core playback](firmware/targets/c6-lcd-1.47/verification/2026-11-17-expanded-core-playback.json),
+[wireless](firmware/targets/c6-lcd-1.47/verification/2026-11-17-expanded-network.json),
+[voice](firmware/targets/c6-lcd-1.47/verification/2026-11-17-expanded-voice.json),
+and [host asset decoding](firmware/targets/c6-lcd-1.47/verification/2026-11-17-full-assets-host.json).
+
+Final static review found and fixed four integration defects: timed cards after
+voice now resume idle, landscape orientation replies round-trip into commands,
+the bounded owner response holds the full animation catalog, and first-header
+SD failures retry validated flash at startup and other presentation changes.
+Actual-C regressions cover these boundaries. The final default build disables
+the optional bounded SD startup trace. The completed tests and the successful full SD-library run are recorded here.
+
+
+The owner used the phone setup form and the board acquired a home-network
+address. Mac Brave then verified HTTP ping, health with connected/full-library
+fields, the complete 84-entry queued catalog, malformed-command rejection and
+mDNS-name HTTP access. Python/curl from the agent process could not reach the
+local address; the full scripted HTTP suite was not run. See the [browser
+verification record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-wifi-browser.json).
+Wi-Fi was saved as the preferred boot transport. Home credentials remain in
+private NVS and are excluded from records and archives.
+
+During simultaneous voice-memory testing and phone provisioning, the earlier
+build reached a 4492-byte minimum free heap. Its animation test stopped on a
+strict memory-baseline assertion after 21 clips, with zero display/decode/touch
+errors; this was not a completed full-library run. The latest build therefore
+uses one bounded request allocation sized to each command/caller response,
+releases the upstream voice vectors on presentation reset, and caps concurrent
+HTTP sockets at 3. Actual-C/C++ allocation regressions and the exact-fit response
+boundary passed. Final physical measurements followed the owner-confirmed full power cycle,
+as recorded below; the fresh full-library run also completed successfully.
+
+
+### Final memory-build device checks
+
+On the latest installed binary, the SD library loaded and saved home Wi-Fi
+reconnected automatically after complete power removal. Both BLE connection
+rounds, cross-transport controls and state/power reads passed with SD mounted;
+see the [final network record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-final-memory-network.json).
+The real home profile was preserved; the earlier generated-profile persistence
+check was not repeated on the owner's credentials.
+
+All 15 mouth states, maximum 3600-frame timeline allocation/release, stops,
+presentation cancellation and timer expiry passed again. After timeline stop,
+free heap recovered by more than 8 KB as required. Final free heap 49620 bytes,
+minimum 37680, largest 34816; no decode/display/touch errors. See the
+[final voice/memory record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-final-memory-voice.json).
+The final network run ended with free heap 49496, minimum 37680 and largest 32768.
+These are actual tested conditions, not an unlimited-concurrency guarantee.
+
+The simplified mouth artwork was inspected in a [rendered viseme contact sheet](firmware/targets/c6-lcd-1.47/verification/2026-11-17-voice-visemes.png). It shows the actual raster shapes, rather than claiming Rive pose parity.
+
+
+### Full-library verification on the final build
+
+`tools/c6_verify.py --radios` completed a full cycle of **all 84 SD
+clips**. Playback advanced 4255 frames and 153 cycle counters (including looping/idle
+transitions). Decode, display and touch-read error counters stayed at zero.
+Free heap was **49516 bytes at both start and finish**, global minimum
+37680, largest free block 32768. Both radios stayed active, saved Wi-Fi remained
+connected, and the preferred boot transport was restored to Wi-Fi. The device
+was returned to idle after the check. See the [complete playback record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-final-full-sd-playback.json) and
+[final installed-build record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-final-expanded.json).
+
+Application SHA256:
+`d0b7a0011d8b12ea00dbaae1389f1a0634a5aa1f5a1df6e4bf0ab9afe87fb35c`.
+The existing flash fallback, partition table and original private backup were
+preserved. Shared S3 runtime/component source has no diff from the USB-first
+base. This remains a local experimental build, with the external/parity limits
+listed above; successful local control does not establish official cloud or
+desktop-app compatibility.

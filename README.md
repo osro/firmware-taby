@@ -1,6 +1,6 @@
 <a id="start-here"></a>
 
-> **Local experimental port:** this checkout also contains a USB-first
+> **Local experimental port:** this checkout also contains an expanded
 > [Waveshare ESP32-C6-Touch-LCD-1.47/-M port](firmware/targets/c6-lcd-1.47/README.md).
 > It is separate from the official S3 releases below; see its
 > [tested results and limits](STATUS.md) before using it.

@@ -1,0 +1,17 @@
+{
+  "timestamp_utc": "2026-11-17T09:38:49.717011+00:00",
+  "verification_method": "Mac Brave browser through computer-use API; Python/curl local connections returned no route/connection failure",
+  "owner_phone_setup_form_opened": true,
+  "station_connection_observed_over_usb": true,
+  "http_ping": true,
+  "http_health_custom_target_connected_and_84_animations": true,
+  "http_full_catalog_count": 84,
+  "http_full_catalog_end_marker": true,
+  "http_newline_injection_rejected": true,
+  "mdns_http_ping": true,
+  "boot_transport_saved": "wifi",
+  "credentials_in_record": false,
+  "full_python_http_suite_run": false,
+  "source_context": "working tree based on5e0b639 plus reviewed integration fixes, before subsequent memory optimization",
+  "application_sha256": "7ef36ab00fdcdd1afef850d22772646c66dad146ec687fa8ed075e0ce85316aa"
+}

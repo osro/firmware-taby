@@ -8,15 +8,28 @@ Implemented, installed and tested on the owner's exact board; see
 animation playback/switching, touch input, bounded memory, original-firmware
 backup and a verified USB installation. Owner confirmed the actual screen.
 
-## Possible follow-up work — not yet approved
+## Feature expansion — in progress
 
-- Test integration with the installed Taby desktop app and document any custom
-  hardware-target recognition requirements.
-- Assess more animation clips or SD-card storage against memory and flash limits.
-- Assess Wi-Fi/Bluetooth support only after measuring available resources.
-- Assess simplified live mouth animation; the current S3 Rive renderer exceeds
-  the C6 memory budget and cannot be enabled unchanged.
+The owner requested the remaining features in chat on 2026-11-17 and confirmed
+they can add a microSD card. The expansion is split into independently checked
+stages in the [design](docs/superpowers/specs/2026-11-17-c6-expansion-design.md)
+and [plan](docs/superpowers/plans/2026-11-17-c6-expansion.md). Availability of the
+physical card and external app/service setup does not imply completed tests.
 
-None of these proposals is a commitment or a prerequisite for the completed
-USB-first milestone. Do not advertise other C6 boards or an official release
+- Implemented and device-tested: saved controls, basic cards/choices and
+  simplified mouth motion. See [expansion evidence](STATUS.md#feature-expansion--2026-11-17-in-progress).
+- Implemented and verified locally: all 84 SD animations, Wi-Fi/HTTP/mDNS and
+  BLE, including full playback with both radios and bounded memory. Evidence is
+  owned by [STATUS](STATUS.md#full-library-verification-on-the-final-build).
+- Next approved integration check: the official desktop app/MCP recognizing the
+  truthful custom target and sending working controls. No app is installed;
+  automatic download returned HTTP403, so installation remains an external step.
+- Pending owner feedback: new mouth artwork and automatic-rotation axes; battery-only operation also remains unverified.
+- Pending external validation: desktop-app/MCP custom-target recognition and
+  official provisioning compatibility. Local commands do not prove these.
+- Not implemented: advanced UI decor/clip behavior and Rive body/expression
+  animation. Keep the simplified renderer's limitation explicit; no PSRAM claim.
+
+These items are not prerequisites for the completed USB-first milestone.
+Do not advertise other C6 boards or an official release
 without their own hardware validation and maintainer approval.

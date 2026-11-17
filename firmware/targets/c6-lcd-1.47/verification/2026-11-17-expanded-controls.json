@@ -1,0 +1,139 @@
+{
+  "timestamp_utc": "2026-11-17T08:52:58.278258+00:00",
+  "passed": true,
+  "cards": [
+    {
+      "orientation": 0,
+      "command": "UI/title:HELLO TABY",
+      "reply": "UI_TITLE"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/text:NEW SCREENS|Text and touch on C6",
+      "reply": "UI_TITLE_SUBTITLE"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/icon:water",
+      "reply": "UI_ICON"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/title_icon:DRINK WATER|water",
+      "reply": "UI_TITLE_ICON"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/title_icon_row:COFFEE BREAK|coffee",
+      "reply": "UI_TITLE_ICON_ROW"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/title_icon_subtitle:STAY FOCUSED|target|One thing at a time",
+      "reply": "UI_TITLE_ICON_SUBTITLE"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/title_action:OPEN APP|OPEN|phone",
+      "reply": "UI_TITLE_ACTION"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/choice_2:CHOOSE|YES|NO|Touch a button",
+      "reply": "UI_CHOICE_2"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/timer:FOCUS|65|300|Stay with it|run",
+      "reply": "UI_TIMER"
+    },
+    {
+      "orientation": 0,
+      "command": "UI/progress:UPLOADING|45|Nearly halfway",
+      "reply": "UI_PROGRESS"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/title:HELLO TABY",
+      "reply": "UI_TITLE"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/text:NEW SCREENS|Text and touch on C6",
+      "reply": "UI_TITLE_SUBTITLE"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/icon:water",
+      "reply": "UI_ICON"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/title_icon:DRINK WATER|water",
+      "reply": "UI_TITLE_ICON"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/title_icon_row:COFFEE BREAK|coffee",
+      "reply": "UI_TITLE_ICON_ROW"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/title_icon_subtitle:STAY FOCUSED|target|One thing at a time",
+      "reply": "UI_TITLE_ICON_SUBTITLE"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/title_action:OPEN APP|OPEN|phone",
+      "reply": "UI_TITLE_ACTION"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/choice_2:CHOOSE|YES|NO|Touch a button",
+      "reply": "UI_CHOICE_2"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/timer:FOCUS|65|300|Stay with it|run",
+      "reply": "UI_TIMER"
+    },
+    {
+      "orientation": 90,
+      "command": "UI/progress:UPLOADING|45|Nearly halfway",
+      "reply": "UI_PROGRESS"
+    }
+  ],
+  "auto_mode_query": {
+    "mode": "auto",
+    "orientation": "left",
+    "rotation_degrees": 0,
+    "auto_supported": true,
+    "display_shape": "rectangle"
+  },
+  "persistence_across_hardware_reset": true,
+  "choice": {
+    "signal": 1,
+    "selection": "choice_1"
+  },
+  "choice_changed": true,
+  "final": {
+    "animation": "startup",
+    "state": "UI_C6_CHECK",
+    "frame": 4,
+    "rendered_frames": 4,
+    "completed_cycles": 0,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 298884,
+    "minimum_free_heap": 298316,
+    "largest_free_block": 278528,
+    "touch_samples": 2541,
+    "touch_errors": 0,
+    "touch_count": 2,
+    "touch_pressed": false,
+    "touch_x": 101,
+    "touch_y": 251
+  },
+  "source_context": "core settings/UI stage, parent integration based on d31c0a4",
+  "platform": "Apple Silicon macOS; Python3.12.16; ESP-IDF5.5.2"
+}

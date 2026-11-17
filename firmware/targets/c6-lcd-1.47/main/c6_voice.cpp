@@ -115,7 +115,11 @@ extern "C" bool c6_voice_snapshot(double now_ms, c6_voice_snapshot_t *out) {
     return true;
 }
 
-extern "C" void c6_voice_reset(void) { voice.reset(); }
+extern "C" void c6_voice_reset(void) {
+    // Upstream reset clears vectors but retains their maximum timeline capacity.
+    // Replacing the owner releases that storage when speech yields the screen.
+    voice = taby::VoiceMotion{};
+}
 
 extern "C" bool c6_voice_render(uint8_t *pixels, size_t bytes, uint16_t width,
                                  uint16_t height, double now_ms) {
