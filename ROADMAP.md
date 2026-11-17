@@ -23,7 +23,8 @@ physical card and external app/service setup does not imply completed tests.
   owned by [STATUS](STATUS.md#full-library-verification-on-the-final-build).
 - Next approved integration check: the official desktop app/MCP recognizing the
   truthful custom target and sending working controls. No app is installed;
-  automatic download returned HTTP403, so installation remains an external step.
+  the official download was blocked by Brave after following the vendor button,
+  so manual download is the current owner handoff. No security bypass was attempted.
 - Pending owner feedback: new mouth artwork and automatic-rotation axes; battery-only operation also remains unverified.
 - Pending external validation: desktop-app/MCP custom-target recognition and
   official provisioning compatibility. Local commands do not prove these.

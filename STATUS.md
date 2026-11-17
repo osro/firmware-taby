@@ -253,3 +253,36 @@ preserved. Shared S3 runtime/component source has no diff from the USB-first
 base. This remains a local experimental build, with the external/parity limits
 listed above; successful local control does not establish official cloud or
 desktop-app compatibility.
+
+
+### Local distribution and remaining handoff
+
+Implementation and verification are committed locally at
+`36fe1379b041f5763c0b2368ef316490d0ce1d5d`. The following ignored local archives
+were generated from that revision, integrity-checked and SHA256-checked:
+
+- `dist/taby-c6-lcd-1.47-expanded-dev.1.zip`: four checked flash images,
+  installation/recovery guide, sanitized verification and 31 dependency notices.
+- `dist/taby-c6-lcd-1.47-expanded-source-dev.1.zip`: Git archive whose commit
+  comment matches the source revision above.
+- `dist/taby-c6-lcd-1.47-sd-assets-dev.1.zip`: separately prepared full SD pack,
+  already copied and hash-verified on the owner's card.
+
+Archive sizes/hashes and exclusions are in the [distribution record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-distribution.json).
+These are local packages, not an upstream release. The private original-board
+backup and credentials are excluded. This later documentation update records
+package creation after the archived source revision; it changes no runtime code.
+
+The normal official desktop-download page was also tried in Brave. Its download
+button reached the vendor's `updates.heytaby.com` DMG, but Brave blocked it with
+`ERR_BLOCKED_BY_CLIENT`. The agent stopped at that browser security block and
+asked the owner to handle the official download. No desktop app was installed,
+no model was downloaded, and desktop/MCP pairing remains pending. The earlier
+CLI HTTP403 is not evidence that the official download button itself is broken.
+
+A separate one-minute silent mouth demo completed and returned to idle without
+reported driver/decode/touch errors; see its [record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-live-mouth-demo.json).
+Owner visual feedback was requested and is still pending. The renderer's
+mouth-only limitation remains; advanced card effects, live body/eye poses,
+official cloud provisioning, automatic-axis feedback and battery-only operation
+remain outside the verified result.

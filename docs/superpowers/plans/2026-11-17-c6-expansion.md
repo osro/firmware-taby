@@ -79,7 +79,7 @@ other presentation changes. Do not compile the PSRAM-dependent Rive renderer.
 
 - [x] Add parser/timing/mouth-state tests and render samples for inspection.
 - [ ] Verify protocol/timing on device and obtain visual feedback.
-- [ ] Review the whole expansion, update records, package verified artifacts.
+- [x] Review the whole expansion, update records, package verified artifacts.
 
 ## Progress
 
