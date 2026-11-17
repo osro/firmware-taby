@@ -1,0 +1,27 @@
+{
+  "timestamp_utc": "2026-11-17T11:18:37.777948+00:00",
+  "firmware_version": "0.2.0-c6-dev.3",
+  "source_commit": "5a6f2230c4392075e596ea465790974202c145d6",
+  "application_sha256": "a036c5648c1627cc94f3c960900cc48939e445f052002a7eed949db866409556",
+  "archives": [
+    {
+      "file": "taby-c6-lcd-1.47-expanded-dev.3.zip",
+      "bytes": 3123061,
+      "sha256": "5dbbdd7b0c1746632e68a9c3a9f154abe33e7276c65e2f5f94bcc00d22066160"
+    },
+    {
+      "file": "taby-c6-lcd-1.47-expanded-source-dev.3.zip",
+      "bytes": 17046546,
+      "sha256": "b5cff85cc5a1ce77a3de93298ee8d0aed5bc4bd4511ceb41178a6bc956bf29dc"
+    }
+  ],
+  "binary_images_hash_checked": 4,
+  "dependency_license_documents": 31,
+  "zip_integrity_checked": true,
+  "source_zip_commit_comment_matches": true,
+  "private_backup_and_credentials_excluded": true,
+  "prior_dev2_and_sd_archives_hash_unchanged": true,
+  "published_remotely": false,
+  "owner_visual_feedback": "tentative",
+  "device_validation": "all24names,bothorientations,memory/voice/SD/radios,nativeBluetooth passed"
+}

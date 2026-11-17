@@ -465,3 +465,17 @@ observed at that reopening. No new GUI connection-status claim is made.
 All repeated card/clear stress testing has stopped. The installed firmware
 runtime remains byte-for-byte the hash above; only its host verifier's wait
 was corrected after physical testing. The new package is recorded below.
+
+### Dev.3 local distribution
+
+Source and device evidence are committed at `5a6f2230c4392075e596ea465790974202c145d6`.
+The new binary/source archives are `dist/taby-c6-lcd-1.47-expanded-dev.3.zip`
+and `dist/taby-c6-lcd-1.47-expanded-source-dev.3.zip`. ZIP integrity, all four
+image hashes, source archive commit comment and 31 dependency notices were
+checked. Previous dev.2 and SD archive hashes are unchanged; the original
+private backup remains excluded. Exact sizes/hashes are in the [distribution
+record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-distribution-dev3.json).
+The full card pack does not need copying again. This is a local experimental
+package; tentative visual feedback and the remaining clip/body/cloud/MCP
+limitations remain explicit. No remote publication or upstream merge occurred.
+This later documentation-only commit records creation of those archives.
