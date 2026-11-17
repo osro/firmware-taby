@@ -96,17 +96,28 @@ esp_err_t c6_board_set_rotation(uint16_t rotation) {
 
 esp_err_t c6_board_draw_animation(const uint8_t *pixels) {
     if(fault)return ESP_ERR_INVALID_STATE;
-    if(c6_board_width()==172)return c6_board_draw_rect(0,20,172,280,pixels);
-    const int scaled_width=106, left=(320-scaled_width)/2;
-    for(int y=0;y<172;y+=8) {
-        int rows=172-y;if(rows>8)rows=8;
-        memset(scanlines,0,320*rows*2);
-        for(int row=0;row<rows;++row)for(int x=0;x<scaled_width;++x) {
-            size_t from=((size_t)((y+row)*280/172)*172+x*172/scaled_width)*2;
-            size_t to=((size_t)row*320+left+x)*2;
-            scanlines[to]=pixels[from];scanlines[to+1]=pixels[from+1];
+    if(!pixels)return ESP_ERR_INVALID_ARG;
+    const int width=c6_board_width(), height=c6_board_height();
+    /* Packed 172x280 artwork is sideways. Fit its upright 280x172 extent
+       without changing the panel/card orientation or the source frame. */
+    const int scaled_width=width==320?280:172;
+    const int scaled_height=width==320?172:106;
+    const int left=(width-scaled_width)/2, top=(height-scaled_height)/2;
+    for(int y=0;y<height;y+=8) {
+        int rows=height-y;if(rows>8)rows=8;
+        memset(scanlines,0,(size_t)width*rows*2);
+        for(int row=0;row<rows;++row) {
+            int image_y=y+row-top;
+            if(image_y<0 || image_y>=scaled_height)continue;
+            int packed_x=171-image_y*172/scaled_height;
+            for(int x=0;x<scaled_width;++x) {
+                int packed_y=x*280/scaled_width;
+                size_t from=((size_t)packed_y*172+packed_x)*2;
+                size_t to=((size_t)row*width+left+x)*2;
+                scanlines[to]=pixels[from];scanlines[to+1]=pixels[from+1];
+            }
         }
-        esp_err_t err=c6_board_draw_rect(0,y,320,rows,scanlines);
+        esp_err_t err=c6_board_draw_rect(0,y,width,rows,scanlines);
         if(err!=ESP_OK)return err;
     }
     return ESP_OK;
