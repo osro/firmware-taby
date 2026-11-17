@@ -1,0 +1,61 @@
+{
+  "timestamp_utc": "2026-11-17T12:02:57.349032+00:00",
+  "implementation_commit": "5a70fbc",
+  "firmware_version": "0.2.0-c6-dev.5",
+  "scope": "Actual C animation/rectangle path with hardware boundaries stubbed; physical confirmation separate",
+  "full_host_suite": {
+    "tests": 142,
+    "skips": 0,
+    "passed": true,
+    "seconds": 27.249
+  },
+  "focused_asan_ubsan_tests": 2,
+  "logical_rotations": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "packed_dimensions": [
+    172,
+    280
+  ],
+  "upright_dimensions": [
+    280,
+    172
+  ],
+  "fit_portrait": {
+    "image": [
+      172,
+      106
+    ],
+    "offset": [
+      0,
+      107
+    ]
+  },
+  "fit_landscape": {
+    "image": [
+      280,
+      172
+    ],
+    "offset": [
+      20,
+      0
+    ]
+  },
+  "pack_unchanged": true,
+  "input_unchanged": true,
+  "new_heap_allocations": 0,
+  "maximum_strip_bytes": 5120,
+  "existing_staging_bytes": 10240,
+  "actual_neutral_decoded_rgb565_sha256": "f2bee85c1b18a4c0d8080191db4834f48edbf3f70c803d78f159e94e2cbe5084",
+  "application_bytes": 1893072,
+  "application_sha256": "79b0b0662e107c96065227dbf342a01ef32baa5072b6b57c0e4230d4741015a5",
+  "reviews": "Task and integrated approved, no blocking findings",
+  "physical_face_validation": "pending",
+  "previews": [
+    "2026-11-17-face-alignment-host-0.png",
+    "2026-11-17-face-alignment-host-90.png"
+  ]
+}

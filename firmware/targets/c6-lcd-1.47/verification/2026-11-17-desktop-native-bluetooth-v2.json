@@ -1,0 +1,68 @@
+{
+  "timestamp_utc": "2026-11-17T10:42:59.223245+00:00",
+  "transport": "installed_app_native_bridge",
+  "rounds": [
+    {
+      "round": 0,
+      "identity_matches_usb": true,
+      "state_identity": true,
+      "choice_schema": true,
+      "animation": true,
+      "text": true,
+      "timer": true,
+      "stop": true,
+      "orientation_set_and_readback": true
+    },
+    {
+      "round": 1,
+      "identity_matches_usb": true,
+      "state_identity": true,
+      "choice_schema": true,
+      "animation": true,
+      "text": true,
+      "timer": true,
+      "stop": true,
+      "orientation_set_and_readback": true
+    }
+  ],
+  "touch_checks": [
+    {
+      "choice": "left",
+      "signal": 1,
+      "legacy_agrees": true
+    },
+    {
+      "choice": "right",
+      "signal": 2,
+      "legacy_agrees": true
+    }
+  ],
+  "native_identifier_case_matches_bleak": false,
+  "firmware_version": "0.2.0-c6-dev.2",
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 102,
+    "completed_cycles": 4,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49044,
+    "minimum_free_heap": 39036,
+    "largest_free_block": 32768,
+    "touch_samples": 4909,
+    "touch_errors": 0,
+    "touch_count": 18,
+    "touch_pressed": false,
+    "touch_x": 103,
+    "touch_y": 308,
+    "voice_active": false,
+    "voice_frames": 0,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "passed": true,
+  "application_sha256": "aa280a09a12e56898fd852d77779838dcb0998f02986a359945317ea17b6abd3",
+  "desktop_version": "1.0.13",
+  "scope": "Installed native bridge executed directly; GUI remembered Bluetooth selection not yet verified"
+}

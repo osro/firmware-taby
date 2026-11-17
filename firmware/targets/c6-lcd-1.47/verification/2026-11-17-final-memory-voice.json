@@ -1,0 +1,204 @@
+{
+  "timestamp_utc": "2026-11-17T09:45:48.855077+00:00",
+  "visual_verification": "requires_owner_feedback",
+  "initial": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 17,
+    "rendered_frames": 357,
+    "completed_cycles": 4,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49708,
+    "minimum_free_heap": 49708,
+    "largest_free_block": 34816,
+    "touch_samples": 1120,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 0,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "visemes": [
+    {
+      "viseme": 0,
+      "rendered": true
+    },
+    {
+      "viseme": 1,
+      "rendered": true
+    },
+    {
+      "viseme": 2,
+      "rendered": true
+    },
+    {
+      "viseme": 3,
+      "rendered": true
+    },
+    {
+      "viseme": 4,
+      "rendered": true
+    },
+    {
+      "viseme": 5,
+      "rendered": true
+    },
+    {
+      "viseme": 6,
+      "rendered": true
+    },
+    {
+      "viseme": 7,
+      "rendered": true
+    },
+    {
+      "viseme": 8,
+      "rendered": true
+    },
+    {
+      "viseme": 9,
+      "rendered": true
+    },
+    {
+      "viseme": 10,
+      "rendered": true
+    },
+    {
+      "viseme": 11,
+      "rendered": true
+    },
+    {
+      "viseme": 12,
+      "rendered": true
+    },
+    {
+      "viseme": 13,
+      "rendered": true
+    },
+    {
+      "viseme": 14,
+      "rendered": true
+    }
+  ],
+  "full_timeline": {
+    "animation": "",
+    "state": "VOICE_TALKING",
+    "frame": 1,
+    "rendered_frames": 454,
+    "completed_cycles": 4,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 38448,
+    "minimum_free_heap": 37680,
+    "largest_free_block": 23552,
+    "touch_samples": 1217,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": true,
+    "voice_frames": 96,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "after_timeline_stop": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 456,
+    "completed_cycles": 4,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49708,
+    "minimum_free_heap": 37680,
+    "largest_free_block": 34816,
+    "touch_samples": 1219,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 97,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "voice_timed_card_expiry": {
+    "card": {
+      "animation": "idle_01_loop",
+      "state": "UI_TIMER",
+      "frame": 0,
+      "rendered_frames": 472,
+      "completed_cycles": 4,
+      "decode_errors": 0,
+      "display_errors": 0,
+      "free_heap": 48636,
+      "minimum_free_heap": 37680,
+      "largest_free_block": 32768,
+      "touch_samples": 1239,
+      "touch_errors": 0,
+      "touch_count": 0,
+      "touch_pressed": false,
+      "touch_x": 0,
+      "touch_y": 0,
+      "voice_active": false,
+      "voice_frames": 111,
+      "viseme": 0,
+      "jaw_open": 0
+    },
+    "resumed": {
+      "animation": "idle_01_loop",
+      "state": "IDLE",
+      "frame": 3,
+      "rendered_frames": 475,
+      "completed_cycles": 4,
+      "decode_errors": 0,
+      "display_errors": 0,
+      "free_heap": 49620,
+      "minimum_free_heap": 37680,
+      "largest_free_block": 34816,
+      "touch_samples": 1294,
+      "touch_errors": 0,
+      "touch_count": 0,
+      "touch_pressed": false,
+      "touch_x": 0,
+      "touch_y": 0,
+      "voice_active": false,
+      "voice_frames": 111,
+      "viseme": 0,
+      "jaw_open": 0
+    },
+    "passed": true
+  },
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 478,
+    "completed_cycles": 4,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49620,
+    "minimum_free_heap": 37680,
+    "largest_free_block": 34816,
+    "touch_samples": 1298,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 112,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "passed": true,
+  "application_sha256": "d0b7a0011d8b12ea00dbaae1389f1a0634a5aa1f5a1df6e4bf0ab9afe87fb35c",
+  "source_context": "working tree based on5e0b639 plus reviewed integration and memory fixes; trace off"
+}

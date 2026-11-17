@@ -1,0 +1,38 @@
+{
+  "firmware_version": "0.2.0-c6-dev.1",
+  "asset_storage": "sd_card",
+  "animation_count": 84,
+  "rotation": {
+    "mode": "rotate_90",
+    "orientation": "rotate_90",
+    "rotation_degrees": 90,
+    "auto_supported": true,
+    "display_shape": "rectangle"
+  },
+  "diag": {
+    "animation": "idle_01_loop",
+    "state": "ANIMATION",
+    "frame": 1,
+    "rendered_frames": 20665,
+    "completed_cycles": 473,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49516,
+    "minimum_free_heap": 37680,
+    "largest_free_block": 32768,
+    "touch_samples": 99985,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 1447,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "desktop_version": "1.0.13",
+  "gui_usb_connected_observed": true,
+  "owner_rotation_feedback": "The rotation worked in display itself, but the app shows that it is not supported after pressing.",
+  "orientation_restored_to_left": true
+}

@@ -1,0 +1,182 @@
+{
+  "timestamp_utc": "2026-11-17T09:27:50.579022+00:00",
+  "visual_verification": "requires_owner_feedback",
+  "initial": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 80,
+    "rendered_frames": 1043,
+    "completed_cycles": 11,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 44060,
+    "minimum_free_heap": 33316,
+    "largest_free_block": 28672,
+    "touch_samples": 3251,
+    "touch_errors": 0,
+    "touch_count": 9,
+    "touch_pressed": false,
+    "touch_x": 77,
+    "touch_y": 53,
+    "voice_active": false,
+    "voice_frames": 0,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "visemes": [
+    {
+      "viseme": 0,
+      "rendered": true
+    },
+    {
+      "viseme": 1,
+      "rendered": true
+    },
+    {
+      "viseme": 2,
+      "rendered": true
+    },
+    {
+      "viseme": 3,
+      "rendered": true
+    },
+    {
+      "viseme": 4,
+      "rendered": true
+    },
+    {
+      "viseme": 5,
+      "rendered": true
+    },
+    {
+      "viseme": 6,
+      "rendered": true
+    },
+    {
+      "viseme": 7,
+      "rendered": true
+    },
+    {
+      "viseme": 8,
+      "rendered": true
+    },
+    {
+      "viseme": 9,
+      "rendered": true
+    },
+    {
+      "viseme": 10,
+      "rendered": true
+    },
+    {
+      "viseme": 11,
+      "rendered": true
+    },
+    {
+      "viseme": 12,
+      "rendered": true
+    },
+    {
+      "viseme": 13,
+      "rendered": true
+    },
+    {
+      "viseme": 14,
+      "rendered": true
+    }
+  ],
+  "full_timeline": {
+    "animation": "",
+    "state": "VOICE_TALKING",
+    "frame": 1,
+    "rendered_frames": 1140,
+    "completed_cycles": 11,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 32800,
+    "minimum_free_heap": 32756,
+    "largest_free_block": 17408,
+    "touch_samples": 3347,
+    "touch_errors": 0,
+    "touch_count": 9,
+    "touch_pressed": false,
+    "touch_x": 77,
+    "touch_y": 53,
+    "voice_active": true,
+    "voice_frames": 96,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "voice_timed_card_expiry": {
+    "card": {
+      "animation": "idle_01_loop",
+      "state": "UI_TIMER",
+      "frame": 0,
+      "rendered_frames": 1158,
+      "completed_cycles": 11,
+      "decode_errors": 0,
+      "display_errors": 0,
+      "free_heap": 31712,
+      "minimum_free_heap": 21256,
+      "largest_free_block": 16896,
+      "touch_samples": 3369,
+      "touch_errors": 0,
+      "touch_count": 9,
+      "touch_pressed": false,
+      "touch_x": 77,
+      "touch_y": 53,
+      "voice_active": false,
+      "voice_frames": 111,
+      "viseme": 0,
+      "jaw_open": 0
+    },
+    "resumed": {
+      "animation": "idle_01_loop",
+      "state": "IDLE",
+      "frame": 3,
+      "rendered_frames": 1161,
+      "completed_cycles": 11,
+      "decode_errors": 0,
+      "display_errors": 0,
+      "free_heap": 32712,
+      "minimum_free_heap": 21256,
+      "largest_free_block": 17408,
+      "touch_samples": 3424,
+      "touch_errors": 0,
+      "touch_count": 9,
+      "touch_pressed": false,
+      "touch_x": 77,
+      "touch_y": 53,
+      "voice_active": false,
+      "voice_frames": 111,
+      "viseme": 0,
+      "jaw_open": 0
+    },
+    "passed": true
+  },
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 1164,
+    "completed_cycles": 11,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 32712,
+    "minimum_free_heap": 21256,
+    "largest_free_block": 17408,
+    "touch_samples": 3428,
+    "touch_errors": 0,
+    "touch_count": 9,
+    "touch_pressed": false,
+    "touch_x": 77,
+    "touch_y": 53,
+    "voice_active": false,
+    "voice_frames": 112,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "passed": true,
+  "application_sha256": "7ef36ab00fdcdd1afef850d22772646c66dad146ec687fa8ed075e0ce85316aa",
+  "source_context": "working tree based on 5e0b639 plus reviewed integration fixes; default SD trace off"
+}

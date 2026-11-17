@@ -1,0 +1,11 @@
+{
+  "clips": 84,
+  "frames": 3365,
+  "bytes": 25361516,
+  "sha256": "fefa27de0236133362194770f2d4f9b290726f34d93dd8abb5dc218afaded3bf",
+  "loop_policies_match": true,
+  "all_frames_decoded": true,
+  "physical_sd_tested": false,
+  "source_context": "parent SD converter; host only",
+  "platform": "Apple Silicon macOS; Python3.12.16; ESP-IDF5.5.2"
+}

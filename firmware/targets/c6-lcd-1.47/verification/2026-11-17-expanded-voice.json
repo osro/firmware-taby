@@ -1,0 +1,113 @@
+{
+  "timestamp_utc": "2026-11-17T09:07:32.871125+00:00",
+  "visual_verification": "requires_owner_feedback",
+  "initial": {
+    "animation": "startup",
+    "state": "STARTUP",
+    "frame": 2,
+    "rendered_frames": 2,
+    "completed_cycles": 0,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 66424,
+    "minimum_free_heap": 66424,
+    "largest_free_block": 51200,
+    "touch_samples": 3,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 0,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "visemes": [
+    {
+      "viseme": 0,
+      "rendered": true
+    },
+    {
+      "viseme": 1,
+      "rendered": true
+    },
+    {
+      "viseme": 2,
+      "rendered": true
+    },
+    {
+      "viseme": 3,
+      "rendered": true
+    },
+    {
+      "viseme": 4,
+      "rendered": true
+    },
+    {
+      "viseme": 5,
+      "rendered": true
+    },
+    {
+      "viseme": 6,
+      "rendered": true
+    },
+    {
+      "viseme": 7,
+      "rendered": true
+    },
+    {
+      "viseme": 8,
+      "rendered": true
+    },
+    {
+      "viseme": 9,
+      "rendered": true
+    },
+    {
+      "viseme": 10,
+      "rendered": true
+    },
+    {
+      "viseme": 11,
+      "rendered": true
+    },
+    {
+      "viseme": 12,
+      "rendered": true
+    },
+    {
+      "viseme": 13,
+      "rendered": true
+    },
+    {
+      "viseme": 14,
+      "rendered": true
+    }
+  ],
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 114,
+    "completed_cycles": 0,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 66432,
+    "minimum_free_heap": 59876,
+    "largest_free_block": 51200,
+    "touch_samples": 119,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": true,
+    "touch_x": 56,
+    "touch_y": 297,
+    "voice_active": false,
+    "voice_frames": 107,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "passed": true,
+  "source_context": "working tree based on 1e81f74 before SD streaming integration",
+  "platform": "Apple Silicon macOS; Python3.12.16; ESP-IDF5.5.2"
+}

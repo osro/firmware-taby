@@ -1,0 +1,16 @@
+{
+  "timestamp_utc": "2026-11-17T11:11:11.569082+00:00",
+  "firmware_version": "0.2.0-c6-dev.3",
+  "application_bytes": 1892672,
+  "application_sha256": "a036c5648c1627cc94f3c960900cc48939e445f052002a7eed949db866409556",
+  "esp_idf": "5.5.2",
+  "target": "esp32c6",
+  "build_passed": true,
+  "compiler_warnings": 0,
+  "flash_region": "0x10000 application only",
+  "flash_write_hash_verified": true,
+  "nvs_and_assets_preserved": true,
+  "cold_power_cycle": "owner_confirmed",
+  "device_decor_validation": "passed; see 2026-11-17-c6-decor-device.json",
+  "owner_visual_feedback": "tentative, not full visual approval"
+}

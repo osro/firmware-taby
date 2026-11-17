@@ -1,0 +1,355 @@
+{
+  "timestamp_utc": "2026-11-17T11:15:07.899373+00:00",
+  "passed": true,
+  "scope": "Device protocol/lifetime/heap/driver checks; no automatic visual-quality assertion",
+  "effects": [
+    {
+      "orientation": "left",
+      "effect": "shooting_stars",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "firework_dots",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "heart_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "gold_rings",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "square_confetti",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "diamond_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "comet_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "ribbon_sweep",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "ember_drift",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "star_twinkle",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "bubble_pop",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "pixel_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "glow_wave",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "sunbeam_lines",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "prism_shards",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "heart_rain",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "confetti_rain",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "orbit_dots",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "flare_fan",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "petal_swirl",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "neon_arc",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "spiral_sparks",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "checker_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "left",
+      "effect": "aurora_sweep",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "shooting_stars",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "firework_dots",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "heart_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "gold_rings",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "square_confetti",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "diamond_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "comet_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "ribbon_sweep",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "ember_drift",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "star_twinkle",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "bubble_pop",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "pixel_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "glow_wave",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "sunbeam_lines",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "prism_shards",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "heart_rain",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "confetti_rain",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "orbit_dots",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "flare_fan",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "petal_swirl",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "neon_arc",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "spiral_sparks",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "checker_burst",
+      "accepted": true
+    },
+    {
+      "orientation": "90",
+      "effect": "aurora_sweep",
+      "accepted": true
+    }
+  ],
+  "families_expired": [
+    "shooting_stars",
+    "comet_burst",
+    "firework_dots",
+    "heart_burst",
+    "heart_rain",
+    "gold_rings",
+    "ribbon_sweep",
+    "aurora_sweep"
+  ],
+  "visual_feedback": "Owner tentative: effects seemed okay, but uncertain. Repeated eyes/card switching was the deliberate memory stress test, explained in chat.",
+  "firmware_version": "0.2.0-c6-dev.3",
+  "initial": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 240,
+    "completed_cycles": 11,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 47960,
+    "minimum_free_heap": 41336,
+    "largest_free_block": 30720,
+    "touch_samples": 5526,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 3,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "before_churn": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 242,
+    "completed_cycles": 11,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 47960,
+    "minimum_free_heap": 41336,
+    "largest_free_block": 30720,
+    "touch_samples": 6101,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 3,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "after_churn": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 362,
+    "completed_cycles": 11,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 47960,
+    "minimum_free_heap": 41336,
+    "largest_free_block": 30720,
+    "touch_samples": 6349,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 3,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "voice_decor_ownership": true,
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 2,
+    "rendered_frames": 368,
+    "completed_cycles": 11,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 47960,
+    "minimum_free_heap": 41336,
+    "largest_free_block": 30720,
+    "touch_samples": 6725,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 6,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "radios": {
+    "wifi_started": true,
+    "ble_started": true,
+    "connected": true
+  },
+  "application_sha256": "a036c5648c1627cc94f3c960900cc48939e445f052002a7eed949db866409556",
+  "firmware_source_commit": "906360e"
+}

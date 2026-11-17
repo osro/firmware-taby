@@ -1,0 +1,92 @@
+{
+  "recorded_at_utc": "2026-11-17T13:08:53.843597+00:00",
+  "repository": "https://github.com/osro/firmware-taby",
+  "target_branch": "main",
+  "main_parent": "e7051ac4bed179b4067abde8c36a9b9e9fa5ffe1",
+  "feature_parent": "e96c9a9c3c0265046781ac5c373d1ca491423020",
+  "authorization": "Owner requested merge to fork main, README main instructions, and C6 in original board table. No PR or release.",
+  "initial_merged_tree_failure": {
+    "host_tests": 167,
+    "errors": 14,
+    "cause": "C6 portable voice header lacked new upstream mouth/last-run declarations; C6 build failed for the same reason."
+  },
+  "fix": "Synchronize only the C6 portable VoiceMotion declarations/member with shared upstream header.",
+  "final_host_tests": {
+    "passed": true,
+    "tests": 167,
+    "skips": 0,
+    "seconds": 31.579
+  },
+  "targeted_c6_voice_tests": {
+    "passed": true,
+    "tests": 14
+  },
+  "assets_board_layout_checks_passed": true,
+  "s3_runtime_build_package_sources_equal_main_parent": true,
+  "original_s3_ci_job_equal_main_parent": true,
+  "review": "Independent integration review approved without blockers; reviewer reran the 14 C6 voice tests.",
+  "boards": [
+    {
+      "board": "amoled-1.64",
+      "sdk": "5.4.2",
+      "build_and_package_passed": true,
+      "physical_tested": false,
+      "application_bytes": 3075616,
+      "application_sha256": "fb52df04778ae9c367ca3eafd640bc62ab2b944881b2dfab081a874cdcb5402c",
+      "source_sha256": "32766926abab2940fe847fae451c8b1ae79d93bd743710b5475fd358d4ff6775",
+      "package_source_commit": "e7051ac4bed179b4067abde8c36a9b9e9fa5ffe1",
+      "package_source_dirty": true
+    },
+    {
+      "board": "round-1.32",
+      "sdk": "5.4.2",
+      "build_and_package_passed": true,
+      "physical_tested": false,
+      "application_bytes": 1823040,
+      "application_sha256": "0bc8571705dd29f7618644b987645c61c86ab6bceb262dbe69c8e82b18b34437",
+      "source_sha256": "32766926abab2940fe847fae451c8b1ae79d93bd743710b5475fd358d4ff6775",
+      "package_source_commit": "e7051ac4bed179b4067abde8c36a9b9e9fa5ffe1",
+      "package_source_dirty": true
+    },
+    {
+      "board": "c6-lcd-1.47",
+      "sdk": "5.5.2",
+      "build_and_package_passed": true,
+      "physical_tested": false,
+      "application_bytes": 1893184,
+      "application_sha256": "c2772d2446099f4c75115b980bf76b579e1f4c3ae9a91e687ecca59188754aee",
+      "source_sha256": "6973e2b62c69804572fe7e20b999ecc82f7f4238f4c742bada8437255183e689",
+      "package_source_commit": "e7051ac4bed179b4067abde8c36a9b9e9fa5ffe1",
+      "package_source_dirty": true
+    }
+  ],
+  "local_validation_archives": [
+    {
+      "path": "dist/main-merge-s3/taby-amoled-1.64.zip",
+      "bytes": 12176024,
+      "sha256": "6d38033a721f850cbdfe643ef8848e2cb89a51ce225c89d542fc5b997c70c94e",
+      "zip_and_sidecar_passed": true
+    },
+    {
+      "path": "dist/main-merge-s3/taby-round-1.32.zip",
+      "bytes": 4832924,
+      "sha256": "6be1bf6d0489ddad637f277260430a409bef1b4a50efc2dff9adc3290712a061",
+      "zip_and_sidecar_passed": true
+    },
+    {
+      "path": "dist/c6-main-merge/firmware.zip",
+      "bytes": 2890951,
+      "sha256": "2d2c23a2cb067f48b3ba3aadf936abad46ce59de4cc89fcfb658ece38daf6693",
+      "zip_and_sidecar_passed": true
+    },
+    {
+      "path": "dist/c6-main-merge/sd.zip",
+      "bytes": 10599989,
+      "sha256": "174c91db045d9d0b4df68dac44c285207c63f20d97ba67051bff025fa11eedb9",
+      "zip_and_sidecar_passed": true
+    }
+  ],
+  "physical_device_or_card_changed": false,
+  "remote_actions_verified": false,
+  "artifact_scope": "Local validation packages from the uncommitted merged tree; not releases."
+}

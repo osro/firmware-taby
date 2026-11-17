@@ -1,0 +1,23 @@
+This is an experimental port of Physical Taby for the
+Waveshare ESP32-C6-Touch-LCD-1.47 and -M (pin-header) variant.
+
+Taby firmware and animation artwork originate from
+https://github.com/TRIIIS-LABS/firmware-taby
+The repository-root LICENSE and firmware/NOTICE continue to apply, including
+the separate restrictions on Taby artwork. Converted animations are derived
+from that artwork and retain its license. This port does not rebrand Taby.
+
+The esp_lcd_jd9853 component was copied from Waveshare's official examples:
+https://files.waveshare.com/wiki/ESP32-C6-Touch-LCD-1.47/ESP32-C6-Touch-LCD-1.47-Demo.zip
+ESP-IDF/03_lvgl_example/components/esp_lcd_jd9853
+Retrieved 2026-11-17. The source and header carry:
+Copyright 2022-2023 Espressif Systems (Shanghai) CO LTD; Apache-2.0.
+Original notices are preserved. The port propagates the driver's color-transfer
+error instead of ignoring it. The new board adapter uses Waveshare's published
+pin assignments, panel offsets, inversion and AXS5106 register layout.
+
+The expanded target links LVGL 8.3.11 (MIT, Copyright 2021 LVGL Kft) and
+Espressif mDNS 1.10.1 (Apache-2.0) from the ESP component registry, pinned in
+dependencies.lock. Binary bundles include their license documents alongside
+the ESP-IDF 5.5.2 component notices. The reduced reusable icons derive from
+the original repository's Lucide icon assets; firmware/NOTICE applies.

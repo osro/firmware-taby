@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-17",
+  "platform": "Apple Silicon macOS; Python3.12.16; clang21; real compiled C UI/model and real LVGL",
+  "full_host_suite": {
+    "tests": 135,
+    "skips": 0,
+    "passed": true,
+    "seconds": 25.056
+  },
+  "focused_ui_tests": 11,
+  "decor_aliases": 24,
+  "families": 8,
+  "additional_retained_lvgl_heap_max_bytes": 2240,
+  "lifecycle_iterations": 384,
+  "host_pool_free_before": 40512,
+  "host_pool_free_after": 40512,
+  "static_c6_backing_approx_bytes": 1252,
+  "both_geometries": true,
+  "pixel_motion_and_expiry_assertions": true,
+  "duration_and_orientation_epoch_checks": true,
+  "upstream_asset_board_layout_checks": true,
+  "limits": "Host LVGL pool differs from target custom malloc. These generated previews are not physical-device or owner visual verification.",
+  "preview": "2026-11-17-c6-decor-host-preview.gif",
+  "verifier_cleanup_tests": 2,
+  "review_result": "Task and final integrated reviews approved; verifier cleanup failure regression fixed",
+  "ui_implementation_commit": "4c1980a",
+  "source_context": "UI implementation commit plus parent verifier cleanup/tests/version integration working tree before commit"
+}

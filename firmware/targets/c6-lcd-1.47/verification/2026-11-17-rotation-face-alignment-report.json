@@ -1,0 +1,54 @@
+{
+  "info": {
+    "firmware_version": "0.2.0-c6-dev.4",
+    "transport_mode": "ble",
+    "preferred_transport": "ble",
+    "ble_started": true,
+    "ble_advertising": false,
+    "ble_connected": true,
+    "rotation_degrees": 90
+  },
+  "orientation": {
+    "mode": "auto",
+    "orientation": "90",
+    "rotation_degrees": 90,
+    "auto_supported": true,
+    "display_shape": "rectangle"
+  },
+  "imu": {
+    "available": true,
+    "samples": 1836,
+    "errors": 0,
+    "x_mg": 903,
+    "y_mg": 56,
+    "z_mg": -417,
+    "ctrl1": 64,
+    "ctrl2": 21,
+    "ctrl7": 1
+  },
+  "diag": {
+    "animation": "idle_01_loop",
+    "state": "ANIMATION",
+    "frame": 1,
+    "rendered_frames": 266,
+    "completed_cycles": 29,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 112540,
+    "minimum_free_heap": 107716,
+    "largest_free_block": 96256,
+    "touch_samples": 8693,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 0,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "owner_report": "Text card is correct; Taby face appears portrait in landscape and vice versa",
+  "interpretation": "Sensor/card rotation is validated; packed face art is sideways and requires presentation alignment",
+  "bluetooth_smoke_note": "Additional helper scan could not find advertisement because actual desktop app was already connected; INFO shows ble_connected true and advertising false. No pairing reset performed."
+}

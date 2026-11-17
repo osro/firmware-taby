@@ -1,0 +1,204 @@
+{
+  "timestamp_utc": "2026-11-17T10:45:39.322543+00:00",
+  "visual_verification": "Owner confirmed the same unchanged mouth artwork in the preceding silent demo; this dev.2 run verifies protocol/counters.",
+  "initial": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 175,
+    "completed_cycles": 15,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49064,
+    "minimum_free_heap": 39036,
+    "largest_free_block": 32768,
+    "touch_samples": 8172,
+    "touch_errors": 0,
+    "touch_count": 18,
+    "touch_pressed": false,
+    "touch_x": 103,
+    "touch_y": 308,
+    "voice_active": false,
+    "voice_frames": 0,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "visemes": [
+    {
+      "viseme": 0,
+      "rendered": true
+    },
+    {
+      "viseme": 1,
+      "rendered": true
+    },
+    {
+      "viseme": 2,
+      "rendered": true
+    },
+    {
+      "viseme": 3,
+      "rendered": true
+    },
+    {
+      "viseme": 4,
+      "rendered": true
+    },
+    {
+      "viseme": 5,
+      "rendered": true
+    },
+    {
+      "viseme": 6,
+      "rendered": true
+    },
+    {
+      "viseme": 7,
+      "rendered": true
+    },
+    {
+      "viseme": 8,
+      "rendered": true
+    },
+    {
+      "viseme": 9,
+      "rendered": true
+    },
+    {
+      "viseme": 10,
+      "rendered": true
+    },
+    {
+      "viseme": 11,
+      "rendered": true
+    },
+    {
+      "viseme": 12,
+      "rendered": true
+    },
+    {
+      "viseme": 13,
+      "rendered": true
+    },
+    {
+      "viseme": 14,
+      "rendered": true
+    }
+  ],
+  "full_timeline": {
+    "animation": "",
+    "state": "VOICE_TALKING",
+    "frame": 1,
+    "rendered_frames": 272,
+    "completed_cycles": 15,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 37804,
+    "minimum_free_heap": 37756,
+    "largest_free_block": 22528,
+    "touch_samples": 8269,
+    "touch_errors": 0,
+    "touch_count": 18,
+    "touch_pressed": false,
+    "touch_x": 103,
+    "touch_y": 308,
+    "voice_active": true,
+    "voice_frames": 96,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "after_timeline_stop": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 274,
+    "completed_cycles": 15,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49064,
+    "minimum_free_heap": 35460,
+    "largest_free_block": 32768,
+    "touch_samples": 8271,
+    "touch_errors": 0,
+    "touch_count": 18,
+    "touch_pressed": false,
+    "touch_x": 103,
+    "touch_y": 308,
+    "voice_active": false,
+    "voice_frames": 97,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "voice_timed_card_expiry": {
+    "card": {
+      "animation": "idle_01_loop",
+      "state": "UI_TIMER",
+      "frame": 0,
+      "rendered_frames": 289,
+      "completed_cycles": 15,
+      "decode_errors": 0,
+      "display_errors": 0,
+      "free_heap": 48068,
+      "minimum_free_heap": 35460,
+      "largest_free_block": 32768,
+      "touch_samples": 8293,
+      "touch_errors": 0,
+      "touch_count": 18,
+      "touch_pressed": false,
+      "touch_x": 103,
+      "touch_y": 308,
+      "voice_active": false,
+      "voice_frames": 111,
+      "viseme": 0,
+      "jaw_open": 0
+    },
+    "resumed": {
+      "animation": "idle_01_loop",
+      "state": "IDLE",
+      "frame": 1,
+      "rendered_frames": 290,
+      "completed_cycles": 15,
+      "decode_errors": 0,
+      "display_errors": 0,
+      "free_heap": 49064,
+      "minimum_free_heap": 35460,
+      "largest_free_block": 32768,
+      "touch_samples": 8353,
+      "touch_errors": 0,
+      "touch_count": 18,
+      "touch_pressed": false,
+      "touch_x": 103,
+      "touch_y": 308,
+      "voice_active": false,
+      "voice_frames": 111,
+      "viseme": 0,
+      "jaw_open": 0
+    },
+    "passed": true
+  },
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 293,
+    "completed_cycles": 15,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49064,
+    "minimum_free_heap": 35460,
+    "largest_free_block": 32768,
+    "touch_samples": 8357,
+    "touch_errors": 0,
+    "touch_count": 18,
+    "touch_pressed": false,
+    "touch_x": 103,
+    "touch_y": 308,
+    "voice_active": false,
+    "voice_frames": 112,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "passed": true,
+  "firmware_version": "0.2.0-c6-dev.2",
+  "application_sha256": "aa280a09a12e56898fd852d77779838dcb0998f02986a359945317ea17b6abd3"
+}

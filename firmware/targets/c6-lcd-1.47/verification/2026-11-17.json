@@ -1,0 +1,156 @@
+{
+  "date": "2026-11-17",
+  "visual_verification": "owner_confirmed",
+  "clips": [
+    {
+      "id": "startup",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 88,
+      "free_heap": 334072
+    },
+    {
+      "id": "idle_01_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 105,
+      "free_heap": 334072
+    },
+    {
+      "id": "listening_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 36,
+      "free_heap": 334072
+    },
+    {
+      "id": "talking_default_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 63,
+      "free_heap": 334072
+    },
+    {
+      "id": "working_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 21,
+      "free_heap": 334072
+    },
+    {
+      "id": "searching_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 17,
+      "free_heap": 334072
+    },
+    {
+      "id": "confirmation",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 29,
+      "free_heap": 334072
+    },
+    {
+      "id": "busy_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 45,
+      "free_heap": 334072
+    },
+    {
+      "id": "task_completed",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 45,
+      "free_heap": 334072
+    },
+    {
+      "id": "task_created",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 59,
+      "free_heap": 334072
+    },
+    {
+      "id": "disappointed",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 40,
+      "free_heap": 334072
+    },
+    {
+      "id": "sleeping_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 40,
+      "free_heap": 334072
+    },
+    {
+      "id": "building_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 23,
+      "free_heap": 334072
+    },
+    {
+      "id": "waiting_01",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 176,
+      "free_heap": 334072
+    },
+    {
+      "id": "codex_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 16,
+      "free_heap": 334072
+    },
+    {
+      "id": "claude_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 16,
+      "free_heap": 334072
+    }
+  ],
+  "device": {
+    "hardware_target": "c6-lcd-1.47",
+    "firmware_version": "0.1.0-c6-dev.1",
+    "assets_version": "0.1.0-dev",
+    "assets_sha256": "df6c970ec1dae9f6f78df9280b06df23527e1f73864602209b4cfda3087ad6b2"
+  },
+  "initial": {
+    "animation": "startup",
+    "state": "STARTUP",
+    "frame": 1,
+    "rendered_frames": 1,
+    "completed_cycles": 0,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 334072,
+    "minimum_free_heap": 334072,
+    "largest_free_block": 311296,
+    "touch_samples": 2,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0
+  },
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "ANIMATION",
+    "frame": 10,
+    "rendered_frames": 853,
+    "completed_cycles": 17,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 334072,
+    "minimum_free_heap": 334072,
+    "largest_free_block": 311296,
+    "touch_samples": 3383,
+    "touch_errors": 0,
+    "touch_count": 2,
+    "touch_pressed": false,
+    "touch_x": 95,
+    "touch_y": 207
+  },
+  "touch_taps_observed": 2,
+  "gesture": {
+    "signal": 10,
+    "gesture": "tap"
+  },
+  "passed": true,
+  "owner_feedback": {
+    "date": "2026-11-17",
+    "image_visible_upright_and_animated": true,
+    "owner_reported_tap_and_hold": true,
+    "reply": "Looks correct; I tapped and held"
+  }
+}

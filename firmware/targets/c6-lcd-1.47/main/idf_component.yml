@@ -1,0 +1,5 @@
+dependencies:
+  lvgl/lvgl:
+    version: "==8.3.11"
+  espressif/mdns:
+    version: "==1.10.1"

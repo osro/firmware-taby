@@ -1,0 +1,50 @@
+{
+  "timestamp_utc": "2026-11-17T12:39:36.213154+00:00",
+  "packaged_clean_source_commit": "c56e8ae5b056fc263f96fc1acd556e0d9810f847",
+  "branch": "codex/c6-lcd-147-fork",
+  "upstream": "4e515faf63184f050d81b3f91421cb98a0f849d4",
+  "artifacts": [
+    {
+      "file": "dist/c6-fork-local/firmware.zip",
+      "bytes": 2890035,
+      "sha256": "2ff3abba56ad0ad85bf5c38a193681030f08ed3ef98ccd82aeeb6a6b07464f97",
+      "source_commit": "c56e8ae5b056fc263f96fc1acd556e0d9810f847",
+      "source_dirty": false
+    },
+    {
+      "file": "dist/c6-fork-local/sd.zip",
+      "bytes": 10599989,
+      "sha256": "0db2f0a7b3d1f30e12dd0c4f529f801f9ae2c6603df9240887ad65ca4bb1df05",
+      "source_commit": "c56e8ae5b056fc263f96fc1acd556e0d9810f847",
+      "source_dirty": false
+    },
+    {
+      "file": "dist/s3-fork-local/taby-amoled-1.64.zip",
+      "bytes": 12173834,
+      "sha256": "41fbd4dc7c284e6c9b3b4316a465a0ec9af3938d9555b373d2c98e442b4e726d",
+      "source_commit": "c56e8ae5b056fc263f96fc1acd556e0d9810f847",
+      "source_dirty": false
+    },
+    {
+      "file": "dist/s3-fork-local/taby-round-1.32.zip",
+      "bytes": 4832091,
+      "sha256": "a1735859cd22214f9f4a1b600738ca601a676063fcde9e0d4780970bda6b00f2",
+      "source_commit": "c56e8ae5b056fc263f96fc1acd556e0d9810f847",
+      "source_dirty": false
+    }
+  ],
+  "all_zip_integrity_and_hashes_checked": true,
+  "standalone_sd_license_notice_contents_checked": true,
+  "all_original_upstream_files_unchanged_except": [
+    "README.md",
+    ".github/workflows/build.yml"
+  ],
+  "original_ci_firmware_job_exactly_preserved": true,
+  "tracked_private_artifact_paths": [],
+  "only_local_branch_prepared": true,
+  "remote_fork_created": false,
+  "pushed": false,
+  "pr_or_draft_created": false,
+  "hardware_unchanged_during_preparation": true,
+  "scope": "Local validation outputs only; no Git bundle/patch/PR draft requested or created"
+}

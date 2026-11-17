@@ -1,0 +1,32 @@
+{
+  "duration_seconds": 60.1,
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 8015,
+    "completed_cycles": 177,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49516,
+    "minimum_free_heap": 37680,
+    "largest_free_block": 32768,
+    "touch_samples": 19536,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 1447,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "owner_visual_feedback": {
+    "date": "2026-11-17",
+    "mouth_position_correct": true,
+    "motion_clear": true,
+    "source": "owner chat reply"
+  },
+  "source_commit": "36fe1379b041f5763c0b2368ef316490d0ce1d5d"
+}

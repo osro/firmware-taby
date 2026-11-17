@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python tools/check.py
-      - run: python -m pip install -r tools/requirements.txt
+      - run: python -m pip install -r tools/requirements-c6.txt
       - run: python -m unittest discover -s tests -v
 
   firmware:
@@ -45,4 +45,31 @@ jobs:
           path: |
             dist/*.zip
             dist/*.sha256
+          if-no-files-found: error
+
+  c6:
+    needs: check
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.2
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build and package experimental C6
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          # Keep converter/test packages out of the SDK's Python environment.
+          python -m venv .venv
+          .venv/bin/python -m pip install -r tools/requirements-c6.txt
+          .venv/bin/python tools/c6_assets.py
+          .venv/bin/python tools/c6_assets.py --sd-card
+          .venv/bin/python tools/check.py
+          python tools/c6_build.py
+          # IDF has now installed managed LVGL; renderer tests exercise real LVGL.
+          .venv/bin/python -m unittest discover -s tests -v
+          .venv/bin/python tools/c6_package.py --output dist/c6-development
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: taby-c6-development
+          path: dist/c6-development/
           if-no-files-found: error

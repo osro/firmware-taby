@@ -1,0 +1,30 @@
+{
+  "timestamp_utc": "2026-11-17T10:03:37.214630+00:00",
+  "source_commit": "36fe1379b041f5763c0b2368ef316490d0ce1d5d",
+  "application_sha256": "d0b7a0011d8b12ea00dbaae1389f1a0634a5aa1f5a1df6e4bf0ab9afe87fb35c",
+  "archives": [
+    {
+      "file": "taby-c6-lcd-1.47-expanded-dev.1.zip",
+      "bytes": 2936095,
+      "sha256": "adfc0812b0605a2937f7bb4de5bb64049e26b18c00cbb39af0a461a7b8e7a85a"
+    },
+    {
+      "file": "taby-c6-lcd-1.47-expanded-source-dev.1.zip",
+      "bytes": 16844011,
+      "sha256": "b2c32484b01ba03b65866b56e911817f257b53f153293789e202c77e24f00add"
+    },
+    {
+      "file": "taby-c6-lcd-1.47-sd-assets-dev.1.zip",
+      "bytes": 10948682,
+      "sha256": "98259dbc8fb656a02c7d267b3a7e3eab7376f3e4b4ea687d14ce7b17cf6d9b43"
+    }
+  ],
+  "binary_images_hash_checked": 4,
+  "dependency_license_documents": 31,
+  "zip_integrity_checked": true,
+  "source_zip_commit_comment_matches": true,
+  "private_backups_and_credentials_excluded": true,
+  "published_remotely": false,
+  "desktop_app_installed": false,
+  "desktop_download_result": "official vendor download button reached updates.heytaby.com; Brave blocked with ERR_BLOCKED_BY_CLIENT; user handoff requested"
+}

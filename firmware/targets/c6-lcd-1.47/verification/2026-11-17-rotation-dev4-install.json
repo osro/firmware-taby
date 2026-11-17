@@ -1,0 +1,29 @@
+{
+  "timestamp_utc": "2026-11-17T11:49:34.032962+00:00",
+  "firmware_version": "0.2.0-c6-dev.4",
+  "application_bytes": 1893056,
+  "application_sha256": "bd994f8e4aa06008206a471af315e28ed304a239d9e1b0861c238736f29f2eab",
+  "sensor_implementation_commit": "d7e9a62",
+  "full_host_suite": {
+    "tests": 140,
+    "skips": 0,
+    "passed": true,
+    "source": "implementer recorded run"
+  },
+  "focused_actual_c_sensor_tests": {
+    "tests": 5,
+    "passed": true,
+    "source": "parent and independent reviewer execution"
+  },
+  "imu_formatter_actual_c_checks": "valid signed/full-width JSON, unavailable state and short-buffer refusal passed",
+  "build": {
+    "esp_idf": "5.5.2",
+    "target": "esp32c6",
+    "passed": true,
+    "compiler_warnings": 0
+  },
+  "reviews": "Task and integrated reviews approved; no findings",
+  "application_only_flash_hash_verified": true,
+  "owner_cold_restart_confirmed": true,
+  "physical_axes": "verified0/90/180/270; owner confirms upright all positions"
+}

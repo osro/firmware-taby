@@ -1,0 +1,53 @@
+{
+  "info": {
+    "firmware_version": "0.2.0-c6-dev.4",
+    "asset_storage": "sd_card",
+    "animation_count": 84,
+    "display_orientation_auto_supported": true,
+    "preferred_transport": "ble"
+  },
+  "imu_first": {
+    "available": true,
+    "samples": 1,
+    "errors": 0,
+    "x_mg": 614,
+    "y_mg": 43,
+    "z_mg": -765,
+    "ctrl1": 64,
+    "ctrl2": 21,
+    "ctrl7": 1
+  },
+  "imu_later": {
+    "available": true,
+    "samples": 5,
+    "errors": 0,
+    "x_mg": 616,
+    "y_mg": 43,
+    "z_mg": -769,
+    "ctrl1": 64,
+    "ctrl2": 21,
+    "ctrl7": 1
+  },
+  "diag": {
+    "animation": "startup",
+    "state": "STARTUP",
+    "frame": 6,
+    "rendered_frames": 6,
+    "completed_cycles": 0,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 114624,
+    "minimum_free_heap": 110740,
+    "largest_free_block": 98304,
+    "touch_samples": 18,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 0,
+    "viseme": 0,
+    "jaw_open": 0
+  }
+}

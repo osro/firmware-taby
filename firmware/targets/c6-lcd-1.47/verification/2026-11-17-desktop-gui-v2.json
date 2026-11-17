@@ -1,0 +1,75 @@
+{
+  "timestamp_utc": "2026-11-17T10:53:22.750846+00:00",
+  "desktop_version": "1.0.13",
+  "firmware_version": "0.2.0-c6-dev.2",
+  "application_sha256": "aa280a09a12e56898fd852d77779838dcb0998f02986a359945317ea17b6abd3",
+  "method": "Actual installed app Physical Taby page through native accessibility controls",
+  "usb": {
+    "recognized": true,
+    "assets_version": "0.2.0-sd",
+    "display_test_message": "Animation sent to your Taby.",
+    "rotate_90_selected": true,
+    "rotation_message": "Display orientation saved on Taby.",
+    "restored_left": true
+  },
+  "bluetooth": {
+    "enabled_from_usb": true,
+    "scan_found_board": true,
+    "connect_clicked": true,
+    "status": "Wireless Connected over Bluetooth Paired",
+    "display_test_clicked": true,
+    "display_test_message": "Animation sent to your Taby.",
+    "rotate_90_selected": true,
+    "rotation_message": "Display orientation saved on Taby.",
+    "restored_left": true,
+    "eye_controls_disabled": true,
+    "assets_version_shown": "Unknown"
+  },
+  "post_gui_usb": {
+    "firmware_version": "0.2.0-c6-dev.2",
+    "assets_version": "0.2.0-sd",
+    "animation_count": 84,
+    "asset_storage": "sd_card",
+    "transport_mode": "ble",
+    "orientation": {
+      "mode": "left",
+      "orientation": "left",
+      "rotation_degrees": 0,
+      "auto_supported": true,
+      "display_shape": "rectangle"
+    },
+    "diagnostics": {
+      "animation": "idle_01_loop",
+      "state": "IDLE",
+      "frame": 1,
+      "rendered_frames": 799,
+      "completed_cycles": 78,
+      "decode_errors": 0,
+      "display_errors": 0,
+      "free_heap": 49132,
+      "minimum_free_heap": 35460,
+      "largest_free_block": 33792,
+      "touch_samples": 25422,
+      "touch_errors": 0,
+      "touch_count": 18,
+      "touch_pressed": false,
+      "touch_x": 103,
+      "touch_y": 308,
+      "voice_active": false,
+      "voice_frames": 112,
+      "viseme": 0,
+      "jaw_open": 0
+    }
+  },
+  "restart": {
+    "app_quit_normally_and_reopened": true,
+    "automatic_reconnection_observed": false,
+    "limitation": "The reopened app exposes only the notch to automation; no post-restart connection status was observed."
+  },
+  "limits": [
+    "Native bridge choice/identity/reconnection checks are recorded separately.",
+    "Bluetooth client does not expose eye-motion controls; Assets Unknown is its identity metadata limit, not evidence of SD loss.",
+    "No MCP data grants or cloud enrollment configured."
+  ],
+  "passed": true
+}

@@ -1,0 +1,653 @@
+{
+  "timestamp_utc": "2026-11-17T09:47:28.120471+00:00",
+  "visual_verification": "requires_owner_feedback",
+  "clips": [
+    {
+      "id": "angry_01_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 33,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "angry_02_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 29,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "basketball_dunk",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 60,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "basketball_throw",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 60,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "blush",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 70,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "boxing",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 64,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "break_start",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 93,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "building_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 23,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "busy_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 45,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calendar_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 33,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calendar_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 49284,
+      "recovered_free_heap": 49284
+    },
+    {
+      "id": "circle",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 43,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "confirmation",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 29,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "copy_paste",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 46,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "creating_task_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "delete_01",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 51,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "disappointed",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 39,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "drink_water",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 91,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "f1_car",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 113,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "fishing_long",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 95,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "flower_grow",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 116,
+      "free_heap": 49132,
+      "recovered_free_heap": 49132
+    },
+    {
+      "id": "hello_annoyed",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 112,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "idle_01_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 105,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_idle_01_f000",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 11,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_idle_01_to_f137",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 47,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_idle_01_f137",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 11,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_idle_01_f137_to_f177",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 19,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_idle_01_f177",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 12,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_idle_01_f177_to_f216",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 18,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_idle_01_f216",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 11,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_work_low_f000",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 9,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_work_medium_f000",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 9,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "calm_work_high_f000",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 9,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "idle_02_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 73,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "idle_variation_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "listening_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 28,
+      "free_heap": 49132,
+      "recovered_free_heap": 49132
+    },
+    {
+      "id": "listening_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 36,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "listening_music_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 66,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "lockin",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 56,
+      "free_heap": 49284,
+      "recovered_free_heap": 49284
+    },
+    {
+      "id": "love_01",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 89,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "perfect_day_01",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 95,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "perfect_day_01_simple",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 95,
+      "free_heap": 49284,
+      "recovered_free_heap": 49284
+    },
+    {
+      "id": "perfect_day_02",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 74,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "perfect_day_03",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 89,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "posture_check",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 81,
+      "free_heap": 49132,
+      "recovered_free_heap": 49132
+    },
+    {
+      "id": "relaxing_01_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 42,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "relaxing_couch_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 22,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "relaxing_couch_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 28,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "sleeping_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 40,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "square",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 48,
+      "free_heap": 49284,
+      "recovered_free_heap": 49284
+    },
+    {
+      "id": "startup",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 88,
+      "free_heap": 49132,
+      "recovered_free_heap": 49132
+    },
+    {
+      "id": "stretching",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 86,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "talking_default_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 63,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "task_completed",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 45,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "task_created",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 59,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "task_page",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 45,
+      "free_heap": 49284,
+      "recovered_free_heap": 49284
+    },
+    {
+      "id": "thumbs_up",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 43,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "trophy",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 91,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "turn_off_reddit",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 83,
+      "free_heap": 49132,
+      "recovered_free_heap": 49132
+    },
+    {
+      "id": "turn_off_scroll",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 87,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "turn_off_tv",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 92,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "waiting_01",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 176,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "working_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 31,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "working_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 21,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "working_laptop_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 27,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "working_laptop_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 34,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "working_laptop_bored_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "working_laptop_excited_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "working_laptop_normal_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "workspaces_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 31,
+      "free_heap": 49132,
+      "recovered_free_heap": 49132
+    },
+    {
+      "id": "workspaces_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 47,
+      "free_heap": 49284,
+      "recovered_free_heap": 49284
+    },
+    {
+      "id": "wow",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 38,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "codex_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 31,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "codex_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 16,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "day_planned",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 88,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "hello_disappointed",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 41,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "claude_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 45,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "claude_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 16,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "taby_response_ready_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 17,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "taby_response_ready_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 16,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "yeah",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 30,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "no",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 62,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "review",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 29,
+      "free_heap": 49516,
+      "recovered_free_heap": 49516
+    },
+    {
+      "id": "searching_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 17,
+      "free_heap": 49132,
+      "recovered_free_heap": 49132
+    }
+  ],
+  "device": {
+    "hardware_target": "c6-lcd-1.47",
+    "firmware_version": "0.2.0-c6-dev.1",
+    "assets_version": "0.2.0-sd",
+    "assets_sha256": "fefa27de0236133362194770f2d4f9b290726f34d93dd8abb5dc218afaded3bf"
+  },
+  "radios_active": true,
+  "initial": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 57,
+    "rendered_frames": 1333,
+    "completed_cycles": 12,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49516,
+    "minimum_free_heap": 37680,
+    "largest_free_block": 32768,
+    "touch_samples": 4036,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 112,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "ANIMATION",
+    "frame": 9,
+    "rendered_frames": 5588,
+    "completed_cycles": 165,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 49516,
+    "minimum_free_heap": 37680,
+    "largest_free_block": 32768,
+    "touch_samples": 14828,
+    "touch_errors": 0,
+    "touch_count": 0,
+    "touch_pressed": false,
+    "touch_x": 0,
+    "touch_y": 0,
+    "voice_active": false,
+    "voice_frames": 112,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "touch_taps_observed": 0,
+  "gesture": {
+    "signal": 0,
+    "gesture": "none"
+  },
+  "passed": true,
+  "application_sha256": "d0b7a0011d8b12ea00dbaae1389f1a0634a5aa1f5a1df6e4bf0ab9afe87fb35c",
+  "source_context": "working tree based on5e0b639 plus reviewed integration and memory fixes; shared S3 runtime/component source unchanged"
+}

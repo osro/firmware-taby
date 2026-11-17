@@ -1,0 +1,174 @@
+{
+  "timestamp_utc": "2026-11-17T09:28:41.318491+00:00",
+  "visual_verification": "requires_owner_feedback",
+  "clips": [
+    {
+      "id": "angry_01_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 33,
+      "free_heap": 29620
+    },
+    {
+      "id": "angry_02_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 29,
+      "free_heap": 29620
+    },
+    {
+      "id": "basketball_dunk",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 60,
+      "free_heap": 29620
+    },
+    {
+      "id": "basketball_throw",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 60,
+      "free_heap": 29620
+    },
+    {
+      "id": "blush",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 70,
+      "free_heap": 29620
+    },
+    {
+      "id": "boxing",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 64,
+      "free_heap": 29620
+    },
+    {
+      "id": "break_start",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 93,
+      "free_heap": 29620
+    },
+    {
+      "id": "building_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 23,
+      "free_heap": 29620
+    },
+    {
+      "id": "busy_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 45,
+      "free_heap": 29620
+    },
+    {
+      "id": "calendar_in",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 32,
+      "free_heap": 29620
+    },
+    {
+      "id": "calendar_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 29620
+    },
+    {
+      "id": "circle",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 43,
+      "free_heap": 29620
+    },
+    {
+      "id": "confirmation",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 29,
+      "free_heap": 29620
+    },
+    {
+      "id": "copy_paste",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 46,
+      "free_heap": 29620
+    },
+    {
+      "id": "creating_task_loop",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 25,
+      "free_heap": 29620
+    },
+    {
+      "id": "delete_01",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 51,
+      "free_heap": 29620
+    },
+    {
+      "id": "disappointed",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 39,
+      "free_heap": 29620
+    },
+    {
+      "id": "drink_water",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 91,
+      "free_heap": 29620
+    },
+    {
+      "id": "f1_car",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 113,
+      "free_heap": 29620
+    },
+    {
+      "id": "fishing_long",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 95,
+      "free_heap": 29620
+    },
+    {
+      "id": "flower_grow",
+      "cycle_completed": true,
+      "frames_rendered_since_selection": 115,
+      "free_heap": 29852
+    }
+  ],
+  "device": {
+    "hardware_target": "c6-lcd-1.47",
+    "firmware_version": "0.2.0-c6-dev.1",
+    "assets_version": "0.2.0-sd",
+    "assets_sha256": "fefa27de0236133362194770f2d4f9b290726f34d93dd8abb5dc218afaded3bf"
+  },
+  "radios_active": true,
+  "initial": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 11,
+    "rendered_frames": 1619,
+    "completed_cycles": 16,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 29620,
+    "minimum_free_heap": 9632,
+    "largest_free_block": 14336,
+    "touch_samples": 4840,
+    "touch_errors": 0,
+    "touch_count": 9,
+    "touch_pressed": false,
+    "touch_x": 77,
+    "touch_y": 53,
+    "voice_active": false,
+    "voice_frames": 112,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "passed": false,
+  "error": "Heap did not recover",
+  "source_context": "pre-memory-optimization build; stopped by memory baseline assertion during phone provisioning",
+  "post_stop_usb_diag_observation": {
+    "free_heap": 27492,
+    "minimum_free_heap": 4492,
+    "largest_free_block": 14336,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "touch_errors": 0,
+    "note": "separate USB DIAG sampled after the test stopped, while idle continued"
+  },
+  "application_sha256": "7ef36ab00fdcdd1afef850d22772646c66dad146ec687fa8ed075e0ce85316aa"
+}
