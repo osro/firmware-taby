@@ -10,6 +10,7 @@
 #include "c6_ui.h"
 #include "c6_network.h"
 #include "c6_voice.h"
+#include "c6_version.h"
 #include "cJSON.h"
 #include "generated/c6_catalog.h"
 #include "driver/usb_serial_jtag.h"
@@ -362,7 +363,7 @@ static void handle_command(const char *line) {
 #define STR(k,v) cJSON_AddStringToObject(info,k,v)
 #define NUM(k,v) cJSON_AddNumberToObject(info,k,v)
 #define BOOL(k,v) cJSON_AddBoolToObject(info,k,v)
-        STR("firmware_version","0.2.0-c6-dev.1");
+        STR("firmware_version",C6_FIRMWARE_VERSION);
         STR("assets_version",c6_sd_ready()?"0.2.0-sd":"0.1.0-dev");
         STR("hardware_target","c6-lcd-1.47");STR("display_shape","rectangle");
         NUM("display_width",172);NUM("display_height",320);
@@ -381,7 +382,8 @@ static void handle_command(const char *line) {
             "display_orientation","transport_default","reusable_ui","unsupported_animation","power","voice_motion"};
         cJSON *capabilities=cJSON_CreateStringArray(caps,sizeof(caps)/sizeof(caps[0]));
         if(capabilities && network_ready){cJSON_AddItemToArray(capabilities,cJSON_CreateString("wifi_setup"));
-            cJSON_AddItemToArray(capabilities,cJSON_CreateString("wifi"));cJSON_AddItemToArray(capabilities,cJSON_CreateString("ble"));}
+            cJSON_AddItemToArray(capabilities,cJSON_CreateString("wifi"));cJSON_AddItemToArray(capabilities,cJSON_CreateString("ble"));
+            cJSON_AddItemToArray(capabilities,cJSON_CreateString("bluetooth_v2"));}
         cJSON_AddItemToObject(info,"capabilities",capabilities);
         STR("voice_renderer","raster_mouth");BOOL("voice_pose_animation",false);
         NUM("animation_count",c6_sd_ready()?c6_sd_count():C6_CLIP_COUNT);

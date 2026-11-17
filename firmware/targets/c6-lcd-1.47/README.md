@@ -20,7 +20,7 @@ source hashes and frame counts are generated in `dist/c6-lcd-1.47/assets.json`.
 The original semantic command resolver is reused. Missing clips return
 `unsupported_animation` without changing playback.
 
-The expanded `0.2.0-c6-dev.1` firmware adds saved brightness, eye motion
+The expanded `0.2.0-c6-dev.2` firmware adds saved brightness, eye motion
 (`normal`, `calm`, `still`), four screen rotations and sensor-based automatic
 rotation. Portrait clips retain their aspect ratio; landscape clips scale to
 106×172. Voltage is calibrated, but battery percentage remains unknown.
@@ -30,7 +30,7 @@ IDs and upstream semantic commands, supported commands include:
 
 - `PING`, `INFO`, `DIAG`, `ANIMATIONS`, `CLEAR`, `STATE`, `POWER`.
 - `BRIGHTNESS?`, `BRIGHTNESS 70`, `EYE_MOTION still`,
-  `DISPLAY_ORIENTATION rotate_90`, `DISPLAY_ORIENTATION auto`.
+  `DISPLAY_ORIENTATION 90`, `DISPLAY_ORIENTATION auto`.
 - `TRANSPORT_DEFAULT usb|wifi|ble` saves the boot preference;
   `TRANSPORT_MODE usb|wifi|ble` activates a transport. USB stays available.
   Once started, wireless services stay active until restart.
@@ -61,7 +61,11 @@ Bluetooth advertises `Taby-<device suffix>`, with upstream service UUID
 `54414259-0000-4000-a000-000000000001`; command/event/state/power characteristic
 suffixes are `0002` through `0005`. Subscribe to the event characteristic for
 completed commands; a successful write means queued. State/power reads are
-cached. Commands are at most 255 bytes; long event replies are readable up to
+cached. Desktop protocol 2 adds raw readable choice JSON on `0006` and a
+three-field local identity JSON on `0007`, using the same genuine device ID
+as USB. USB capability `bluetooth_v2` enables the installed app’s pairing flow.
+Orientation events use its native `OK DISPLAY_ORIENTATION ...` format.
+Commands are at most 255 bytes; long event replies are readable up to
 511 bytes, and oversized notifications return `ERR mtu`.
 
 Optional FAT32 microSD storage supplies all 84 animations from the separate
@@ -72,8 +76,11 @@ startup check before USB becomes ready. Missing/bad media falls back to the sixt
 onboard clips. It does not format cards. After a card read failure, restart
 to remount it. See [STATUS](../../../STATUS.md) for actual physical-card tests.
 
-This remains a custom development target. Desktop app/MCP integration and
-official cloud enrollment are unverified. No factory identity is fabricated.
+This remains a custom development target. Desktop 1.0.13 recognises USB and
+its GUI pairs over Bluetooth, with successful display/rotation controls. The
+Bluetooth client disables eye-mode controls and shows Assets Unknown; use USB
+for those settings/metadata. App-restart reconnection is unverified. MCP
+access is not configured and official cloud enrollment is unavailable. No factory identity is fabricated.
 Advanced card decoration/clip behaviors are rejected. Voice gesture/body and
 expression/eye pose artwork is not animated; this is not the Rive renderer.
 Automatic rotation axes and battery operation still need owner feedback.
@@ -190,3 +197,10 @@ bundle. After checking that checksum and reconnecting the **same board**:
 This restores the saved application and data. It does not erase or change eFuses.
 Use Waveshare's documented BOOT/RESET recovery if the port cannot be opened.
 Preserved licenses and vendor provenance are listed in [NOTICE](NOTICE).
+
+
+To exercise the installed macOS app's own native Bluetooth bridge, close Taby
+first, then run `tools/c6_native_bluetooth_verify.py --port PORT`. Add
+`--touch-seconds 90` for prompted LEFT/RIGHT hardware checks. This uses the
+existing app's bridge; it does not modify its bundle or personal data. Keep
+opaque native scan identifiers exactly as returned; do not normalize their case.

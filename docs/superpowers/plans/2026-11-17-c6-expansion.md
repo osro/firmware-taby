@@ -78,7 +78,7 @@ pre-rendered neutral face. Preserve frame timing/stop semantics and cancel on
 other presentation changes. Do not compile the PSRAM-dependent Rive renderer.
 
 - [x] Add parser/timing/mouth-state tests and render samples for inspection.
-- [ ] Verify protocol/timing on device and obtain visual feedback.
+- [x] Verify protocol/timing on device and obtain visual feedback.
 - [x] Review the whole expansion, update records, package verified artifacts.
 
 ## Progress
@@ -87,3 +87,16 @@ Use the matching SDD workspace ledger to record implementation and review
 results. A blocked physical/card/service check is not a completed feature.
 
 Implementation and current physical verification are recorded in [STATUS](../../../STATUS.md#feature-expansion--2026-11-17-in-progress). Unchecked external/card checks remain open until their actual results are recorded.
+
+## Desktop 1.0.13 continuation
+
+The owner installed the app and confirmed the visual mouth demo. The resulting
+bounded interface fixes are specified in [desktop compatibility](../specs/2026-11-17-c6-desktop-compatibility.md).
+
+- [x] Reproduce/host-test canonical orientation names; preserve input aliases.
+- [x] Implement/test the app's exact Bluetooth identity, choice and orientation framing.
+- [x] Obtain scoped reviews and build the integrated dev.2 image.
+- [x] Verify dev.2 raw/native-bridge identity, real choices and reconnects on hardware.
+- [x] Verify actual GUI USB/Bluetooth controls and record results.
+- [ ] Package dev.2 separately from preserved dev.1 archives.
+- [ ] Observe automatic GUI reconnection after restarting the app (current notch-only automation limitation).

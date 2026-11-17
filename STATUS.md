@@ -6,7 +6,7 @@ release. Scope was approved by the owner in chat on 2026-11-17 with “do it”.
 See the [target guide](firmware/targets/c6-lcd-1.47/README.md) for behavior,
 commands, build/install steps and recovery. See [ROADMAP.md](ROADMAP.md) for scope.
 
-The installed development version is now `0.2.0-c6-dev.1`, with optional full SD
+The installed development version is now `0.2.0-c6-dev.2`, with optional full SD
 animations, saved controls, basic UI, local wireless control and raster mouth
 motion. Its current results and limits are in the expansion sections below;
 the `0.1` milestone entries are retained as historical evidence.
@@ -159,7 +159,7 @@ subsequent non-resetting opens preserved SD playback and counters. See the
 [cold-start record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-sd-cold-start.json).
 Firmware never formats or writes the card.
 
-The latest installed default build, with SD trace disabled, is **1887744 bytes** in the
+The dev.1 default build, with SD trace disabled, was **1887744 bytes** in the
 2031616-byte application slot. It was installed with write hashes verified.
 `python -m unittest discover -s tests -v` passed **123 tests**, no skips;
 `tools/check.py`, Python compilation of verification tools and `git diff --check`
@@ -282,7 +282,95 @@ CLI HTTP403 is not evidence that the official download button itself is broken.
 
 A separate one-minute silent mouth demo completed and returned to idle without
 reported driver/decode/touch errors; see its [record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-live-mouth-demo.json).
-Owner visual feedback was requested and is still pending. The renderer's
+Owner visual feedback was requested at this stage and later confirmed below. The renderer's
 mouth-only limitation remains; advanced card effects, live body/eye poses,
 official cloud provisioning, automatic-axis feedback and battery-only operation
 remain outside the verified result.
+
+
+### Desktop compatibility continuation — 2026-11-17
+
+The owner confirmed that the live mouth looks correctly positioned and moves
+clearly, and manually installed the official desktop app. `/Applications/Taby.app`
+reports version 1.0.13. Its actual Physical Taby settings page reports connected
+by USB, firmware 0.2.0-c6-dev.1 and SD assets 0.2.0-sd. This supersedes the earlier
+download/install handoff; full app control checks are now underway.
+
+Static inspection of the installed client's orientation contract found it
+accepts only auto/left/right/90/270. Firmware reply names rotate_90/rotate_270
+therefore need correction even though those input aliases remain useful.
+Commit 9afa16a applies one shared canonical-name helper to both reply paths;
+124 host tests passed without skips and scoped review found no issue. This
+change was committed before the dev.2 installation recorded below.
+
+The client also requires a Bluetooth protocol 2 identity and choice state.
+The current legacy link passed direct BLE tests but is correctly shown by the
+app as unsupported for its newer pairing flow. The additional raw JSON identity
+(UUID suffix 0007) and choice (0006) interfaces were required; their implementation and native tests are recorded below.
+They do not alone establish GUI pairing. No app bundle or personal app data
+has been modified. USB reset handling was considered from source inspection,
+but actual USB recognition/full-SD metadata contradicts an assumed always-reset
+failure; no reset-disable register or recovery behavior has been changed.
+
+
+The dev.2 application is now installed (1890064 bytes, write hash verified)
+after scoped clean reviews and 130 host tests without skips. It includes the
+canonical orientation helper, shared USB/BLE version constant, and the exact
+Bluetooth v2 identity, choice and orientation interfaces. SD 84 and saved Wi-Fi
+loaded after the owner-confirmed cold start. The input aliases remain accepted;
+no original animation, SD pack or S3 source changes were needed.
+
+The actual installed 1.0.13 native Bluetooth bridge completed two scan/connect/
+disconnect rounds using the exact board selected through USB identity and the
+advertised suffix. Identity/state matched USB; text, timer, confirmation, stop
+and numeric orientation set/readback passed. The owner tapped LEFT then RIGHT;
+the bridge read counters 1 and 2 and both agreed with the legacy USB choice reply.
+There were zero LCD/decode/touch errors. Final free heap 49044, minimum 39036,
+largest 32768. See the [native bridge record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-desktop-native-bluetooth-v2.json).
+The initial diagnostic harness supplied Bleak's differently cased peripheral
+identifier and was rejected before GATT discovery; using the helper's exact
+opaque scan identifier fixed the harness. It was not a firmware failure.
+
+The [initial USB/app record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-desktop-usb-dev1.json)
+retains the owner's actual rotation error and confirms SD playback survived app
+use. The app was closed normally during installation and native-bridge checks, then
+reopened for the GUI tests recorded below. MCP grants and cloud enrollment
+were not configured.
+
+Dev.2 also passed the complete voice/memory regression: all 15 mouth states,
+maximum 3600-frame timeline allocation/release, stop/cancel and timed-card expiry.
+Free heap returned to 49064 bytes, minimum 35460, largest block 32768; zero
+decode/display/touch errors. See the [dev.2 voice record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-desktop-v2-voice.json).
+The complete 84-clip cycle evidence remains the dev.1 run above; assets and
+decoder are unchanged, and that long playback suite was not repeated for dev.2.
+
+### Desktop GUI result on dev.2
+
+The actual installed app's Physical Taby page recognised dev.2 over USB with
+SD assets 0.2.0-sd. Test the display reported “Animation sent to your Taby.”
+Rotate 90° selected successfully and reported “Display orientation saved on
+Taby.”, fixing the owner's reproduced error; Left side was restored.
+
+Enable on USB-connected Taby and Search found the board. Connect changed the
+page to **“Connected over Bluetooth” / “Paired”**. The display test was clicked
+again on that connection, and numeric rotation saved successfully over
+Bluetooth; Left side was restored again. See the [GUI record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-desktop-gui-v2.json).
+The client's enable flow saves Bluetooth as the preferred boot transport;
+existing Wi-Fi profiles remain stored. USB remains available as a backup.
+
+The Bluetooth page disables eye movement with “Needs a Taby software update”
+and shows Assets Unknown. Static client transport inspection shows no eye-mode
+API or asset-version field on that path. These client limits do not remove the
+firmware's USB controls or SD pack. A subsequent USB check still reported all
+84 SD clips and left orientation, 799 rendered frames, zero driver/decode/touch
+errors, free heap 49132 and minimum 35460. The app was then quit and reopened
+normally; automation sees only its notch, so automatic app-start reconnection
+has not been observed. The successful initial GUI pairing and two native
+reconnections are distinct recorded results. No battery-only test was run.
+
+The dev.2 code was rebuilt and installed with write-hash verification; final
+host verification passed 130 tests, no skips, plus asset/layout checks, tool
+compilation and whitespace checks. Application SHA256:
+`aa280a09a12e56898fd852d77779838dcb0998f02986a359945317ea17b6abd3`.
+The source and local dev.2 package are recorded below once generated. This is
+a local experimental port; no upstream release or official cloud enrollment.

@@ -21,13 +21,16 @@ physical card and external app/service setup does not imply completed tests.
 - Implemented and verified locally: all 84 SD animations, Wi-Fi/HTTP/mDNS and
   BLE, including full playback with both radios and bounded memory. Evidence is
   owned by [STATUS](STATUS.md#full-library-verification-on-the-final-build).
-- Next approved integration check: the official desktop app/MCP recognizing the
-  truthful custom target and sending working controls. No app is installed;
-  the official download was blocked by Brave after following the vendor button,
-  so manual download is the current owner handoff. No security bypass was attempted.
-- Pending owner feedback: new mouth artwork and automatic-rotation axes; battery-only operation also remains unverified.
-- Pending external validation: desktop-app/MCP custom-target recognition and
-  official provisioning compatibility. Local commands do not prove these.
+- Desktop integration verified: installed 1.0.13 recognises USB; rotation now
+  saves correctly; GUI Bluetooth scan/connect reports Paired and controls work.
+  Native bridge identity, real choices and two reconnects passed. See
+  [desktop evidence](STATUS.md#desktop-gui-result-on-dev2).
+- Remaining desktop validation: automatic reconnection after app restart has
+  not been observed; MCP grants remain unconfigured. Bluetooth client eye-mode
+  controls and asset-version metadata are limited by the installed app.
+- Owner confirmed the mouth artwork; pending feedback: automatic-rotation axes; battery-only operation also remains unverified.
+- Pending external validation: MCP integration and official provisioning
+  compatibility. Local pairing does not prove these.
 - Not implemented: advanced UI decor/clip behavior and Rive body/expression
   animation. Keep the simplified renderer's limitation explicit; no PSRAM claim.
 

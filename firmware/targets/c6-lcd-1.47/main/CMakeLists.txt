@@ -7,7 +7,7 @@ idf_component_register(
     SRCS "app_main.c" "c6_board.c" "c6_codec.c" "c6_file.c" "c6_sd.c" "c6_stream.c" "c6_geometry.c"
          "c6_preferences.c" "c6_preferences_nvs.c"
          "c6_ui.c" "c6_ui_model.c"
-         "c6_network.c" "c6_ble.c" "c6_net_helpers.c"
+         "c6_network.c" "c6_ble.c" "c6_ble_v2.c" "c6_net_helpers.c"
          "c6_voice.cpp" "${CMAKE_CURRENT_BINARY_DIR}/c6_voice_upstream/taby_voice.cpp"
          "${TABY_SHARED}/taby_animation_assets.c"
          "${TABY_SHARED}/taby_state_machine.c"
