@@ -1,0 +1,32 @@
+{
+  "timestamp_utc": "2026-11-17T12:15:32.094557+00:00",
+  "firmware_version": "0.2.0-c6-dev.5",
+  "source_commit": "403ea43ce03c40bc6f92d12283dd111c42614008",
+  "application_sha256": "79b0b0662e107c96065227dbf342a01ef32baa5072b6b57c0e4230d4741015a5",
+  "archives": [
+    {
+      "file": "taby-c6-lcd-1.47-expanded-dev.5.zip",
+      "bytes": 3144940,
+      "sha256": "2abac3c10c6c60fb9dbbdddd774cf0eb4ffcc5281ad51785eb4bc76634cadaf1"
+    },
+    {
+      "file": "taby-c6-lcd-1.47-expanded-source-dev.5.zip",
+      "bytes": 17074456,
+      "sha256": "e53a2987911b8b45fa5fa1f07021e0e0dee7371d62d71c3abef2540a9d474ffa"
+    },
+    {
+      "file": "taby-c6-lcd-1.47-sd-assets-dev.1.zip",
+      "bytes": 10948682,
+      "sha256": "98259dbc8fb656a02c7d267b3a7e3eab7376f3e4b4ea687d14ce7b17cf6d9b43"
+    }
+  ],
+  "binary_images_hash_checked": 4,
+  "dependency_license_documents": 33,
+  "zip_integrity_checked": true,
+  "source_zip_commit_comment_matches": true,
+  "prior_dev2_dev3_sd_archives_unchanged": true,
+  "private_data_excluded": true,
+  "published_remotely": false,
+  "physical_face_all_four_verified": true,
+  "automatic_mode_left_enabled": true
+}

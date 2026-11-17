@@ -592,3 +592,14 @@ largest98304; these are not simultaneous-radio memory measurements.
 The owner next requested preparation as a fork without pushing, retaining the
 other original boards. That is a separate local repository-preparation task;
 the working device remains on this physically verified dev.5 build.
+
+### Verified dev.5 local distribution
+
+The physically verified device build is archived from source `403ea43ce03c40bc6f92d12283dd111c42614008`
+as `dist/taby-c6-lcd-1.47-expanded-dev.5.zip` and matching
+`dist/taby-c6-lcd-1.47-expanded-source-dev.5.zip`. Both archives passed integrity,
+source identity and image checks. The existing full SD pack remains unchanged.
+Prior dev.2/dev.3/SD archive hashes were checked unchanged, and private original
+flash/credentials remain excluded. See the [dev.5 distribution record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-distribution-dev5.json).
+No publication occurred. This records the installed build before preparing a
+separate fork branch against newer upstream source.
