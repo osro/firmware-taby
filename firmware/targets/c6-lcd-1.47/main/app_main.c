@@ -401,6 +401,18 @@ static void handle_command(const char *line) {
             snprintf(response,sizeof(response),"TABY:ERR info_too_large");
         cJSON_Delete(info);
         reply(response);
+    } else if (strcmp(line, "IMU") == 0) {
+        const c6_board_status_t *sensor=c6_board_status();
+        int length=snprintf(response,sizeof(response),
+            "TABY:IMU {\"available\":%s,\"samples\":%" PRIu32 ",\"errors\":%" PRIu32 ","
+            "\"x_mg\":%d,\"y_mg\":%d,\"z_mg\":%d,"
+            "\"ctrl1\":%u,\"ctrl2\":%u,\"ctrl7\":%u}",
+            sensor->imu_available?"true":"false",sensor->imu_samples,sensor->imu_errors,
+            (int)sensor->x_mg,(int)sensor->y_mg,(int)sensor->z_mg,
+            (unsigned)sensor->imu_ctrl1,(unsigned)sensor->imu_ctrl2,(unsigned)sensor->imu_ctrl7);
+        if(length<0 || (size_t)length>=sizeof(response))
+            snprintf(response,sizeof(response),"TABY:ERR response_too_large");
+        reply(response);
     } else if (strcmp(line, "DIAG") == 0) {
         c6_voice_snapshot_t voice={0};c6_voice_snapshot(esp_timer_get_time()/1000.0,&voice);
         snprintf(response, sizeof(response),

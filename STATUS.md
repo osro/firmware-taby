@@ -6,7 +6,7 @@ release. Scope was approved by the owner in chat on 2026-11-17 with “do it”.
 See the [target guide](firmware/targets/c6-lcd-1.47/README.md) for behavior,
 commands, build/install steps and recovery. See [ROADMAP.md](ROADMAP.md) for scope.
 
-The installed development version is now `0.2.0-c6-dev.3`, with optional full SD
+The installed development version is now `0.2.0-c6-dev.4`, with optional full SD
 animations, saved controls, basic UI with card decoration, local wireless control and raster mouth
 motion. Its current results and limits are in the expansion sections below;
 the `0.1` milestone entries are retained as historical evidence.
@@ -479,3 +479,67 @@ The full card pack does not need copying again. This is a local experimental
 package; tentative visual feedback and the remaining clip/body/cloud/MCP
 limitations remain explicit. No remote publication or upstream merge occurred.
 This later documentation-only commit records creation of those archives.
+
+### Automatic rotation investigation — in progress
+
+The owner requested the outstanding physical rotation check. On installed
+dev.3, auto mode and a ROTATION TEST card were enabled while the desktop app
+was paused. The owner turned the board and reported no rotation. USB remained
+in auto mode but reported only0°, with no decode/display/touch errors; the
+original left orientation was restored. See the [failed physical check](firmware/targets/c6-lcd-1.47/verification/2026-11-17-rotation-dev3-failure.json).
+This confirms the earlier “axes unverified” limitation was material.
+
+Source investigation found CTRL2 written as0x95, enabling QMI8658 accelerometer
+self-test bit7. The [manufacturer datasheet hosted by Waveshare](https://files.waveshare.com/wiki/common/QMI8658C.pdf)
+(table24/page26) identifies that bit; ±4g250Hz normal sensing uses0x15 with
+unchanged8192LSB/g conversion. A bounded sensor setup/readback repair and
+read-only IMU diagnostic command are being prepared for dev.4. Axis mapping
+is deliberately unchanged pending real sensor readings. No repair is yet
+claimed installed or physically verified. Saved Wi-Fi/card data are preserved.
+
+The sensor fix is committed at `d7e9a62`. Its five actual-C setup/polling tests
+passed in parent and independent review executions; the implementer recorded
+140 full host tests, no skips. Actual command-formatting checks passed for
+signed samples, uint32 counters, unavailable state and bounded refusal. Task
+and integrated reviews approved. No gravity mapping or settling changes were
+made. ESP-IDF5.5.2 build passed without warnings: **1893056 bytes**,7% slot
+headroom. Dev.4 was application-only flashed with write-hash verification;
+NVS, partitions and SD assets were preserved. The owner confirmed a cold
+restart. See the [dev.4 install record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-rotation-dev4-install.json).
+Application SHA256: `bd994f8e4aa06008206a471af315e28ed304a239d9e1b0861c238736f29f2eab`.
+The new physical sensor/axis check remains pending; source/host success alone
+does not establish correct real-board rotation. The desktop app is paused for
+this check, and the pre-test fixed left setting is retained for restoration.
+
+### Dev.4 physical rotation result
+
+After the owner-confirmed cold restart, INFO reported dev.4 and all84 SD
+animations. IMU readback was CTRL1=64/CTRL2=21/CTRL7=1 (normal sensing, no
+self-test), and sample counts increased without errors. See the [cold-start
+record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-rotation-dev4-cold-start.json).
+
+With auto mode enabled and a stable text card visible, the owner turned the
+board through four quarter-turns. The device observed90→0→270→180→90 degrees,
+with live gravity vectors changing correspondingly. Samples advanced477→777,
+IMU errors remained0, and decode/display/touch counters stayed error-free.
+The owner explicitly confirmed the text stayed upright in all four positions.
+No axis mapping change was required. See the [physical rotation record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-rotation-dev4-physical.json).
+
+This verifies the sensor setup repair and real four-way automatic orientation,
+including the user's visual direction check. The initial dev.3 failure remains
+recorded above. The test restored the pre-test **left /0° fixed setting** and
+cleared its card; automatic mode was not left enabled. The desktop app was paused for the test. Later USB telemetry showed the owner
+had reconnected the app over Bluetooth and selected auto mode; the additional
+helper scan found no advertisement while that connection was active. No pairing
+reset or successful extra native-helper connection is claimed.
+No new full84-animation playback, Wi-Fi join or battery-only run is claimed.
+
+The owner then clarified that the **text card** was upright in all four
+positions, while the **face animation** appeared portrait in landscape and
+vice versa. USB confirmed active auto mode and a real Bluetooth connection.
+Inspection of the converted idle frame shows the face itself stored sideways
+(two eyes vertically stacked); the animation drawing path had treated that
+packed canvas as upright. The card renderer and face art therefore differ by
+90°. Sensor initialization is repaired, but the overall face-rotation task is
+still incomplete. A separate bounded presentation fix is being prepared, using
+the existing pack without rewriting the card. See the [follow-up report](firmware/targets/c6-lcd-1.47/verification/2026-11-17-rotation-face-alignment-report.json).

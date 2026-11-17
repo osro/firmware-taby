@@ -147,3 +147,46 @@ Task 6 implementation, review and physical protocol/memory/SD/radio checks are
 complete; see [dev.3 device evidence](../../../STATUS.md#dev3-on-device-decoration-checks).
 Owner visual feedback remains tentative, with card/eye switching explained as
 the now-finished stress test. Embedded clips and voice body art remain separate.
+
+## Task 7: Repair automatic-rotation sensor setup
+
+Owner asked to check rotation. On dev.3, auto mode accepted and IMU reported
+available, but physical turns never changed the reported0°; owner confirmed
+no rotation. Original left setting was restored. Root-cause source finding:
+QMI8658 CTRL2 is written0x95, setting bit7 aST (self-test). QST/Waveshare
+QMI8658C datasheet table24/page26 confirms bit7 enables self-test; bits6:4=001
+select ±4g and ODR0101 is250Hz. Current8192LSB/g scaling matches ±4g.
+
+- Own c6_board.c/.h plus focused actual-C sensor tests only. Parent owns version,
+  app_main diagnostics, docs, hardware and packages. Shared S3 source untouched.
+- Fix normal accelerometer configuration (CTRL2=0x15, self-test disabled),
+  configure while disabled and enable accelerometer last. CTRL1 auto-increment,
+  little-endian and oscillator remain configured as0x40; CTRL7 accel-only0x01.
+  Read back and validate these settings before declaring imu_available. Cache
+  actual ctrl1/ctrl2/ctrl7 readback in c6_board_status_t for parent diagnostics.
+  On failed writes/readback/mismatch leave IMU unavailable without breaking LCD,
+  touch, SD or unrelated NVS. Keep the existing ±4g8192 scaling.
+- Keep the existing gravity mapping,1.2s settling/filter and geometry until real
+  data identifies an axis-direction defect. No guessed flips, extra tasks,
+  calibration persistence or auto setting changes.
+- Write failing tests exercising actual initialization and polling logic with
+  fake I2C register state and known gravity samples. A meaningful regression
+  must distinguish a self-test-stuck sensor from changing gravity data, not
+  merely compare a source string to0x15. Cover four orientation classifications,
+  settling/flat/ambiguous retention, failed config/readback and read-error count
+  without presentation changes. Extract focused production functions if needed;
+  avoid a duplicate implementation of initialization/polling in tests.
+- Run focused checks during development and full suite once before committing
+  only owned paths; self-review. No hardware/app/private data access, subagents,
+  new dependencies or broad board-driver rewrite. Report red/green and limits.
+
+Parent adds a bounded read-only IMU command exposing cached samples/errors,
+xyz_mg and config readback, preserving existing DIAG framing/size. Then review,
+build/version/flash dev.4, owner cold restart and retest four physical positions.
+Do not claim a physical repair before observed sensor changes and owner feedback.
+
+
+Task7 is implemented, reviewed, installed and physically verified in dev.4.
+Owner confirmed upright text in all four positions; live sensor vectors and
+0/90/180/270 replies were recorded without errors. Original axis mapping and
+prior fixed-left preference were preserved. See [results](../../../STATUS.md#dev4-physical-rotation-result).

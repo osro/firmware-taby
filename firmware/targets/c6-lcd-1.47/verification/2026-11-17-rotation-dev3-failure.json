@@ -1,0 +1,84 @@
+{
+  "timestamp_utc": "2026-11-17T11:39:07.221203+00:00",
+  "scope": "Observed physical automatic-orientation changes over USB; human verifies upright direction",
+  "changes": [
+    {
+      "seconds": 0.14,
+      "rotation_degrees": 0,
+      "orientation": "left"
+    }
+  ],
+  "unique_rotations": [
+    0
+  ],
+  "passed": false,
+  "info": {
+    "firmware_version": "0.2.0-c6-dev.3",
+    "hardware_target": "c6-lcd-1.47",
+    "asset_storage": "sd_card",
+    "animation_count": 84,
+    "display_orientation_auto_supported": true
+  },
+  "before": {
+    "animation": "idle_01_loop",
+    "state": "IDLE",
+    "frame": 1,
+    "rendered_frames": 2369,
+    "completed_cycles": 244,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 47916,
+    "minimum_free_heap": 38360,
+    "largest_free_block": 30720,
+    "touch_samples": 70373,
+    "touch_errors": 0,
+    "touch_count": 1,
+    "touch_pressed": false,
+    "touch_x": 67,
+    "touch_y": 111,
+    "voice_active": false,
+    "voice_frames": 6,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "original_mode": "left",
+  "enable_reply": {
+    "mode": "auto",
+    "orientation": "left",
+    "rotation_degrees": 0,
+    "auto_supported": true,
+    "display_shape": "rectangle"
+  },
+  "final": {
+    "animation": "idle_01_loop",
+    "state": "UI_ROTATION_CHECK",
+    "frame": 1,
+    "rendered_frames": 2370,
+    "completed_cycles": 244,
+    "decode_errors": 0,
+    "display_errors": 0,
+    "free_heap": 47116,
+    "minimum_free_heap": 38360,
+    "largest_free_block": 30720,
+    "touch_samples": 74123,
+    "touch_errors": 0,
+    "touch_count": 1,
+    "touch_pressed": false,
+    "touch_x": 67,
+    "touch_y": 111,
+    "voice_active": false,
+    "voice_frames": 6,
+    "viseme": 0,
+    "jaw_open": 0
+  },
+  "all_four_detected": false,
+  "restored": {
+    "mode": "left",
+    "orientation": "left",
+    "rotation_degrees": 0,
+    "auto_supported": true,
+    "display_shape": "rectangle"
+  },
+  "owner_feedback": "It does not rotate",
+  "failure_stage": "dev.3 physical auto-orientation check, before correction"
+}

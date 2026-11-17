@@ -20,7 +20,7 @@ source hashes and frame counts are generated in `dist/c6-lcd-1.47/assets.json`.
 The original semantic command resolver is reused. Missing clips return
 `unsupported_animation` without changing playback.
 
-The expanded `0.2.0-c6-dev.3` firmware adds saved brightness, eye motion
+The expanded `0.2.0-c6-dev.4` firmware adds saved brightness, eye motion
 (`normal`, `calm`, `still`), four screen rotations and sensor-based automatic
 rotation. Portrait clips retain their aspect ratio; landscape clips scale to
 106×172. Voltage is calibrated, but battery percentage remains unknown.
@@ -28,7 +28,9 @@ rotation. Portrait clips retain their aspect ratio; landscape clips scale to
 USB uses newline-terminated commands at 115200 baud. In addition to animation
 IDs and upstream semantic commands, supported commands include:
 
-- `PING`, `INFO`, `DIAG`, `ANIMATIONS`, `CLEAR`, `STATE`, `POWER`.
+- `PING`, `INFO`, `DIAG`, `IMU`, `ANIMATIONS`, `CLEAR`, `STATE`, `POWER`.
+  `IMU` is a bounded read-only diagnostic with cached sensor samples/errors,
+  acceleration in mg and actual configuration-register readback.
 - `BRIGHTNESS?`, `BRIGHTNESS 70`, `EYE_MOTION still`,
   `DISPLAY_ORIENTATION 90`, `DISPLAY_ORIENTATION auto`.
 - `TRANSPORT_DEFAULT usb|wifi|ble` saves the boot preference;
@@ -88,7 +90,9 @@ for those settings/metadata. App-restart reconnection was confirmed by the owner
 access is not configured and official cloud enrollment is unavailable. No factory identity is fabricated.
 Embedded card clip behaviors remain rejected. Voice gesture/body and
 expression/eye pose artwork is not animated; this is not the Rive renderer.
-Automatic rotation axes and battery operation still need owner feedback.
+Dev.4 corrects a sensor self-test setup error. Four-way automatic rotation
+and upright direction were physically verified with owner feedback; see STATUS.
+Battery operation still needs owner feedback.
 
 ## Build
 

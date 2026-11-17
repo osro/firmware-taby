@@ -28,7 +28,11 @@ physical card and external app/service setup does not imply completed tests.
 - The owner confirmed automatic Bluetooth reconnection after app restart;
   MCP grants remain unconfigured. Bluetooth client eye-mode
   controls and asset-version metadata are limited by the installed app.
-- Owner confirmed the mouth artwork; pending feedback: automatic-rotation axes; battery-only operation also remains unverified.
+- Owner confirmed the mouth artwork. Automatic rotation was repaired in dev.4
+  after the failed dev.3 check; all four directions and upright text are now
+  physically confirmed for text cards. Face-art portrait/landscape alignment
+  remains wrong and is the current repair. See [rotation evidence](STATUS.md#dev4-physical-rotation-result).
+  Battery-only operation remains unverified.
 - Pending external validation: MCP integration and official provisioning
   compatibility. Local pairing does not prove these.
 - Card decoration is implemented, installed and device-tested with SD and both
