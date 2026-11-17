@@ -20,10 +20,11 @@ source hashes and frame counts are generated in `dist/c6-lcd-1.47/assets.json`.
 The original semantic command resolver is reused. Missing clips return
 `unsupported_animation` without changing playback.
 
-The expanded `0.2.0-c6-dev.4` firmware adds saved brightness, eye motion
+The expanded `0.2.0-c6-dev.5` firmware adds saved brightness, eye motion
 (`normal`, `calm`, `still`), four screen rotations and sensor-based automatic
-rotation. Portrait clips retain their aspect ratio; landscape clips scale to
-106×172. Voltage is calibrated, but battery percentage remains unknown.
+rotation. Packed sideways artwork is normalized upright before fitting the screen.
+The face uses280×172 on a landscape screen and172×106 on a portrait screen,
+with centered black margins and unchanged aspect ratio. Voltage is calibrated, but battery percentage remains unknown.
 
 USB uses newline-terminated commands at 115200 baud. In addition to animation
 IDs and upstream semantic commands, supported commands include:
@@ -90,8 +91,9 @@ for those settings/metadata. App-restart reconnection was confirmed by the owner
 access is not configured and official cloud enrollment is unavailable. No factory identity is fabricated.
 Embedded card clip behaviors remain rejected. Voice gesture/body and
 expression/eye pose artwork is not animated; this is not the Rive renderer.
-Dev.4 corrects a sensor self-test setup error. Four-way automatic rotation
-and upright direction were physically verified with owner feedback; see STATUS.
+Dev.4 corrects a sensor self-test setup error; its four-way text-card direction
+was physically verified. Dev.5 also aligns the packed face artwork; see STATUS
+for the physical face check.
 Battery operation still needs owner feedback.
 
 ## Build

@@ -190,3 +190,45 @@ Task7 is implemented, reviewed, installed and physically verified in dev.4.
 Owner confirmed upright text in all four positions; live sensor vectors and
 0/90/180/270 replies were recorded without errors. Original axis mapping and
 prior fixed-left preference were preserved. See [results](../../../STATUS.md#dev4-physical-rotation-result).
+
+## Task 8: Align packed face animation with upright card coordinates
+
+Physical card auto-rotation now works on dev.4, but owner reports face portrait
+in landscape and vice versa. Direct inspection of dist/c6-lcd-1.47/idle_01_loop.gif
+shows the packed face sideways: its eyes are vertically stacked and mouth to
+left. Packed RGB565 frames are172×280; rotate content90° counterclockwise to
+recover natural upright280×172 face coordinates. Correct only animation drawing,
+not gravity mapping or global panel orientation. UI text/card orientation is
+already physically verified and must not change.
+
+- Own only c6_board_draw_animation and focused real-C animation-drawing tests;
+  optional pure C6 helper only if essential and parent owns CMake. Parent owns
+  version, docs, app, hardware, packages. Other c6_board functions unchanged.
+- Reuse all existing flash/SD assets byte-for-byte. Both decoded clips and live
+  mouth frames pass through c6_board_draw_animation; rotate the complete input
+  coherently so face/mouth alignment is retained without modifying voice art.
+- Preserve aspect and center the upright280×172 image: in logical landscape
+  320×172, render280×172 with20px side margins; in logical portrait172×320,
+  render172×106 with107px top/bottom margins. Black-fill all margins so old
+  content cannot remain. This defines expected adapted geometry, not S3 parity.
+- Inverse sample mapping for upright coordinatesu∈[0,279],v∈[0,171] reads packed
+  x=171−v,y=u. Nearest-neighbor fit into the two bounded destinations. Preserve
+  RGB565 byte order; never mutate the input frame.
+- Use the existing scanline buffer in small strips, with no new heap allocation,
+  full-screen canvas, asset reconversion or card write. Every strip must fit
+  board_draw_rect limits in all0/90/180/270 panel rotations. Keep DMA/fault
+  ownership and immediate error propagation. Reject a NULL input safely.
+- First write actual-C drawing tests that fail on the old path's wrong physical
+  content orientation. Use an asymmetric source fixture with eye/mouth/corner
+  markers; verify sample mapping, upright arrangement, exact fit/padding, input
+  immutability and bounds in all four logical rotations. Include error/NULL/fault
+  propagation; use ASan/UBSan where supported. Do not duplicate renderer logic
+  as the test's implementation. If possible expose a temporary test harness
+  way to export PPMs from an input raw frame for parent visual inspection.
+- Run focused tests while iterating and the full host suite once before owned
+  commit/self-review. No hardware/app/private-data access or subagents.
+
+Parent completion: actual neutral-frame host preview, independent reviews,
+dev.5 build/flash, owner cold restart and direct face rotation check in all
+four positions, plus prior card orientation still correct. No success claim
+based only on the previous text-card test.

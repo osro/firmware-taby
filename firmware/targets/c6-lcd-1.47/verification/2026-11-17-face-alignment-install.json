@@ -1,0 +1,13 @@
+{
+  "timestamp_utc": "2026-11-17T12:03:39.147446+00:00",
+  "firmware_version": "0.2.0-c6-dev.5",
+  "application_bytes": 1893072,
+  "application_sha256": "79b0b0662e107c96065227dbf342a01ef32baa5072b6b57c0e4230d4741015a5",
+  "build_passed": true,
+  "compiler_warnings": 0,
+  "application_only_flash_hash_verified": true,
+  "assets_and_nvs_preserved": true,
+  "cold_restart": "awaiting_owner",
+  "physical_face_validation": "pending",
+  "desktop_app": "paused normally for update"
+}

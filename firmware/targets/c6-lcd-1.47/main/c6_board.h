@@ -18,6 +18,8 @@ bool c6_board_healthy(void);
 /* Copies input into private DMA staging; caller may reuse its buffer even if
    the transfer fails. A failure quarantines staging and latches the display. */
 esp_err_t c6_board_draw_rect(int x,int y,int width,int height,const uint8_t *pixels);
+/* Packed172x280 frames contain sideways art. Presentation normalizes the whole
+   frame upright before fitting it to the current logical screen orientation. */
 esp_err_t c6_board_draw_animation(const uint8_t *pixels);
 esp_err_t c6_board_set_rotation(uint16_t degrees);
 typedef struct {

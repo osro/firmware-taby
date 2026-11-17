@@ -6,7 +6,7 @@ release. Scope was approved by the owner in chat on 2026-11-17 with “do it”.
 See the [target guide](firmware/targets/c6-lcd-1.47/README.md) for behavior,
 commands, build/install steps and recovery. See [ROADMAP.md](ROADMAP.md) for scope.
 
-The installed development version is now `0.2.0-c6-dev.4`, with optional full SD
+The installed development version is now `0.2.0-c6-dev.5`, with optional full SD
 animations, saved controls, basic UI with card decoration, local wireless control and raster mouth
 motion. Its current results and limits are in the expansion sections below;
 the `0.1` milestone entries are retained as historical evidence.
@@ -543,3 +543,30 @@ packed canvas as upright. The card renderer and face art therefore differ by
 90°. Sensor initialization is repaired, but the overall face-rotation task is
 still incomplete. A separate bounded presentation fix is being prepared, using
 the existing pack without rewriting the card. See the [follow-up report](firmware/targets/c6-lcd-1.47/verification/2026-11-17-rotation-face-alignment-report.json).
+
+### Dev.5 face alignment — installed, physical check pending
+
+Commit `5a70fbc` corrects only animation drawing. Packed172×280 art is normalized
+90° counterclockwise into upright280×172 coordinates, then fitted as280×172
+on landscape320×172 or172×106 on portrait172×320, with centered black margins.
+The whole frame, including live mouth pixels, follows the same transform.
+Verified text-card/global panel/IMU mapping is unchanged; no assets are rewritten.
+
+Actual-C asymmetric eye/mouth tests failed against the old path in all four
+rotations. The corrected path passed exhaustive pixel/fit/margin/input checks
+and ASan/UBSan fault/NULL/DMA staging checks. The full environment run passed
+**142 tests**, no skips. Two focused tests passed independently in review.
+Task and integrated reviews approved. The actual neutral frame was decoded
+with production RLE code and exported through production drawing for inspection;
+[portrait](firmware/targets/c6-lcd-1.47/verification/2026-11-17-face-alignment-host-0.png)
+and [landscape](firmware/targets/c6-lcd-1.47/verification/2026-11-17-face-alignment-host-90.png)
+now show eyes side by side and mouth below. See the [host record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-face-alignment-host.json).
+
+ESP-IDF5.5.2 build passed without warnings, **1893072 bytes**,7% slot headroom.
+Dev.5 was installed with application-only write hash verified; SD/flash artwork
+and NVS were preserved. Application SHA256: `79b0b0662e107c96065227dbf342a01ef32baa5072b6b57c0e4230d4741015a5`.
+See the [installation record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-face-alignment-install.json).
+The owner was asked for the card's cold power restart. Physical face orientation
+and final delivery are pending; the previous successful **text-card** check
+is not substituted for face validation. The latest owner-selected mode was
+auto; it will be retained after the new test. The desktop app is paused.
