@@ -170,7 +170,9 @@ def package(build, output, assets=None, sd_assets=None, *, root=ROOT, config=Non
             '> records below refer to the matching source repository checkout.\n'
             '> Consult its root STATUS.md for recorded device results and limitations.\n\n' + guide)
         copy_dependency_notices(stage, description)
-        manifest['sd_archive_sha256'] = _zip_checked(stage, [(inside(sd_assets, name), 'taby/' + name) for name in ('assets.bin', 'assets.json')], stage / 'sd.zip')
+        sd_files = [(inside(sd_assets, name), 'taby/' + name) for name in ('assets.bin', 'assets.json')]
+        sd_files += [(stage / 'LICENSE', 'LICENSE'), (stage / 'TARGET-NOTICE', 'NOTICE')]
+        manifest['sd_archive_sha256'] = _zip_checked(stage, sd_files, stage / 'sd.zip')
         with zipfile.ZipFile(stage / 'sd.zip') as archive:
             if hashlib.sha256(archive.read('taby/assets.bin')).hexdigest() != sd_metadata['sha256']:
                 raise ValueError('SD assets changed while staging')

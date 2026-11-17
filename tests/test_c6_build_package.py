@@ -101,7 +101,9 @@ class C6ToolingTests(unittest.TestCase):
             with zipfile.ZipFile(archive) as bundle:
                 self.assertIsNone(bundle.testzip())
                 if name == 'sd.zip':
-                    self.assertEqual(set(bundle.namelist()), {'taby/assets.bin', 'taby/assets.json'})
+                    self.assertEqual(set(bundle.namelist()), {'taby/assets.bin', 'taby/assets.json', 'LICENSE', 'NOTICE'})
+                    self.assertEqual(bundle.read('LICENSE'), b'artwork license')
+                    self.assertEqual(bundle.read('NOTICE'), b'driver notice')
         self.assertEqual(manifest['sd_assets_version'], 'sd-test')
         self.assertEqual(manifest['sd_archive_sha256'], hashlib.sha256((self.output / 'sd.zip').read_bytes()).hexdigest())
 
