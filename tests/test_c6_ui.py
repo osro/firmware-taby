@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
         title[0] = 'X'; subtitle[0] = 'X';
         assert(strcmp(m.card.title, "Borrowed title") == 0);
         assert(strcmp(m.card.subtitle, "Borrowed subtitle") == 0);
-        card.behavior.decor_effect = TABY_REUSABLE_DECOR_EFFECT_SHOOTING_STARS;
+        card.behavior.decor_effect = (taby_reusable_decor_effect_t)99;
         assert(!c6_ui_model_show(&m, &card, "UI_BAD", 1, 172, 320));
         assert(strcmp(m.state_name, "UI_TEST") == 0);
         assert(strcmp(m.card.title, "Borrowed title") == 0);
@@ -151,6 +151,83 @@ int main(int argc, char **argv) {
         assert(c6_ui_model_effect_phase(&m, 1360000) == 1);
         assert(c6_ui_model_effect_phase(&m, 1720000) == 2);
         assert(c6_ui_model_effect_phase(&m, 2000000) == -1);
+    } else if (scenario == 7) {
+        card.title = "Decorated";
+        card.behavior.decor_effect_seconds = 2;
+        for (int effect=1; effect<=24; ++effect) {
+            card.behavior.decor_effect = effect;
+            show(TABY_REUSABLE_CARD_HEADLINE, 172, 320, 1000000);
+            show(TABY_REUSABLE_CARD_TEXT, 320, 172, 1000000);
+        }
+    } else if (scenario == 8) {
+        /* Literal upstream normalization table, indexed by public enum. */
+        const int families[] = {0,1,2,3,4,2,2,7,8,2,1,4,2,24,1,24,16,2,2,7,3,4,2,2,24};
+        card.title = "Decorated";
+        card.behavior.decor_effect_seconds = 2;
+        c6_ui_decor_frame_t frame;
+        for (int effect=1; effect<=24; ++effect) {
+            assert((int)c6_ui_model_decor_family(effect) == families[effect]);
+            card.behavior.decor_effect = effect;
+            for (int rotation=0; rotation<2; ++rotation) {
+                int w=rotation ? 320 : 172, h=rotation ? 172 : 320;
+                show(TABY_REUSABLE_CARD_TEXT,w,h,1000000);
+                for (int t=0;t<2000;t+=40) {
+                    assert(c6_ui_model_decor_frame(&m,1000000+t*1000,&frame));
+                    assert(frame.count>0 && frame.count<=8);
+                    for(unsigned i=0;i<frame.count;++i) {
+                        c6_ui_decor_shape_t *p=&frame.shapes[i];
+                        assert(p->count>=2 && p->count<=C6_UI_DECOR_POINTS);
+                        assert(p->width<=4);
+                        if (families[effect]==2) {
+                            int extent=0;
+                            for(unsigned j=0;j<p->count;++j)
+                                if(p->points[j].x>extent) extent=p->points[j].x;
+                            assert(extent>=6); /* fireworks read at native size */
+                        }
+                        for(unsigned j=0;j<p->count;++j) {
+                            assert(p->x+p->points[j].x>=2 && p->x+p->points[j].x<w-2);
+                            assert(p->y+p->points[j].y>=2 && p->y+p->points[j].y<h-2);
+                        }
+                    }
+                }
+                assert(c6_ui_model_decor_frame(&m,2999999,&frame));
+                c6_ui_model_resize(&m,h,w);
+                assert(m.started_us==1000000);
+                assert(!c6_ui_model_decor_frame(&m,3000000,&frame));
+                assert(m.active && strcmp(m.card.title,"Decorated")==0);
+            }
+        }
+        card.behavior.decor_effect = TABY_REUSABLE_DECOR_EFFECT_GOLD_RINGS;
+        card.behavior.decor_effect_seconds = 0;
+        show(TABY_REUSABLE_CARD_HEADLINE,172,320,1000000);
+        assert(!c6_ui_model_decor_frame(&m,1000000,&frame));
+        card.behavior.decor_effect_seconds = UINT32_MAX;
+        show(TABY_REUSABLE_CARD_HEADLINE,172,320,1000000);
+        int64_t end=1000000+(uint64_t)UINT32_MAX*1000000;
+        assert(c6_ui_model_decor_frame(&m,end-1,&frame));
+        assert(!c6_ui_model_decor_frame(&m,end,&frame));
+        assert(!c6_ui_model_decor_frame(&m,INT64_MAX,&frame));
+        assert(c6_ui_model_decor_frame(&m,999999,&frame));
+        c6_ui_model_hide(&m);
+        assert(!c6_ui_model_decor_frame(&m,1000000,&frame));
+    } else if (scenario == 9) {
+        card.title="Keep me";
+        show(TABY_REUSABLE_CARD_TEXT,172,320,123);
+        c6_ui_model_t original=m;
+        for(int effect=-1; effect<=25; effect+=26) {
+            card.behavior.decor_effect=effect;
+            assert(!c6_ui_model_show(&m,&card,"BAD",1,172,320));
+            assert(memcmp(&original,&m,sizeof(m))==0);
+        }
+        card.behavior.decor_effect=TABY_REUSABLE_DECOR_EFFECT_HEART_BURST;
+        for (int kind=TABY_REUSABLE_CARD_ICON_ONLY;kind<=TABY_REUSABLE_CARD_PROGRESS;++kind) {
+            card.kind=kind;
+            assert(!c6_ui_model_show(&m,&card,"BAD",1,172,320));
+            assert(memcmp(&original,&m,sizeof(m))==0);
+        }
+        card.kind=-1;
+        assert(!c6_ui_model_show(&m,&card,"BAD",1,172,320));
+        assert(memcmp(&original,&m,sizeof(m))==0);
     } else { assert(0); }
     return 0;
 }
@@ -193,6 +270,15 @@ class C6UiTests(unittest.TestCase):
 
     def test_visibility_and_loading_dot_duration_boundaries(self):
         self.scenario(6)
+
+    def test_all_decor_names_are_accepted_on_title_and_text(self):
+        self.scenario(7)
+
+    def test_decor_normalization_lifetime_geometry_and_orientation_epoch(self):
+        self.scenario(8)
+
+    def test_invalid_decor_and_ineligible_kinds_preserve_entire_model(self):
+        self.scenario(9)
 
 
 class C6UiIconsTests(unittest.TestCase):

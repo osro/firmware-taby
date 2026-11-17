@@ -33,6 +33,42 @@ static char s_effect_text[132], s_value_text[32];
    RGB565+alpha before zooming, never a full-screen canvas. */
 static uint8_t s_icon_pixels[32U * 32U * LV_IMG_PX_SIZE_ALPHA_BYTE];
 static lv_img_dsc_t s_icon_image;
+/* Eight small outlines; backing points remain valid for LVGL between ticks. */
+static lv_obj_t *s_decor[C6_UI_DECOR_OBJECTS];
+static lv_point_t s_decor_points[C6_UI_DECOR_OBJECTS][C6_UI_DECOR_POINTS];
+static c6_ui_decor_frame_t s_decor_frame;
+
+static void update_decor(int64_t now) {
+    bool active = c6_ui_model_decor_frame(&s_model, now, &s_decor_frame);
+    for (unsigned i=0; i<C6_UI_DECOR_OBJECTS; ++i) {
+        if (!s_decor[i]) continue;
+        if (!active || i>=s_decor_frame.count) {
+            lv_obj_add_flag(s_decor[i], LV_OBJ_FLAG_HIDDEN);
+            continue;
+        }
+        const c6_ui_decor_shape_t *p = &s_decor_frame.shapes[i];
+        lv_obj_clear_flag(s_decor[i], LV_OBJ_FLAG_HIDDEN);
+        for (unsigned j=0; j<p->count; ++j) {
+            s_decor_points[i][j].x = p->points[j].x;
+            s_decor_points[i][j].y = p->points[j].y;
+        }
+        lv_line_set_points(s_decor[i], s_decor_points[i], p->count);
+        lv_obj_set_pos(s_decor[i], p->x, p->y);
+        lv_obj_set_style_line_color(s_decor[i], lv_color_hex(p->color), 0);
+        lv_obj_set_style_line_width(s_decor[i], p->width, 0);
+        lv_obj_set_style_line_opa(s_decor[i], p->opacity, 0);
+    }
+}
+
+static void create_decor(int64_t now) {
+    if (!c6_ui_model_decor_frame(&s_model, now, &s_decor_frame)) return;
+    for (unsigned i=0; i<s_decor_frame.count; ++i) {
+        s_decor[i] = lv_line_create(s_root);
+        lv_obj_remove_style_all(s_decor[i]);
+        lv_obj_clear_flag(s_decor[i], LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);
+    }
+    update_decor(now);
+}
 
 static int clamp(int value, int low, int high) {
     return value < low ? low : value > high ? high : value;
@@ -198,6 +234,7 @@ static void format_remaining(char *buffer, size_t size, uint32_t seconds) {
 }
 
 static void update_dynamic(int64_t now) {
+    update_decor(now);
     const taby_reusable_card_t *c = &s_model.card;
     uint32_t remaining = c6_ui_model_remaining(&s_model, now);
     if (s_value && c->kind == TABY_REUSABLE_CARD_COUNTDOWN && remaining != s_last_remaining) {
@@ -222,6 +259,7 @@ static void update_dynamic(int64_t now) {
 static void build_card(const lv_img_dsc_t *image) {
     if (s_root) lv_obj_del(s_root);
     s_primary = s_value = s_bar = NULL;
+    memset(s_decor, 0, sizeof(s_decor));
     s_effect_phase = -2;
     s_last_remaining = UINT32_MAX;
     const taby_reusable_card_t *c = &s_model.card;
@@ -252,6 +290,7 @@ static void build_card(const lv_img_dsc_t *image) {
     lv_obj_set_style_border_width(panel, 1, 0);
     lv_obj_set_style_radius(panel, 9, 0);
     lv_obj_clear_flag(panel, LV_OBJ_FLAG_SCROLLABLE);
+    create_decor(esp_timer_get_time());
     if (has_text(c->headline)) label(c->headline, 12, 12, w-24, 22, font_for(12, 100), s->headline_hex);
 
     int title_y = top, title_h = landscape ? 42 : 62;
@@ -347,7 +386,7 @@ bool taby_runtime_render_reusable_card(const taby_reusable_card_t *card, const c
     }
     if (!c6_ui_model_show(&s_model, card, state_name, esp_timer_get_time(),
                            c6_board_width(), c6_board_height())) {
-        ESP_LOGW(TAG, "Card rejected: invalid data or unsupported decor/clip behavior");
+        ESP_LOGW(TAG, "Card rejected: invalid data or unsupported clip behavior");
         return false;
     }
     s_touch_pressed = false;
@@ -378,6 +417,7 @@ void c6_ui_hide(void) {
     s_touch_pressed = false;
     if (s_root) lv_obj_del(s_root);
     s_root = s_primary = s_value = s_bar = NULL;
+    memset(s_decor, 0, sizeof(s_decor));
     if (s_display) {
         /* Portrait clips leave twenty pixels above and below their image.
            Clear the entire LCD before handing it back to the clip player. */

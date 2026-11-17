@@ -31,3 +31,21 @@ bool c6_ui_model_expired(const c6_ui_model_t *model, int64_t now_us);
 int c6_ui_model_effect_phase(const c6_ui_model_t *model, int64_t now_us);
 void c6_ui_model_touch(c6_ui_model_t *model, bool pressed, uint16_t x, uint16_t y,
                        int64_t now_us);
+
+/* Bounded, allocation-free decoration geometry in local object coordinates. */
+#define C6_UI_DECOR_OBJECTS 8
+#define C6_UI_DECOR_POINTS 17
+typedef struct { int16_t x, y; } c6_ui_decor_point_t;
+typedef struct {
+    int x, y;
+    uint32_t color;
+    uint8_t count, width, opacity;
+    c6_ui_decor_point_t points[C6_UI_DECOR_POINTS];
+} c6_ui_decor_shape_t;
+typedef struct {
+    unsigned count;
+    c6_ui_decor_shape_t shapes[C6_UI_DECOR_OBJECTS];
+} c6_ui_decor_frame_t;
+taby_reusable_decor_effect_t c6_ui_model_decor_family(taby_reusable_decor_effect_t effect);
+bool c6_ui_model_decor_frame(const c6_ui_model_t *model, int64_t now_us,
+                             c6_ui_decor_frame_t *frame);
