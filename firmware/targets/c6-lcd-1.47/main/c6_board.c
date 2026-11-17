@@ -171,13 +171,21 @@ esp_err_t c6_board_init(void) {
         if(i2c_master_bus_add_device(i2c,&ic,&imu)==ESP_OK) {
             uint8_t reg=0,id=0;
             if(i2c_master_transmit_receive(imu,&reg,1,&id,1,20)==ESP_OK && id==5) {
-                const uint8_t reset[]={0x60,0xb0};i2c_master_transmit(imu,reset,2,20);
+                const uint8_t reset[]={0x60,0xb0};
+                bool ok=i2c_master_transmit(imu,reset,2,20)==ESP_OK;
                 vTaskDelay(pdMS_TO_TICKS(20));
-                const uint8_t setup[][2]={{0x02,0x40},{0x08,0x01},{0x03,0x95}};
-                bool ok=true;
-                for(unsigned i=0;i<sizeof(setup)/sizeof(setup[0]);++i)
-                    if(i2c_master_transmit(imu,setup[i],2,20)!=ESP_OK)ok=false;
-                state.imu_available=ok;
+                /* Configure while disabled; CTRL2 aST (bit 7) must stay clear.
+                   ±4g / 250Hz matches the 8192 LSB/g conversion in poll. */
+                const uint8_t setup[][2]={{0x08,0x00},{0x02,0x40},{0x03,0x15},{0x08,0x01}};
+                for(unsigned i=0;ok && i<sizeof(setup)/sizeof(setup[0]);++i)
+                    ok=i2c_master_transmit(imu,setup[i],2,20)==ESP_OK;
+                /* Cache actual register reads, not the requested setup values. */
+                const uint8_t registers[]={0x02,0x03,0x08};
+                uint8_t *readback[]={&state.imu_ctrl1,&state.imu_ctrl2,&state.imu_ctrl7};
+                for(unsigned i=0;i<sizeof(registers)/sizeof(registers[0]);++i)
+                    if(i2c_master_transmit_receive(imu,&registers[i],1,readback[i],1,20)!=ESP_OK)ok=false;
+                state.imu_available=ok && state.imu_ctrl1==0x40 &&
+                    state.imu_ctrl2==0x15 && state.imu_ctrl7==0x01;
             }
         }
     }

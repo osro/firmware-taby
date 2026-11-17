@@ -23,6 +23,7 @@ esp_err_t c6_board_set_rotation(uint16_t degrees);
 typedef struct {
     uint16_t rotation;
     bool imu_available;
+    uint8_t imu_ctrl1,imu_ctrl2,imu_ctrl7;
     int16_t x_mg,y_mg,z_mg;
     uint32_t imu_samples,imu_errors;
     int battery_mv;
