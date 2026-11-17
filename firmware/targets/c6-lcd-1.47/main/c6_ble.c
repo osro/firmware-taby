@@ -1,6 +1,9 @@
 #include "c6_network.h"
 #include "c6_net_helpers.h"
 #include "c6_runtime.h"
+#include "c6_ble_v2.h"
+#include "c6_version.h"
+#include "cJSON.h"
 #include <stdio.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -19,14 +22,15 @@
 #include "services/gatt/ble_svc_gatt.h"
 
 #define UUID(n) BLE_UUID128_INIT(n,0,0,0,0,0,0,0xa0,0,0x40,0,0,0x59,0x42,0x41,0x54)
-static const ble_uuid128_t s_service=UUID(1),s_command=UUID(2),s_event=UUID(3),s_state=UUID(4),s_power=UUID(5);
+static const ble_uuid128_t s_service=UUID(1),s_command=UUID(2),s_event=UUID(3),s_state=UUID(4),s_power=UUID(5),s_choice=UUID(6),s_identity=UUID(7);
 static portMUX_TYPE s_lock=portMUX_INITIALIZER_UNLOCKED;
-static bool s_started,s_advertising,s_subscribed;
+static bool s_started,s_advertising,s_subscribed,s_choice_ready;
 static uint16_t s_conn=BLE_HS_CONN_HANDLE_NONE,s_event_handle;
 static uint32_t s_generation;
 static uint8_t s_addr_type;
 static char s_name[32],s_last[512]="READY",s_state_cache[64]="unknown";
 static char s_power_cache[128]="{\"power_voltage_mv\":0,\"battery_percent\":-1,\"external_power\":false}";
+static char s_choice_cache[80],s_identity_cache[256];
 static QueueHandle_t s_queue;
 static struct ble_npl_event s_notify_event;
 typedef struct {uint32_t generation;char command[256];} command_job_t;
@@ -71,7 +75,11 @@ static int access_chr(uint16_t conn,uint16_t attr,struct ble_gatt_access_ctxt *c
     if(ctx->op!=BLE_GATT_ACCESS_OP_READ_CHR)return BLE_ATT_ERR_READ_NOT_PERMITTED;
     char text[512];
     portENTER_CRITICAL(&s_lock);
-    snprintf(text,sizeof(text),"%s",kind==3?s_last:kind==4?s_state_cache:s_power_cache);
+    if(kind==6 && !s_choice_ready){portEXIT_CRITICAL(&s_lock);return BLE_ATT_ERR_UNLIKELY;}
+    const char *cached=kind==3?s_last:kind==4?s_state_cache:kind==5?s_power_cache:
+                       kind==6?s_choice_cache:kind==7?s_identity_cache:NULL;
+    if(!cached){portEXIT_CRITICAL(&s_lock);return BLE_ATT_ERR_UNLIKELY;}
+    snprintf(text,sizeof(text),"%s",cached);
     portEXIT_CRITICAL(&s_lock);
     return os_mbuf_append(ctx->om,text,strlen(text))==0?0:BLE_ATT_ERR_INSUFFICIENT_RES;
 }
@@ -81,6 +89,8 @@ static const struct ble_gatt_svc_def services[]={
         {.uuid=&s_event.u,.access_cb=access_chr,.arg=(void*)3,.val_handle=&s_event_handle,.flags=BLE_GATT_CHR_F_READ|BLE_GATT_CHR_F_NOTIFY},
         {.uuid=&s_state.u,.access_cb=access_chr,.arg=(void*)4,.flags=BLE_GATT_CHR_F_READ},
         {.uuid=&s_power.u,.access_cb=access_chr,.arg=(void*)5,.flags=BLE_GATT_CHR_F_READ},
+        {.uuid=&s_choice.u,.access_cb=access_chr,.arg=(void*)6,.flags=BLE_GATT_CHR_F_READ},
+        {.uuid=&s_identity.u,.access_cb=access_chr,.arg=(void*)7,.flags=BLE_GATT_CHR_F_READ},
         {0}}}, {0}
 };
 static int gap_event(struct ble_gap_event *event,void *arg) {
@@ -127,7 +137,55 @@ static void host_reset(int reason) {
     update_status("ble_host_reset");
 }
 static void host_task(void *arg) {(void)arg;nimble_port_run();nimble_port_freertos_deinit();}
+/* JSON belongs on the command worker (or the startup owner), never the
+   NimBLE host. cJSON is the existing IDF parser; portable builders own bytes. */
+static cJSON *runtime_json(const char *response,const char *prefix) {
+    size_t n=strlen(prefix);
+    if(strncmp(response,prefix,n) || !c6_net_json_safe(response+n))return NULL;
+    cJSON *json=cJSON_ParseWithOpts(response+n,NULL,true);
+    if(!cJSON_IsObject(json)){cJSON_Delete(json);return NULL;}
+    return json;
+}
+static bool choice_frame(const char *response,char *out,size_t capacity) {
+    cJSON *json=runtime_json(response,"TABY:CHOICE_SIGNAL ");
+    if(!json)return false;
+    const cJSON *signal=cJSON_GetObjectItemCaseSensitive(json,"signal");
+    const cJSON *selection=cJSON_GetObjectItemCaseSensitive(json,"selection");
+    bool valid=cJSON_IsNumber(signal) && signal->valuedouble>=0 &&
+        signal->valuedouble<=UINT32_MAX &&
+        signal->valuedouble==(double)(uint32_t)signal->valuedouble && cJSON_IsString(selection);
+    if(valid)valid=c6_ble_v2_choice(out,capacity,(uint32_t)signal->valuedouble,selection->valuestring);
+    cJSON_Delete(json);return valid;
+}
+static bool orientation_frame(const char *response,char *out,size_t capacity) {
+    cJSON *json=runtime_json(response,"TABY:DISPLAY_ORIENTATION ");
+    if(!json)return false;
+    const cJSON *degrees=cJSON_GetObjectItemCaseSensitive(json,"rotation_degrees");
+    const cJSON *mode=cJSON_GetObjectItemCaseSensitive(json,"mode");
+    const cJSON *orientation=cJSON_GetObjectItemCaseSensitive(json,"orientation");
+    const cJSON *supported=cJSON_GetObjectItemCaseSensitive(json,"auto_supported");
+    const cJSON *shape=cJSON_GetObjectItemCaseSensitive(json,"display_shape");
+    bool valid=cJSON_IsNumber(degrees) && degrees->valuedouble>=0 && degrees->valuedouble<=270 &&
+        degrees->valuedouble==(double)(uint16_t)degrees->valuedouble &&
+        cJSON_IsString(mode) && cJSON_IsString(orientation) && cJSON_IsBool(supported) &&
+        cJSON_IsString(shape) && !strcmp(shape->valuestring,"rectangle");
+    if(valid)valid=c6_ble_v2_orientation(out,capacity,(uint16_t)degrees->valuedouble,
+        mode->valuestring,orientation->valuestring,cJSON_IsTrue(supported));
+    cJSON_Delete(json);return valid;
+}
+static bool refresh_choice(void) {
+    char response[256],choice[sizeof(s_choice_cache)];uint32_t generation;
+    portENTER_CRITICAL(&s_lock);generation=s_generation;portEXIT_CRITICAL(&s_lock);
+    if(!c6_runtime_request("CHOICE_SIGNAL",response,sizeof(response),500) ||
+       !choice_frame(response,choice,sizeof(choice)))return false;
+    portENTER_CRITICAL(&s_lock);
+    bool current=generation==s_generation;
+    if(current){strcpy(s_choice_cache,choice);s_choice_ready=true;}
+    portEXIT_CRITICAL(&s_lock);
+    return current;
+}
 static void refresh_cache(void) {
+    refresh_choice();
     char response[256];
     if(c6_runtime_request("STATE",response,sizeof(response),500)&&strncmp(response,"TABY:STATE ",11)==0){
         const char *v=response+11;if(strlen(v)<sizeof(s_state_cache)){portENTER_CRITICAL(&s_lock);strcpy(s_state_cache,v);portEXIT_CRITICAL(&s_lock);}
@@ -143,6 +201,9 @@ static void command_task(void *arg) {
             portENTER_CRITICAL(&s_lock);bool current=job.generation==s_generation&&s_conn!=BLE_HS_CONN_HANDLE_NONE;portEXIT_CRITICAL(&s_lock);
             if(current){
                 if(!c6_runtime_request(job.command,response,sizeof(response),10000))strcpy(event,"ERR runtime_unavailable");
+                else if(!strncmp(response,"TABY:DISPLAY_ORIENTATION ",25)){
+                    if(!orientation_frame(response,event,sizeof(event)))strcpy(event,"ERR invalid_orientation_response");
+                }
                 else if(!c6_net_frame(response,event,sizeof(event)))strcpy(event,"ERR response_too_large");
                 publish(event,job.generation);
             }
@@ -151,9 +212,16 @@ static void command_task(void *arg) {
         refresh_cache();
     }
 }
-esp_err_t c6_ble_start(const char *name) {
+esp_err_t c6_ble_start(const char *name,const char *device_id) {
     if(s_started)return ESP_OK;
     if(!name||strlen(name)>=sizeof(s_name))return ESP_ERR_INVALID_ARG;
+    char identity[sizeof(s_identity_cache)];
+    if(!c6_ble_v2_identity(identity,sizeof(identity),device_id,C6_FIRMWARE_VERSION))return ESP_ERR_INVALID_ARG;
+    /* The owner API supports nested inline calls. Capture the real retained
+       choice before advertising; never manufacture signal zero at connection.
+       The worker keeps this global snapshot current across reconnections. */
+    if(!refresh_choice())return ESP_ERR_INVALID_STATE;
+    portENTER_CRITICAL(&s_lock);strcpy(s_identity_cache,identity);portEXIT_CRITICAL(&s_lock);
     strcpy(s_name,name);esp_err_t e=nimble_port_init();if(e!=ESP_OK){update_status("ble_init_failed");return e;}
     ble_svc_gap_init();ble_svc_gatt_init();
     int rc=ble_gatts_count_cfg(services);if(!rc)rc=ble_gatts_add_svcs(services);if(!rc)rc=ble_svc_gap_device_name_set(s_name);

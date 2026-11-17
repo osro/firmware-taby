@@ -12,5 +12,5 @@ esp_err_t c6_network_activate(uint8_t mode);
 bool c6_network_command(const char *,char *,size_t);
 void c6_network_get_status(c6_network_status_t *);
 /* Internal BLE integration; callbacks never call the display owner directly. */
-esp_err_t c6_ble_start(const char *name);
+esp_err_t c6_ble_start(const char *name,const char *device_id);
 void c6_network_ble_status(bool started,bool advertising,bool connected,const char *error);

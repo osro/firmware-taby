@@ -238,7 +238,7 @@ esp_err_t c6_network_activate(uint8_t mode) {
     if(!s_initialized)return ESP_ERR_INVALID_STATE;
     esp_err_t e=ESP_OK;
     if(mode==1){c6_network_status_t s;c6_network_get_status(&s);if(!s.wifi_started || (!s.station_ssid[0]&&!s.ap_active)){s_attempt=0;e=connect_saved();}else e=ensure_wifi();}
-    else if(mode==2)e=c6_ble_start(s_name);
+    else if(mode==2)e=c6_ble_start(s_name,s_device_id);
     else if(mode!=0)e=ESP_ERR_INVALID_ARG;
     if(e!=ESP_OK)error_set("transport_start_failed");
     return e;
