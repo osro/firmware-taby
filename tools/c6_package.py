@@ -32,9 +32,17 @@ def _asset_pack(root, directory, sd=False):
         raise ValueError('Stale or corrupt asset metadata/pack')
     prefix = 'C6_SD_ASSET' if sd else 'C6_ASSET'
     header = (root / TARGET / 'main/generated' / ('c6_sd_catalog.h' if sd else 'c6_catalog.h')).read_text()
-    for suffix, expected in (('SHA256', f'"{data["sha256"]}"'), ('BYTES', str(data['bytes'])), ('CRC32', hex(data['crc32']))):
+    for suffix, expected in (('SHA256', data['sha256']), ('BYTES', data['bytes']), ('CRC32', data['crc32'])):
         match = re.search(rf'^#define {prefix}_{suffix}\s+(\S+)', header, re.M)
-        if not match or match[1].rstrip('uU').lower() != expected.lower():
+        if not match:
+            raise ValueError('Asset metadata differs from compiled generated catalog')
+        token = match[1]
+        if suffix == 'SHA256':
+            actual = token.strip('"')
+        else:
+            # Converter CRCs are padded to eight hex digits; compare numeric values.
+            actual = int(token.rstrip('uUlL'), 0)
+        if actual != expected:
             raise ValueError('Asset metadata differs from compiled generated catalog')
     originals = {entry['id']: entry for entry in original['animations']}
     clips = data.get('clips', [])
@@ -154,6 +162,13 @@ def package(build, output, assets=None, sd_assets=None, *, root=ROOT, config=Non
                              ('TARGET-NOTICE', root / TARGET / 'NOTICE'), ('README.md', root / TARGET / 'README.md'),
                              ('assets.json', assets / 'assets.json')):
             shutil.copyfile(source, stage / name)
+        guide = (stage / 'README.md').read_text()
+        guide = re.sub(r'\[([^\]]+)\]\(\.\./\.\./\.\./STATUS\.md\)',
+                       r"\1 in the source repository's `STATUS.md`", guide)
+        (stage / 'README.md').write_text(
+            '> Packaged target guide. Build commands, relative paths and verification\n'
+            '> records below refer to the matching source repository checkout.\n'
+            '> Consult its root STATUS.md for recorded device results and limitations.\n\n' + guide)
         copy_dependency_notices(stage, description)
         manifest['sd_archive_sha256'] = _zip_checked(stage, [(inside(sd_assets, name), 'taby/' + name) for name in ('assets.bin', 'assets.json')], stage / 'sd.zip')
         with zipfile.ZipFile(stage / 'sd.zip') as archive:

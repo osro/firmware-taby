@@ -31,7 +31,7 @@ class C6ToolingTests(unittest.TestCase):
         self.write('LICENSE', 'artwork license')
         self.write('firmware/NOTICE', 'upstream notice')
         self.write('firmware/targets/c6-lcd-1.47/NOTICE', 'driver notice')
-        self.write('firmware/targets/c6-lcd-1.47/README.md', 'Target guide')
+        self.write('firmware/targets/c6-lcd-1.47/README.md', 'Target guide\nSee [recorded verification](../../../STATUS.md).')
         self.write('firmware/targets/c6-lcd-1.47/CMakeLists.txt', 'set(PROJECT_VER "0.2.0")')
         self.write('firmware/targets/c6-lcd-1.47/main/c6_version.h', '#define C6_FIRMWARE_VERSION "0.2.0-c6-dev.99"')
         self.write('firmware/targets/c6-lcd-1.47/dependencies.lock', 'pinned')
@@ -91,6 +91,10 @@ class C6ToolingTests(unittest.TestCase):
         self.assertEqual((self.output / 'licenses/dependency/LICENSE').read_text(), 'dependency terms')
         self.assertEqual((self.output / 'LICENSE').read_text(), 'artwork license')
         self.assertIn('NVS', (self.output / 'INSTALL.txt').read_text())
+        guide = (self.output / 'README.md').read_text()
+        self.assertNotIn('](../../../STATUS.md)', guide)
+        self.assertIn('source repository', guide)
+        self.assertIn('STATUS.md', guide)
         for name in ('firmware.zip', 'sd.zip'):
             archive = self.output / name
             self.assertEqual((self.output / (name + '.sha256')).read_text().split()[0], hashlib.sha256(archive.read_bytes()).hexdigest())
@@ -207,6 +211,24 @@ class C6ToolingTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     self.packager._asset_pack(self.root, directory, sd=sd)
                 path.write_text(before)
+
+    def test_generated_catalog_accepts_leading_zero_crc_for_flash_and_sd(self):
+        # Real converter uses eight hexadecimal digits: CRC32(b'33') = 0x0a6216d9.
+        digest = hashlib.sha256(b'33').hexdigest()
+        for directory, sd, prefix, header_name in (
+                (self.flash, False, 'C6_ASSET', 'c6_catalog.h'),
+                (self.sd, True, 'C6_SD_ASSET', 'c6_sd_catalog.h')):
+            with self.subTest(sd=sd):
+                (directory / 'assets.bin').write_bytes(b'33')
+                path = directory / 'assets.json'; data = json.loads(path.read_text())
+                data.update(bytes=2, crc32=0x0a6216d9, sha256=digest)
+                data['clips'][0]['size'] = 2; path.write_text(json.dumps(data))
+                header = self.target / 'main/generated' / header_name
+                header.write_text(f'#define {prefix}_SHA256 "{digest}"\n#define {prefix}_BYTES 2u\n#define {prefix}_CRC32 0x0a6216d9u\n')
+                self.assertEqual(self.packager._asset_pack(self.root, directory, sd=sd)['crc32'], 0x0a6216d9)
+                header.write_text(header.read_text().replace('0x0a6216d9u', '0x0a6216d8u'))
+                with self.assertRaises(ValueError):
+                    self.packager._asset_pack(self.root, directory, sd=sd)
 
     def test_partition_changes_and_asset_path_escapes_are_rejected(self):
         path = self.target / 'partitions.csv'; before = path.read_text()
