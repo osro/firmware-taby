@@ -1,8 +1,9 @@
 # C6 port status
 
-This record describes the local experimental C6 port, based on upstream
-`d781f2dc31d37841a3b5c6542f1e53f367f33b4b`. It is separate from the official S3
-release. Scope was approved by the owner in chat on 2026-11-17 with “do it”.
+This record follows the experimental C6 port from original upstream base
+`d781f2dc31d37841a3b5c6542f1e53f367f33b4b` through the current fork branch,
+which incorporates upstream main `4e515faf63184f050d81b3f91421cb98a0f849d4`
+(firmware1.4.0 source). C6 stays separate from the official S3 release. Scope was approved by the owner in chat on 2026-11-17 with “do it”.
 See the [target guide](firmware/targets/c6-lcd-1.47/README.md) for behavior,
 commands, build/install steps and recovery. See [ROADMAP.md](ROADMAP.md) for scope.
 
@@ -603,3 +604,48 @@ Prior dev.2/dev.3/SD archive hashes were checked unchanged, and private original
 flash/credentials remain excluded. See the [dev.5 distribution record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-distribution-dev5.json).
 No publication occurred. This records the installed build before preparing a
 separate fork branch against newer upstream source.
+
+### Local fork branch validation
+
+Owner requested local fork preparation only, without a PR, PR draft, remote
+fork creation or push, and explicitly retained original-board support.
+`codex/c6-lcd-147-fork` includes upstream main `4e515fa` without conflicts.
+`main` follows `upstream/main`; original upstream push is disabled locally,
+and `origin` points at the intended personal fork URL, which has not been
+created. Development history and `codex/c6-lcd-147-verified-dev5` are preserved.
+See [FORK.md](FORK.md) for the build/local-branch guide.
+
+The original S3 runtime/components, board metadata, defaults/partitions,
+round target and original build/package/common/device tools are byte-for-byte
+unchanged against that upstream. Both original boards built and packaged on
+native macOS/ESP-IDF5.4.2, with complete image/layout/hash validation:
+
+- amoled-1.64: firmware1.4.0/assets0.4.1, app3074064 bytes,27% slot free.
+- round-1.32: firmware1.4.0/assets0.1.0-prototype, app1823040 bytes,42% free.
+
+Each original build has63 inherited compiler warnings (57 Rive qualifiers and
+6 unused UI helpers), plus2 CMake policy/deprecation warnings; no compile errors.
+No original S3 hardware was available, so these are build/package results.
+The original S3 CI job and its SDK5.4.2 two-board matrix remain unchanged;
+a separate C6 job uses5.5.2. Workflow YAML and job equality were checked locally.
+No GitHub workflow has run remotely during this task.
+
+The fork C6 version is **dev.6**, not the installed/physically verified dev.5.
+Upstream’s changed animation required full SD catalog0.2.1-sd; all84 clips /
+3367 frames (25366604 bytes) passed actual-C decoding, bounds and duration
+checks. The16-clip flash pack remains byte-for-byte unchanged. The connected
+board and its existing card have not been updated during fork preparation.
+The new C6 build command passed on ESP-IDF5.5.2, app1893072 bytes, and its
+first real package passed image/hash/ZIP checks. Current C6 build/package
+scripts reject stale fingerprints, incorrect target/layout/config, tampering,
+escapes/oversizes and overwrites; standalone SD packages include artwork terms.
+
+The final host suite passed **163 tests**, no skips, after updating the old
+3365-frame fixture for upstream’s3367 frames and correcting two new packager
+validation edge cases. Original asset/layout checks pass. Task/final code
+reviews found no outstanding blocker after corrections. The tracked source
+and changed history audit found no private artifact/credential blocker; private
+ignored original flash/app data were not accessed or exported. Root license
+and original notices are preserved. Full hashes, scope and warnings are in the
+[fork build record](docs/verification/2026-11-17-fork-builds.json).
+Final clean-tree package refresh and branch handoff follow this record.

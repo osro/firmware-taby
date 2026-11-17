@@ -1,0 +1,90 @@
+{
+  "timestamp_utc": "2026-11-17T12:37:13.375082+00:00",
+  "upstream_main": "4e515faf63184f050d81b3f91421cb98a0f849d4",
+  "branch": "codex/c6-lcd-147-fork",
+  "original_s3_runtime_board_and_tool_paths_match_upstream": true,
+  "original_s3_ci_job_yaml_equal": true,
+  "new_c6_ci_job_sdk_separate": true,
+  "github_actions_executed_remotely": false,
+  "host_suite": {
+    "tests": 163,
+    "skips": 0,
+    "passed": true,
+    "seconds": 30.995
+  },
+  "current_legacy_source_sha256": "9666be74dc70023312435f676c4e6d3deb9f37984fe94b8ebee296eeda27ef0c",
+  "boards": [
+    {
+      "board": "amoled-1.64",
+      "sdk": "5.4.2",
+      "sdk_commit": "f5c3654a1c2d2a01f7f67def7a0dc48e691f63c0",
+      "firmware_version": "1.4.0",
+      "assets_version": "0.4.1",
+      "build_passed": true,
+      "complete_package_validation_passed": true,
+      "application_bytes": 3074064,
+      "application_sha256": "9ca08cd1118d7d3879396776cd25116c87db8f0a782bd426948242fc7743320d",
+      "source_sha256": "9666be74dc70023312435f676c4e6d3deb9f37984fe94b8ebee296eeda27ef0c",
+      "build_source_commit": "8d4d116570842fc92a25894ac67c0e37dcdc6cf7",
+      "source_dirty_during_initial_package": true,
+      "compiler_warnings": 63,
+      "cmake_warnings": 2,
+      "warning_context": "Unchanged upstream Rive qualifiers and unused UI helpers; CMake policy/deprecation warnings",
+      "physical_tested": false
+    },
+    {
+      "board": "round-1.32",
+      "sdk": "5.4.2",
+      "sdk_commit": "f5c3654a1c2d2a01f7f67def7a0dc48e691f63c0",
+      "firmware_version": "1.4.0",
+      "assets_version": "0.1.0-prototype",
+      "build_passed": true,
+      "complete_package_validation_passed": true,
+      "application_bytes": 1823040,
+      "application_sha256": "6a183b2446c084eedb5bf2702ebe4baf9b2e4c3ebf93e972c23bda4fda4ed45e",
+      "source_sha256": "9666be74dc70023312435f676c4e6d3deb9f37984fe94b8ebee296eeda27ef0c",
+      "build_source_commit": "8d4d116570842fc92a25894ac67c0e37dcdc6cf7",
+      "source_dirty_during_initial_package": true,
+      "compiler_warnings": 63,
+      "cmake_warnings": 2,
+      "warning_context": "Unchanged upstream Rive qualifiers and unused UI helpers; CMake policy/deprecation warnings",
+      "physical_tested": false
+    },
+    {
+      "board": "c6-lcd-1.47",
+      "sdk": "5.5.2",
+      "firmware_version": "0.2.0-c6-dev.6",
+      "assets_version": "0.1.0-dev",
+      "sd_assets_version": "0.2.1-sd",
+      "build_passed": true,
+      "initial_real_package_validation_passed": true,
+      "application_bytes": 1893072,
+      "application_sha256": "edc259512e88f73b872b8bae2890292d0b7138df443463e46db83c05a9b2d36e",
+      "source_sha256": "147e13e6484826dc44885a07ea350eafa89152bdaec080cb7c405e8bc2064ae4",
+      "compiler_warnings": 0,
+      "physical_tested": false,
+      "physical_context": "Connected device remains on verified dev.5; this dev.6 fork build was not flashed"
+    }
+  ],
+  "sd_host_decoder_validation": {
+    "source_assets": "0.4.1",
+    "sd_version": "0.2.1-sd",
+    "clip_count": 84,
+    "frame_count": 3367,
+    "bytes": 25366604,
+    "sha256": "584fa5156ac5d288614cc70c181692467fbc9e0344b757ab2db7f24706e33d22",
+    "crc32": 3253414787,
+    "all_frames_actual_c_decoder_passed": true,
+    "clip_bounds_and_durations_verified": true,
+    "scope": "Host-only upstream1.4 asset regeneration; installed dev5/card unchanged"
+  },
+  "privacy_audit": {
+    "changed_historical_blobs": 230,
+    "verification_json_blobs": 43,
+    "private_artifact_or_credential_blockers": 0,
+    "scope": "Tracked paths/text history and ZIP member/manifest inspection; private ignored data deliberately not accessed"
+  },
+  "remote_fork_created": false,
+  "pushed": false,
+  "pr_or_draft_created": false
+}

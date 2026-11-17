@@ -351,7 +351,7 @@ class C6StreamTests(unittest.TestCase):
                 frames += 1
                 cursor += length
             self.assertEqual(cursor, size)
-        self.assertEqual(frames, 3365)
+        self.assertEqual(frames, 3367)  # Upstream rectangle catalog0.4.1.
 
 
 if __name__ == '__main__':
