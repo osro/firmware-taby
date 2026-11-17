@@ -648,4 +648,16 @@ and changed history audit found no private artifact/credential blocker; private
 ignored original flash/app data were not accessed or exported. Root license
 and original notices are preserved. Full hashes, scope and warnings are in the
 [fork build record](docs/verification/2026-11-17-fork-builds.json).
-Final clean-tree package refresh and branch handoff follow this record.
+Final package refresh passed from clean source `c56e8ae5b056fc263f96fc1acd556e0d9810f847`.
+C6 firmware/SD and both original S3 bundles passed image/hash/ZIP checks, with
+clean source identity recorded. Standalone SD license/notice contents were
+checked. The only modified original upstream files are the README banner and
+the additive workflow; every original runtime/build/package source file is
+unchanged. A final tracked-path audit found no private artifact path. See the
+[clean package record](docs/verification/2026-11-17-fork-packages.json).
+
+Local fork preparation is complete. No PR, PR draft, remote fork/repository,
+push or release was created. No extra Git bundle/patch export was made after
+the owner narrowed the request to the branch. Source/doc history and verified
+dev.5 packages remain preserved. The device/card were not touched during prep.
+This later documentation-only commit records the clean package outcomes.

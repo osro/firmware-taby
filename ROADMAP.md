@@ -47,9 +47,14 @@ These items are not prerequisites for the completed USB-first milestone.
 Do not advertise other C6 boards or an official release
 without their own hardware validation and maintainer approval.
 
-## Local fork preparation — approved
+## Local fork preparation — complete
 
 Owner requested a fork-ready local branch without pushing, then explicitly
 required continued support for the original S3 boards. Preserve the verified
 dev.5 device/build and validate the original board build paths during prep.
 No remote fork, push, PR submission or release is authorized by this preparation.
+
+The branch is prepared locally with current upstream source, separate C6
+tooling/CI and successful builds/packages for all three targets. Original-board
+source and CI matrix are preserved. No PR/draft, remote fork or push was made.
+See [fork verification](STATUS.md#local-fork-branch-validation).

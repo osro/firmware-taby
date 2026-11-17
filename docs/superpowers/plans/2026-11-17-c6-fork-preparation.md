@@ -80,18 +80,18 @@ output in .local/c6-fork-tooling-host-tests.log. Parent reviews/builds/packages.
 
 ## Task 3: Compatibility validation
 
-- [ ] Original IDF5.4.2 builds/packages amoled-1.64 and round-1.32; report actual
+- [x] Original IDF5.4.2 builds/packages amoled-1.64 and round-1.32; report actual
   sizes/hashes/warnings. Do not edit source to make an inherited issue disappear.
-- [ ] Parent rebuilds/packs C6 via new tools and verifies all3367 full-SD frames
+- [x] Parent rebuilds/packs C6 via new tools and verifies all3367 full-SD frames
   with real decoder; full host suite and asset/layout checks pass.
-- [ ] Review CI and fork delta; audit source/history/export for private artifacts.
-- [ ] Record separate installed dev.5 evidence and unflashed dev.6 build evidence.
+- [x] Review CI and fork delta; audit source/history/export for private artifacts.
+- [x] Record separate installed dev.5 evidence and unflashed dev.6 build evidence.
 
 ## Task 4: Local handoff, no push
 
-- [ ] Configure local upstream original and origin intended personal fork URL;
+- [x] Configure local upstream original and origin intended personal fork URL;
   no remote repository creation. Keep source/development branch recoverable.
-- [ ] Add fork/build guide without creating any PR or draft.
-- [ ] Check local build/package outputs; ensure a clean working tree and exact
+- [x] Add fork/build guide without creating any PR or draft.
+- [x] Check local build/package outputs; ensure a clean working tree and exact
   upstream/S3 preservation gate. No extra Git bundle/patch or PR draft requested.
-- [ ] Final report names branch/path/artifacts and states nothing was pushed.
+- [x] Final report names branch/path/artifacts and states nothing was pushed.
