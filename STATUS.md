@@ -385,3 +385,43 @@ backup are preserved. No remote publication occurred. Exact sizes/hashes are
 in the [dev.2 distribution record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-distribution-dev2.json).
 This subsequent documentation-only commit records package creation; runtime
 code matches the archived source revision.
+
+### Reconnection follow-up
+
+After the preceding app restart, the owner confirmed that Physical Taby says
+“Connected over Bluetooth.” This closes the app-start reconnection check by
+owner observation; automation still sees only the notch. See the [owner record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-desktop-reconnection-owner.json).
+The existing dev.2 archives retain their earlier, accurate pending status.
+
+### Card decoration continuation — in progress
+
+The owner asked to “advance!” on 2026-11-17. Bounded title-card decoration is
+being added through the existing parser, UI model and single renderer owner.
+The decoration version is `0.2.0-c6-dev.3`.
+Embedded clip behavior, voice body artwork and external cloud/MCP gaps remain
+separate. The dev.3 application was installed after the checks recorded below.
+
+Task 6 is implemented at `4c1980a`: all 24 title/text decoration names map to
+the original eight families, adapted as bounded line artwork. There are eight
+small objects, approximately 1252 static backing bytes, no full-screen canvas
+and no new rendering task. Expiry hides decoration while retaining the card;
+rotation keeps the original epoch. Embedded clips remain unsupported.
+
+Host verification passed **135 tests**, no skips, including all names in both
+geometries, actual pixel motion/expiry, text foreground, aliases, invalid-card
+preservation, large durations and rotation. Added retained LVGL heap was 2240
+bytes; 384 host lifecycle cycles recovered the pool exactly. The host allocator
+differs from device malloc. Two cleanup-failure tests establish that the device
+verifier attempts all restoration steps. Task/final reviews approved after
+that verifier correction. See the [host record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-c6-decor-host.json)
+and [host-rendered preview loop](firmware/targets/c6-lcd-1.47/verification/2026-11-17-c6-decor-host-preview.gif).
+
+ESP-IDF 5.5.2 C6 build passed without compiler warnings: **1892672 bytes**,
+7% slot headroom. The application-only write passed its hash check; NVS,
+bootloader, partitions, flash fallback and the card were untouched. See the
+[installation record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-c6-decor-install.json).
+Application SHA256: `a036c5648c1627cc94f3c960900cc48939e445f052002a7eed949db866409556`.
+The owner was asked for a cold power restart to initialize this card cleanly.
+Physical effect cycles, SD/radio memory, Bluetooth regression and new artwork
+feedback remain pending; no hardware effect success or dev.3 distribution is
+claimed yet. Taby's desktop app is closed during the update/test stage.

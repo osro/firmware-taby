@@ -20,7 +20,7 @@ source hashes and frame counts are generated in `dist/c6-lcd-1.47/assets.json`.
 The original semantic command resolver is reused. Missing clips return
 `unsupported_animation` without changing playback.
 
-The expanded `0.2.0-c6-dev.2` firmware adds saved brightness, eye motion
+The expanded `0.2.0-c6-dev.3` firmware adds saved brightness, eye motion
 (`normal`, `calm`, `still`), four screen rotations and sensor-based automatic
 rotation. Portrait clips retain their aspect ratio; landscape clips scale to
 106×172. Voltage is calibrated, but battery percentage remains unknown.
@@ -41,6 +41,11 @@ IDs and upstream semantic commands, supported commands include:
   `UI/text:REMINDER|Take a break`, `UI/timer:FOCUS|65|300|Keep going|run`,
   `UI/progress:UPLOADING|45|Almost halfway`, and
   `UI/choice_2:CHOOSE|YES|NO|Touch a button`.
+- Title/text card decoration, for example
+  `UI/title&shooting_stars/4:WELL DONE` or
+  `UI/text&heart_rain/4:THANK YOU|You did it`. All 24 upstream decor names
+  retain their eight family mappings, with adapted small-screen line artwork.
+  Effects use eight small objects, stop on time and leave the card visible.
 - `VOICE_MOTION <talk> <clockMs> <atMs> <frames>` and
   `VOICE_MOTION <talk> stop`: upstream 30fps motion data drives simplified
   raster mouth shapes. Other successful presentations cancel speech.
@@ -79,9 +84,9 @@ to remount it. See [STATUS](../../../STATUS.md) for actual physical-card tests.
 This remains a custom development target. Desktop 1.0.13 recognises USB and
 its GUI pairs over Bluetooth, with successful display/rotation controls. The
 Bluetooth client disables eye-mode controls and shows Assets Unknown; use USB
-for those settings/metadata. App-restart reconnection is unverified. MCP
+for those settings/metadata. App-restart reconnection was confirmed by the owner. MCP
 access is not configured and official cloud enrollment is unavailable. No factory identity is fabricated.
-Advanced card decoration/clip behaviors are rejected. Voice gesture/body and
+Embedded card clip behaviors remain rejected. Voice gesture/body and
 expression/eye pose artwork is not animated; this is not the Rive renderer.
 Automatic rotation axes and battery operation still need owner feedback.
 
@@ -204,3 +209,8 @@ first, then run `tools/c6_native_bluetooth_verify.py --port PORT`. Add
 `--touch-seconds 90` for prompted LEFT/RIGHT hardware checks. This uses the
 existing app's bridge; it does not modify its bundle or personal data. Keep
 opaque native scan identifiers exactly as returned; do not normalize their case.
+
+With the desktop app closed, use `.venv/bin/python tools/c6_decor_verify.py --port PORT --demo-seconds 6` on a board with its full SD pack mounted. It tests
+all decoration names/orientations, lifetime/card retention, replacement memory,
+voice ownership and playback resumption with both radios active. Watch the
+physical demo for visual quality; protocol counters alone cannot establish it.

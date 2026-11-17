@@ -25,14 +25,17 @@ physical card and external app/service setup does not imply completed tests.
   saves correctly; GUI Bluetooth scan/connect reports Paired and controls work.
   Native bridge identity, real choices and two reconnects passed. See
   [desktop evidence](STATUS.md#desktop-gui-result-on-dev2).
-- Remaining desktop validation: automatic reconnection after app restart has
-  not been observed; MCP grants remain unconfigured. Bluetooth client eye-mode
+- The owner confirmed automatic Bluetooth reconnection after app restart;
+  MCP grants remain unconfigured. Bluetooth client eye-mode
   controls and asset-version metadata are limited by the installed app.
 - Owner confirmed the mouth artwork; pending feedback: automatic-rotation axes; battery-only operation also remains unverified.
 - Pending external validation: MCP integration and official provisioning
   compatibility. Local pairing does not prove these.
-- Not implemented: advanced UI decor/clip behavior and Rive body/expression
-  animation. Keep the simplified renderer's limitation explicit; no PSRAM claim.
+- Next approved feature, in progress: bounded headline/text card decoration,
+  continuing the owner’s “advance!” on 2026-11-17. Completion requires host pixel/
+  lifetime tests, review, hardware memory/SD/wireless checks and visual feedback.
+- Still not implemented: embedded UI clip behavior and Rive body/expression
+  animation. Keep the simplified renderer’s limitation explicit; no PSRAM claim.
 
 These items are not prerequisites for the completed USB-first milestone.
 Do not advertise other C6 boards or an official release

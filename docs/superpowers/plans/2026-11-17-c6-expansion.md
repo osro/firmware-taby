@@ -99,4 +99,45 @@ bounded interface fixes are specified in [desktop compatibility](../specs/2026-1
 - [x] Verify dev.2 raw/native-bridge identity, real choices and reconnects on hardware.
 - [x] Verify actual GUI USB/Bluetooth controls and record results.
 - [x] Package dev.2 separately from preserved dev.1 archives.
-- [ ] Observe automatic GUI reconnection after restarting the app (current notch-only automation limitation).
+- [x] Observe automatic GUI reconnection after restarting the app (owner confirmed; automation notch-only).
+
+## Task 6: Bounded card decoration
+
+Owner's “advance!” on 2026-11-17 continues the approved remaining-features work.
+Adapt the existing upstream title-decoration behavior to C6 without PSRAM;
+this task adds decor only, leaving embedded clip behavior and voice body art
+explicitly unsupported. Preserve shared S3 files and all current controls.
+
+- Implement all 24 non-none decor names, normalized into the same eight
+  families as `taby_reusable_ui.c`: shooting stars, comets, fireworks, heart
+  burst, heart rain, gold rings, ribbon sweep and aurora sweep. Smaller-screen
+  artwork may differ; names must not silently alias to an unrelated family.
+- Restrict active decor to headline/text cards, matching upstream eligibility.
+  Invalid enum/kind data must fail before replacing the current card. A valid
+  duration of zero is an inactive effect for direct struct callers (the upstream
+  command parser supplies its existing four-second default). Use uint64 math
+  for duration/elapsed boundaries, including UINT32_MAX seconds and late ticks.
+- Use at most eight persistent small LVGL objects for decor, with fixed backing
+  arrays if shapes need points/pixels. No full-screen canvas or per-tick allocation,
+  PSRAM, extra task, external asset fetch or source icon transformation required.
+  All geometry fits both 172x320 and 320x172; keep readable text foreground.
+- Model/pure helpers own normalization and lifetime/geometry as practical;
+  renderer uses the existing single-owner tick. Duration expiry removes/hides
+  decor while leaving the card. Replacement/hide/orientation changes must not
+  leave old objects or restart the effect's epoch. Preserve text effects,
+  countdown expiry, choice generations and rejected embedded clips.
+- Own only C6 UI/model files, optional focused c6_ui_decor.c/.h, and UI tests/
+  host harness. Parent owns CMake integration, version, docs, hardware and app.
+- First write failing actual-C model and real-LVGL renderer tests; then implement.
+  Cover every name/family, actual pixel changes across time and disappearance,
+  invalid data preserving card, zero/large duration, both geometries, orientation
+  epoch and hundreds of replacements/hides with stable LVGL heap. Include
+  screenshot output through the existing C6_UI_SCREENSHOTS path for visual QA.
+- Run focused tests while iterating and the full host suite once before committing
+  only owned paths. Record red/green and limits in the task report. Do not access
+  physical hardware, app data, radios or private backups; do not spawn agents.
+
+Parent completion: inspect/review source, build/version/flash the backed-up
+board; verify real effect cycles with SD and wireless, memory stability, prior
+cards/playback and native Bluetooth regression. Obtain user visual feedback;
+record exactly what was tested and preserve dev.2 packages.

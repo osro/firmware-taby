@@ -1,0 +1,10 @@
+{
+  "timestamp_utc": "2026-11-17T11:02:25.959292+00:00",
+  "firmware_version": "0.2.0-c6-dev.2",
+  "desktop_version": "1.0.13",
+  "app_restarted_by_agent_preceding_turn": true,
+  "owner_reported_status": "Connected over Bluetooth",
+  "automatic_reconnection_confirmed_by_owner": true,
+  "agent_accessibility_readback": "Only notch exposed; full settings status not directly observed",
+  "source": "owner reply to post-restart Physical Taby status question"
+}
