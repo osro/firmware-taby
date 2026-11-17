@@ -26,7 +26,7 @@ def _asset_pack(root, directory, sd=False):
     original = json.loads((source / 'manifest.json').read_text())
     if (data.get('board') != BOARD or not data.get('version') or
             data.get('source_assets') != original['version'] or
-            (data.get('width'), data.get('height')) != (172, 320) or
+            (data.get('width'), data.get('height')) != (172, 280) or
             data.get('bytes') != pack.stat().st_size or not pack.stat().st_size or
             data.get('sha256') != sha256(pack) or data.get('crc32') != zlib.crc32(pack.read_bytes())):
         raise ValueError('Stale or corrupt asset metadata/pack')

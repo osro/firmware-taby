@@ -47,7 +47,7 @@ class C6ToolingTests(unittest.TestCase):
             pack = b'animation'
             (directory / 'assets.bin').write_bytes(pack)
             digest = hashlib.sha256(pack).hexdigest()
-            (directory / 'assets.json').write_text(json.dumps({'board': 'c6-lcd-1.47', 'version': 'sd-test' if directory == self.sd else 'flash-test', 'width': 172, 'height': 320, 'bytes': len(pack), 'sha256': digest, 'crc32': zlib.crc32(pack), 'source_assets': '0.4.1', 'clips': [{'id': 'a', 'offset': 0, 'size': len(pack), 'source_sha256': hashlib.sha256(b'original').hexdigest()}]}))
+            (directory / 'assets.json').write_text(json.dumps({'board': 'c6-lcd-1.47', 'version': 'sd-test' if directory == self.sd else 'flash-test', 'width': 172, 'height': 280, 'bytes': len(pack), 'sha256': digest, 'crc32': zlib.crc32(pack), 'source_assets': '0.4.1', 'clips': [{'id': 'a', 'offset': 0, 'size': len(pack), 'source_sha256': hashlib.sha256(b'original').hexdigest()}]}))
             self.write(f'firmware/targets/c6-lcd-1.47/main/generated/{"c6_sd_catalog.h" if directory == self.sd else "c6_catalog.h"}', f'#define {prefix}_SHA256 "{digest}"\n#define {prefix}_BYTES {len(pack)}u\n#define {prefix}_CRC32 0x{zlib.crc32(pack):08x}u\n')
         self.write('dependency/LICENSE', 'dependency terms')
         subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
@@ -194,6 +194,19 @@ class C6ToolingTests(unittest.TestCase):
         header = self.target / 'main/generated/c6_catalog.h'; header.write_text('wrong compiled header'); self.stamp()
         with self.assertRaises(ValueError):
             self.package()
+
+    def test_asset_pack_accepts_storage_height_and_rejects_display_height(self):
+        # tools/c6_assets.py stores 172x280 frames; the physical panel is 172x320.
+        # Validate both real converter schema dimensions independently of display geometry.
+        for directory, sd in ((self.flash, False), (self.sd, True)):
+            with self.subTest(sd=sd):
+                self.assertEqual(self.packager._asset_pack(self.root, directory, sd=sd)['height'], 280)
+                path = directory / 'assets.json'
+                before = path.read_text()
+                data = json.loads(before); data['height'] = 320; path.write_text(json.dumps(data))
+                with self.assertRaises(ValueError):
+                    self.packager._asset_pack(self.root, directory, sd=sd)
+                path.write_text(before)
 
     def test_partition_changes_and_asset_path_escapes_are_rejected(self):
         path = self.target / 'partitions.csv'; before = path.read_text()
