@@ -544,7 +544,7 @@ packed canvas as upright. The card renderer and face art therefore differ by
 still incomplete. A separate bounded presentation fix is being prepared, using
 the existing pack without rewriting the card. See the [follow-up report](firmware/targets/c6-lcd-1.47/verification/2026-11-17-rotation-face-alignment-report.json).
 
-### Dev.5 face alignment — installed, physical check pending
+### Dev.5 face alignment — verified
 
 Commit `5a70fbc` corrects only animation drawing. Packed172×280 art is normalized
 90° counterclockwise into upright280×172 coordinates, then fitted as280×172
@@ -570,3 +570,25 @@ The owner was asked for the card's cold power restart. Physical face orientation
 and final delivery are pending; the previous successful **text-card** check
 is not substituted for face validation. The latest owner-selected mode was
 auto; it will be retained after the new test. The desktop app is paused.
+
+### Dev.5 physical face result
+
+After the owner-confirmed cold restart, dev.5 mounted all84 SD animations.
+With the **normal face** displayed (no text-test card), device telemetry observed
+0→90→0→270→180→90°, covering all four directions. IMU samples advanced1→412
+with0 errors; decode/display/touch errors stayed0. The owner confirmed the eyes
+stay side by side with mouth below in all four positions, including portrait
+and landscape. See the [physical face record](firmware/targets/c6-lcd-1.47/verification/2026-11-17-face-alignment-physical.json).
+
+The test kept the owner's latest **auto** setting enabled. Taby's app was
+reopened, and subsequent device telemetry reported Bluetooth connected, mode
+auto, firmware dev.5 and84 SD clips. See the [final status](firmware/targets/c6-lcd-1.47/verification/2026-11-17-face-alignment-final-status.json).
+This closes the reported sensor/face-rotation defect. The prior text-card
+physical result remains dev.4 evidence; current host card regressions passed.
+No new physical live-viseme approval or complete84-clip cycle is claimed.
+The face run used BLE with Wi-Fi off: free heap114624, minimum110740,
+largest98304; these are not simultaneous-radio memory measurements.
+
+The owner next requested preparation as a fork without pushing, retaining the
+other original boards. That is a separate local repository-preparation task;
+the working device remains on this physically verified dev.5 build.

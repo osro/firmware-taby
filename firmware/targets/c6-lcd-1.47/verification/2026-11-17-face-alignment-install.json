@@ -7,7 +7,7 @@
   "compiler_warnings": 0,
   "application_only_flash_hash_verified": true,
   "assets_and_nvs_preserved": true,
-  "cold_restart": "awaiting_owner",
-  "physical_face_validation": "pending",
-  "desktop_app": "paused normally for update"
+  "cold_restart": "owner confirmed",
+  "physical_face_validation": "Passed all four positions; owner confirmed upright eyes/mouth",
+  "desktop_app": "Reopened; subsequent device telemetry reports BLE connected"
 }

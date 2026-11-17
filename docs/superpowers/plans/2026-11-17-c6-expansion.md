@@ -232,3 +232,7 @@ Parent completion: actual neutral-frame host preview, independent reviews,
 dev.5 build/flash, owner cold restart and direct face rotation check in all
 four positions, plus prior card orientation still correct. No success claim
 based only on the previous text-card test.
+
+Task8 physical face validation passed on dev.5 in all four positions, confirmed
+by owner and sensor telemetry. Auto remained enabled; app reopened/BLE connected.
+See [physical face result](../../../STATUS.md#dev5-physical-face-result).

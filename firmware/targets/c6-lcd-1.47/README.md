@@ -92,8 +92,8 @@ access is not configured and official cloud enrollment is unavailable. No factor
 Embedded card clip behaviors remain rejected. Voice gesture/body and
 expression/eye pose artwork is not animated; this is not the Rive renderer.
 Dev.4 corrects a sensor self-test setup error; its four-way text-card direction
-was physically verified. Dev.5 also aligns the packed face artwork; see STATUS
-for the physical face check.
+was physically verified. Dev.5 also aligns the packed face artwork; the owner
+and device confirmed upright face in all four positions. See STATUS for evidence.
 Battery operation still needs owner feedback.
 
 ## Build

@@ -30,8 +30,9 @@ physical card and external app/service setup does not imply completed tests.
   controls and asset-version metadata are limited by the installed app.
 - Owner confirmed the mouth artwork. Automatic rotation was repaired in dev.4
   after the failed dev.3 check; all four directions and upright text are now
-  physically confirmed for text cards. Face-art portrait/landscape alignment
-  remains wrong and is the current repair. See [rotation evidence](STATUS.md#dev4-physical-rotation-result).
+  physically confirmed for text cards. Dev.5 also fixes the face-art alignment;
+  owner and device confirm upright face in all four positions, with auto kept
+  enabled. See [face result](STATUS.md#dev5-physical-face-result).
   Battery-only operation remains unverified.
 - Pending external validation: MCP integration and official provisioning
   compatibility. Local pairing does not prove these.
@@ -45,3 +46,10 @@ physical card and external app/service setup does not imply completed tests.
 These items are not prerequisites for the completed USB-first milestone.
 Do not advertise other C6 boards or an official release
 without their own hardware validation and maintainer approval.
+
+## Local fork preparation — approved
+
+Owner requested a fork-ready local branch without pushing, then explicitly
+required continued support for the original S3 boards. Preserve the verified
+dev.5 device/build and validate the original board build paths during prep.
+No remote fork, push, PR submission or release is authorized by this preparation.
