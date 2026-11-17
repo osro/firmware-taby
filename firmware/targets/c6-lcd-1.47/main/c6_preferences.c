@@ -74,11 +74,11 @@ static bool orientation_value(char *value, uint16_t *orientation) {
     return false;
 }
 
-static const char *orientation_name(uint16_t orientation) {
+const char *c6_preferences_orientation_name(uint16_t orientation) {
     switch (orientation) {
-        case 90: return "rotate_90";
+        case 90: return "90";
         case 180: return "right";
-        case 270: return "rotate_270";
+        case 270: return "270";
         case 360: return "auto";
         default: return "left";
     }
@@ -172,7 +172,8 @@ c6_pref_result_t c6_preferences_command(const c6_preferences_t *current,
         length = snprintf(response, sizeof(response),
                           "TABY:DISPLAY_ORIENTATION {\"mode\":\"%s\",\"orientation\":\"%s\","
                           "\"rotation_degrees\":%u,\"auto_supported\":true,\"display_shape\":\"rectangle\"}",
-                          orientation_name(candidate.orientation), orientation_name(effective),
+                          c6_preferences_orientation_name(candidate.orientation),
+                          c6_preferences_orientation_name(effective),
                           (unsigned)effective);
     } else if (kind == EYES) {
         length = snprintf(response, sizeof(response),

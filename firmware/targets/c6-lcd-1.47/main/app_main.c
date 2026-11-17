@@ -334,9 +334,9 @@ static bool preference_command(const char *command,char *response,size_t capacit
     }
     if(result!=C6_PREF_INVALID && !strncmp(command,"DISPLAY_ORIENTATION",19)) {
         uint16_t mode=preferences.orientation;
-        const char *name=mode==360?"auto":mode==0?"left":mode==180?"right":mode==90?"rotate_90":"rotate_270";
+        const char *name=c6_preferences_orientation_name(mode);
         uint16_t effective=c6_board_status()->rotation;
-        const char *orientation=effective==0?"left":effective==180?"right":effective==90?"rotate_90":"rotate_270";
+        const char *orientation=c6_preferences_orientation_name(effective);
         snprintf(response,capacity,"TABY:DISPLAY_ORIENTATION {\"mode\":\"%s\",\"orientation\":\"%s\",\"rotation_degrees\":%u,\"auto_supported\":%s,\"display_shape\":\"rectangle\"}",
             name,orientation,effective,c6_board_status()->imu_available?"true":"false");
     }

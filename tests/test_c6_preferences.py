@@ -9,6 +9,35 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 CODE = ROOT / "firmware/targets/c6-lcd-1.47/main"
 SHARED = ROOT / "firmware/main"
+# Desktop 1.0.13 physical-contracts/dist/orientation.js; keep replies within the
+# consumer's canonical enum while continuing to accept older firmware aliases.
+APP_ORIENTATION_MODES = {"auto", "left", "right", "90", "270"}
+
+RUNTIME_BOUNDARIES = r"""
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+#include "c6_preferences.h"
+static c6_preferences_t preferences;
+static bool preferences_ready=true;
+static unsigned brightness,idle_pass;
+static int64_t due;
+static struct {uint16_t rotation;bool imu_available;} board;
+static const struct {const char *id;} *clip;
+static void select_clip(const void *selected){(void)selected;assert(0);}
+static void c6_ui_refresh_orientation(void){}
+static void c6_board_brightness(unsigned value){(void)value;}
+static int c6_board_set_rotation(uint16_t value){board.rotation=value;return ESP_OK;}
+#define c6_board_status() (&board)
+"""
+RUNTIME_DRIVER = r"""
+int runtime_orientation_command(c6_preferences_t *current,uint16_t rotation,
+                                bool imu,const char *command,char *reply,size_t size) {
+    preferences=*current;board.rotation=rotation;board.imu_available=imu;
+    int result=preference_command(command,reply,size);
+    *current=preferences;return result;
+}
+"""
 
 
 class Preferences(ctypes.Structure):
@@ -98,6 +127,11 @@ class C6PreferencesTests(unittest.TestCase):
         (folder / "esp_err.h").write_text(ESP_ERR_H)
         (folder / "nvs.h").write_text(NVS_H)
         (folder / "nvs_fake.c").write_text(NVS_FAKE)
+        source = (CODE / "app_main.c").read_text()
+        runtime = "static bool preference_command" + source.split(
+            "static bool preference_command", 1)[1].split(
+                "\nstatic void handle_command", 1)[0]
+        (folder / "runtime.c").write_text(RUNTIME_BOUNDARIES + runtime + RUNTIME_DRIVER)
         lib = folder / "preferences.dylib"
         subprocess.run(["cc", "-std=c11", "-Wall", "-Wextra", "-Werror",
                         "-shared", "-fPIC", "-DESP_PLATFORM", f"-I{folder}",
@@ -105,7 +139,8 @@ class C6PreferencesTests(unittest.TestCase):
                         str(CODE / "c6_preferences.c"),
                         str(CODE / "c6_preferences_nvs.c"),
                         str(SHARED / "taby_eye_motion.c"),
-                        str(folder / "nvs_fake.c"), "-o", str(lib)], check=True)
+                        str(folder / "nvs_fake.c"), str(folder / "runtime.c"),
+                        "-o", str(lib)], check=True)
         cls.lib = ctypes.CDLL(str(lib))
         p = ctypes.POINTER(Preferences)
         cls.lib.c6_preferences_defaults.argtypes = [p]
@@ -114,6 +149,10 @@ class C6PreferencesTests(unittest.TestCase):
         cls.lib.c6_preferences_command.argtypes = [p, ctypes.c_char_p, p,
                                                   ctypes.c_void_p, ctypes.c_size_t]
         cls.lib.c6_preferences_command.restype = ctypes.c_int
+        cls.lib.runtime_orientation_command.argtypes = [
+            p, ctypes.c_uint16, ctypes.c_bool, ctypes.c_char_p,
+            ctypes.c_void_p, ctypes.c_size_t]
+        cls.lib.runtime_orientation_command.restype = ctypes.c_int
         cls.lib.c6_preferences_load.argtypes = [p]
         cls.lib.c6_preferences_save.argtypes = [p]
         cls.lib.fake_seed.argtypes = [ctypes.c_void_p, ctypes.c_size_t]
@@ -178,9 +217,9 @@ class C6PreferencesTests(unittest.TestCase):
     def test_orientation_names_numbers_and_auto_are_validated(self):
         for token, degree, name in (("left", 0, "left"), ("0", 0, "left"),
                                     ("RIGHT", 180, "right"), ("180", 180, "right"),
-                                    ("90", 90, "rotate_90"), ("270", 270, "rotate_270"),
-                                    ("rotate_90", 90, "rotate_90"),
-                                    ("ROTATE_270", 270, "rotate_270"),
+                                    ("90", 90, "90"), ("270", 270, "270"),
+                                    ("rotate_90", 90, "90"),
+                                    ("ROTATE_270", 270, "270"),
                                     ("auto", 360, "auto")):
             with self.subTest(token=token):
                 result, state, reply = self.command(f"DISPLAY_ORIENTATION {token}".encode())
@@ -188,17 +227,49 @@ class C6PreferencesTests(unittest.TestCase):
                 effective, rotation = ("left", 0) if degree == 360 else (name, degree)
                 self.assertEqual(reply, f'TABY:DISPLAY_ORIENTATION {{"mode":"{name}","orientation":"{effective}","rotation_degrees":{rotation},"auto_supported":true,"display_shape":"rectangle"}}')
 
-    def test_runtime_orientation_names_survive_query_set_round_trip(self):
-        for token, degree in (("left", 0), ("rotate_90", 90),
-                              ("right", 180), ("rotate_270", 270)):
+    def test_orientation_replies_match_desktop_enum_and_round_trip(self):
+        for token, degree in (("left", 0), ("90", 90), ("right", 180),
+                              ("270", 270), ("auto", 360)):
             with self.subTest(token=token):
                 self.assertEqual(self.command(f"DISPLAY_ORIENTATION {token}".encode(), alias=True)[0], 2)
                 result, state, reply = self.command(b"DISPLAY_ORIENTATION?")
                 self.assertEqual((result, state[1]), (1, degree))
-                mode = json.loads(reply.removeprefix("TABY:DISPLAY_ORIENTATION "))["mode"]
-                self.assertEqual(mode, token)
-                self.assertEqual(self.command(f"DISPLAY_ORIENTATION {mode}".encode(), alias=True)[0:2],
+                payload = json.loads(reply.removeprefix("TABY:DISPLAY_ORIENTATION "))
+                self.assertIn(payload["mode"], APP_ORIENTATION_MODES)
+                self.assertIn(payload["orientation"], APP_ORIENTATION_MODES - {"auto"})
+                self.assertEqual(payload["mode"], token)
+                self.assertEqual(self.command(f"DISPLAY_ORIENTATION {payload['mode']}".encode(), alias=True)[0:2],
                                  (2, (70, degree, 0, 0)))
+
+    def test_actual_runtime_replies_match_desktop_enum_including_imu_rotation(self):
+        def runtime(command, rotation=0, imu=True):
+            reply = ctypes.create_string_buffer(256)
+            handled = self.lib.runtime_orientation_command(
+                ctypes.byref(self.current), rotation, imu, command.encode(), reply, len(reply))
+            self.assertEqual(handled, 1)
+            return json.loads(reply.value.decode().removeprefix("TABY:DISPLAY_ORIENTATION "))
+
+        for token, degree in (("left", 0), ("90", 90), ("right", 180), ("270", 270)):
+            with self.subTest(token=token):
+                payload = runtime(f"DISPLAY_ORIENTATION {token}")
+                self.assertEqual(self.current.orientation, degree)
+                self.assertEqual((payload["mode"], payload["orientation"]), (token, token))
+                self.assertEqual(payload["rotation_degrees"], degree)
+                self.assertIn(payload["mode"], APP_ORIENTATION_MODES)
+                queried = runtime("DISPLAY_ORIENTATION?", degree)
+                self.assertEqual(queried, payload)
+                self.assertEqual(runtime(f"DISPLAY_ORIENTATION {queried['mode']}"), payload)
+
+        for token, degree in (("left", 0), ("90", 90), ("right", 180), ("270", 270)):
+            with self.subTest(auto_effective=token):
+                payload = runtime("DISPLAY_ORIENTATION auto", degree)
+                self.assertEqual(self.current.orientation, 360)
+                self.assertEqual((payload["mode"], payload["orientation"]), ("auto", token))
+                self.assertEqual(payload["rotation_degrees"], degree)
+                self.assertTrue(payload["auto_supported"])
+                self.assertIn(payload["orientation"], APP_ORIENTATION_MODES - {"auto"})
+                self.assertEqual(runtime("DISPLAY_ORIENTATION?", degree), payload)
+                self.assertEqual(runtime(f"DISPLAY_ORIENTATION {payload['mode']}", degree), payload)
 
     def test_eye_motion_uses_upstream_grammar(self):
         for token, eye in (("normal", 0), ("calm", 1), ("still", 2)):

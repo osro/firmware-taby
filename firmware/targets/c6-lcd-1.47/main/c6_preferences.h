@@ -20,6 +20,10 @@ typedef enum {
 
 void c6_preferences_defaults(c6_preferences_t *preferences);
 bool c6_preferences_valid(const c6_preferences_t *preferences);
+/* Canonical desktop wire name for a valid stored orientation or board rotation.
+ * Legacy rotate_90/rotate_270 spellings are accepted only as command inputs.
+ */
+const char *c6_preferences_orientation_name(uint16_t orientation);
 
 /* No I/O: next is current unless a complete, valid mutation can be returned.
  * current and next may alias. A missing/short reply buffer rejects mutation.
